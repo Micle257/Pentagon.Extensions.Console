@@ -195,6 +195,13 @@ namespace Pentagon.Utilities.Console.Controls
             {
                 RemoveCharacter(CurrentTextIndex);
             }
+            else if (key.Key == ConsoleKey.LeftArrow)
+            {
+                MoveCursorToLeft();
+            }
+            else if (key.Key == ConsoleKey.RightArrow) {
+                MoveCursorToRight();
+            }
         }
 
         void RemoveCharacter(int currentTextIndex)
@@ -209,6 +216,28 @@ namespace Pentagon.Utilities.Console.Controls
             InputText = InputText.Remove(currentTextIndex - 1, 1);
         }
 
+        void MoveCursorToLeft() 
+        {
+            if (CurrentTextIndex == 0)
+                return;
+
+            if (CurrentCaretIndex > 0)
+                CurrentCaretIndex--;
+
+            CurrentTextIndex--;
+        }
+
+        void MoveCursorToRight() 
+        {
+            if (CurrentTextIndex + 1 >= InputText.Length)
+                return;
+
+            if (CurrentCaretIndex < _size -1)
+                CurrentCaretIndex++;
+
+            CurrentTextIndex++;
+        }
+
         void InitializeDrawingData()
         {
             var color = InputColor;
@@ -219,18 +248,6 @@ namespace Pentagon.Utilities.Console.Controls
                 _writtenText = _writtenText.Remove(_size - 1);
 
             CursorPoint = ContentBox.Point.WithOffset(CurrentCaretIndex, 0);
-
-            //if (InputText.Length >= _size)
-            //{
-            //    var textStartIndex = InputText.Length - _size + 1;
-            //    _writtenText = InputText.Substring(textStartIndex);
-            //    CursorPoint = ContentBox.Point.WithOffset(CurrentCaretIndex - textStartIndex, 0);
-            //}
-            //else
-            //{
-            //    _writtenText = InputText;
-            //    CursorPoint = ContentBox.Point.WithOffset(CurrentCaretIndex, 0);
-            //}
 
             var obj = new WriteObject(_writtenText, ContentBox.Point, color, Elevation);
             ContentWrite.Add(obj);
