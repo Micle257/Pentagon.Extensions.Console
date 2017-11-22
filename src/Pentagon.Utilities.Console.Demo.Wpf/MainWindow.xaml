@@ -8,12 +8,11 @@
         Background="Black"
         FontFamily="Consolas"
         Title="MainWindow" Height="350" Width="551.731">
-    <StackPanel HorizontalAlignment="Stretch">
+    <StackPanel Name="Panel">
         <TextBlock Foreground="White"
                    Background="DarkSlateGray"
-                   Margin="20"
                    TextTrimming="CharacterEllipsis"
-                   TextWrapping="Wrap" Width="183"><Run Text="In sanhjhjhjhjjjjjjjjjjjjjjjjjjctus hendrerit et ea sadipscing takimata dolor vel nonumy no quis ad eirmod nonumy duis eos sit ut erat"/></TextBlock>
+                   TextWrapping="Wrap" Margin="0,0,-452,0"><Run Text="In sanhjhjhjhjjjjjjjjjjjjjjjjjjctus hendrerit et ea sadipscing takimata dolor vel nonumy no quis ad eirmod nonumy duis eos sit ut erat"/></TextBlock>
         
     </StackPanel>
 </Window>

@@ -22,6 +22,7 @@ namespace Pentagon.Utilities.Console.Controls
 
         string _writtenText;
         BufferPoint _cursorPoint;
+        int _currentCaretIndex;
 
         public InputBox()
         {
@@ -120,7 +121,19 @@ namespace Pentagon.Utilities.Console.Controls
         public bool AllowReturn { get; set; }
         public bool AllowSelection { get; set; } = true;
 
-        public int CurrentCaretIndex { get; private set; }
+        public int CurrentCaretIndex
+        {
+            get { return _currentCaretIndex; }
+            private set
+            {
+                if (_currentCaretIndex == value)
+                    return;
+
+                _currentCaretIndex = value;
+
+                CursorPoint = ContentBox.Point.WithOffset(CurrentCaretIndex, 0);
+            }
+        }
 
         public int CurrentTextIndex { get; private set; }
 
@@ -199,14 +212,15 @@ namespace Pentagon.Utilities.Console.Controls
             {
                 MoveCursorToLeft();
             }
-            else if (key.Key == ConsoleKey.RightArrow) {
+            else if (key.Key == ConsoleKey.RightArrow)
+            {
                 MoveCursorToRight();
             }
         }
 
         void RemoveCharacter(int currentTextIndex)
         {
-            if (InputText.Length == 0)
+            if (InputText.Length == 0 || CurrentTextIndex == 0)
                 return;
 
             if (InputText.Length < _size)
@@ -216,24 +230,28 @@ namespace Pentagon.Utilities.Console.Controls
             InputText = InputText.Remove(currentTextIndex - 1, 1);
         }
 
-        void MoveCursorToLeft() 
+        void MoveCursorToLeft()
         {
             if (CurrentTextIndex == 0)
                 return;
 
             if (CurrentCaretIndex > 0)
+            {
                 CurrentCaretIndex--;
+            }
 
             CurrentTextIndex--;
         }
 
-        void MoveCursorToRight() 
+        void MoveCursorToRight()
         {
-            if (CurrentTextIndex + 1 >= InputText.Length)
+            if (CurrentTextIndex + 1 > InputText.Length)
                 return;
 
-            if (CurrentCaretIndex < _size -1)
+            if (CurrentCaretIndex < _size - 1)
+            {
                 CurrentCaretIndex++;
+            }
 
             CurrentTextIndex++;
         }

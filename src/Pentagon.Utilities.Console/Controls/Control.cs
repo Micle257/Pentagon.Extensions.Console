@@ -9,14 +9,13 @@ namespace Pentagon.Utilities.Console.Controls
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Ascii;
     using Borders;
     using Buffers;
     using ColorSystem;
     using Enums;
     using Structures;
 
-    public abstract class Control
+    public abstract class Element
     {
         protected IList<WriteObject> ContentWrite = new List<WriteObject>();
 
@@ -29,13 +28,7 @@ namespace Pentagon.Utilities.Console.Controls
         Border _border;
         BufferPoint _point;
         Thickness _margin;
-        bool _hasFocus;
-
-        public Control()
-        {
-            InputListener.Current.KeyPressed += (s, e) => { ProcessKeyPress(e); };
-        }
-
+        
         internal event EventHandler<IEnumerable<WriteObject>> CleanRequested;
 
         internal event EventHandler PositionChanged;
@@ -137,25 +130,18 @@ namespace Pentagon.Utilities.Console.Controls
 
         public bool IsWritten { get; protected set; }
 
-        public bool CanFocus { get; protected set; }
-
-        public bool HasFocus
-        {
-            get => _hasFocus;
-            internal set
-            {
-                _hasFocus = value;
-
-                if (_hasFocus)
-                    OnFocused();
-            }
-        }
-
         internal bool IsPositioningEnabled { get; set; }
 
         Box BorderBox => GetBorderBox();
 
         Box PaddingBox => GetPaddingBox();
+
+        public virtual Size Measure(Size availableSize)
+        {
+            var margin = Margin;
+            var size = new Size(Math.Max(availableSize.Width - margin.Horizontal,0), Math.Max(availableSize.Height - margin.Vertical, 0));
+            return size;
+        }
 
         public virtual IEnumerable<WriteObject> GetDrawingData()
         {
@@ -173,10 +159,6 @@ namespace Pentagon.Utilities.Console.Controls
 
             IsWritten = false;
         }
-
-        protected virtual void OnFocused() { }
-
-        protected virtual void ProcessKeyPress(ConsoleKeyInfo key) { }
 
         protected void OnSizeChanged(int width, int height)
         {
@@ -299,5 +281,33 @@ namespace Pentagon.Utilities.Console.Controls
             if (Margin != Thickness.Zero)
                 _marginObjects = MarginBox.GetRowBoxes().Select(b => new WriteObject(b, new ConsoleColour(DefaultColorScheme.Red), Elevation, '~'));
         }
+    }
+
+    public abstract class Control : Element
+    {
+        bool _hasFocus;
+
+        public bool CanFocus { get; protected set; }
+
+        public bool HasFocus
+        {
+            get => _hasFocus;
+            internal set
+            {
+                _hasFocus = value;
+
+                if (_hasFocus)
+                    OnFocused();
+            }
+        }
+
+        public Control()
+        {
+            InputListener.Current.KeyPressed += (s, e) => { ProcessKeyPress(e); };
+        }
+
+        protected virtual void ProcessKeyPress(ConsoleKeyInfo key) { }
+        
+        protected virtual void OnFocused() { }
     }
 }

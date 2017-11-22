@@ -1,6 +1,6 @@
 ﻿namespace Pentagon.Utilities.Console.Ascii {
     using System.Linq;
-    using Pentagon.Data.Helpers;
+    using Data.Helpers;
     using Properties;
 
     public static class Ascii

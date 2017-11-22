@@ -23,6 +23,10 @@ namespace Pentagon.Utilities.Console.Demo.Wpf
         public MainWindow()
         {
             InitializeComponent();
+
+            var button = new Button() {Content = "AAAAA"};
+            Panel.Children.Add(button);
+            Panel.UpdateLayout();
         }
     }
 }

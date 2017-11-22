@@ -32,10 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.1.2-alpha" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Pentagon.Base" Version="1.3.1" />
+    <PackageReference Include="Pentagon.Common" Version="1.4.0" />
+    <PackageReference Include="Pentagon.Data" Version="1.2.6" />
     <PackageReference Include="Pentagon.Design" Version="1.2.0" />
-    <PackageReference Include="Pentagon.Utilities.Data" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

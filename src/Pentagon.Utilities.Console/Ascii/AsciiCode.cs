@@ -7,8 +7,8 @@
 namespace Pentagon.Utilities.Console.Ascii
 {
     using System.Linq;
+    using Data.Json;
     using Newtonsoft.Json;
-    using Pentagon.Data.Helpers;
 
     public class AsciiCode
     {

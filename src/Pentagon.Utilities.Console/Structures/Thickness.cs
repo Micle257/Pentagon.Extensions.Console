@@ -8,6 +8,19 @@ namespace Pentagon.Utilities.Console.Structures
 {
     using System;
 
+    public struct Size // TODO bitch
+    {
+        public Size(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public int Width { get; set; }
+
+        public int Height { get; set; }
+    }
+
     public struct Thickness : IValueDataType<Thickness>
     {
         public Thickness(int left, int top, int right, int bottom)
