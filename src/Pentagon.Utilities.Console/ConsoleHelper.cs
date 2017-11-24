@@ -41,9 +41,11 @@ namespace Pentagon.Utilities.Console.Helpers
                 Console.BackgroundColor = back;
         }
 
+        public static void WriteSuccess(object successValue) => Write(successValue, ConsoleColor.Green);
+
         public static void WriteError(object errorValue) => Write(errorValue, ConsoleColor.Red);
 
-        public static void WriteWarning(object errorValue) => Write(errorValue, ConsoleColor.Yellow);
+        public static void WriteWarning(object warningValue) => Write(warningValue, ConsoleColor.Yellow);
 
         public static void PlayWavFile(string wavFilePath, bool writeOutput = false)
         {
