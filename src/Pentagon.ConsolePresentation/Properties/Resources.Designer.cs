@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Properties {
-    using System;
-    
-    
+namespace Pentagon.ConsolePresentation.Properties {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -61,99 +58,41 @@ namespace Pentagon.Utilities.Console.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;asciitable&quot;: {
+        ///   Looks up a localized string similar to {
         ///  &quot;codes&quot;: [
-        ///    {
-        ///      &quot;code&quot;: 0,
-        ///      &quot;symbol&quot;: &quot;NULL&quot;,
-        ///      &quot;type&quot;: &quot;control&quot;,
-        ///      &quot;description&quot;: &quot;Null character&quot;
-        ///    },
-        ///    {
-        ///      &quot;code&quot;: 1,
-        ///      &quot;symbol&quot;: &quot;SOH&quot;,
-        ///      &quot;type&quot;: &quot;control&quot;,
-        ///      &quot;description&quot;: &quot;Start of Header&quot;
-        ///    },
-        ///    {
-        ///      &quot;code&quot;: 2,
-        ///      &quot;symbol&quot;: &quot;STX&quot;,
-        ///      &quot;type&quot;: &quot;control&quot;,
-        ///      &quot;description&quot;: &quot;Start of Text&quot;
-        ///    },
-        ///    {
-        ///      &quot;code&quot;: 3,
-        ///      &quot;symbol&quot;: &quot;ETX&quot;,
-        ///      &quot;type&quot;: &quot;control&quot;,
-        ///      &quot;description&quot;: &quot;End of Text&quot;
-        ///    [rest of string was truncated]&quot;;.
+        ///	{
+        ///	  &quot;code&quot;: 0,
+        ///	  &quot;symbol&quot;: &quot;NULL&quot;,
+        ///	  &quot;type&quot;: &quot;control&quot;,
+        ///	  &quot;description&quot;: &quot;Null character&quot;
+        ///	},
+        ///	{
+        ///	  &quot;code&quot;: 1,
+        ///	  &quot;symbol&quot;: &quot;SOH&quot;,
+        ///	  &quot;type&quot;: &quot;control&quot;,
+        ///	  &quot;description&quot;: &quot;Start of Header&quot;
+        ///	},
+        ///	{
+        ///	  &quot;code&quot;: 2,
+        ///	  &quot;symbol&quot;: &quot;STX&quot;,
+        ///	  &quot;type&quot;: &quot;control&quot;,
+        ///	  &quot;description&quot;: &quot;Start of Text&quot;
+        ///	},
+        ///	{
+        ///	  &quot;code&quot;: 3,
+        ///	  &quot;symbol&quot;: &quot;ETX&quot;,
+        ///	  &quot;type&quot;: &quot;control&quot;,
+        ///	  &quot;description&quot;: &quot;End of Text&quot;
+        ///	},
+        ///	{
+        ///	  &quot;code&quot;: 4,
+        ///	  &quot;symbol&quot;: &quot;EOT&quot;,
+        ///	  &quot;type&quot;: &quot;control&quot;,
+        ///	  &quot;description&quot;:  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ASCIITable {
             get {
                 return ResourceManager.GetString("ASCIITable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;code&quot;: 219,&quot;symbol&quot;: &quot;█&quot;,&quot;type&quot;: &quot;extended&quot;}.
-        /// </summary>
-        public static string Block {
-            get {
-                return ResourceManager.GetString("Block", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;code&quot;: 196,&quot;symbol&quot;: &quot;─&quot;,&quot;type&quot;: &quot;extended&quot;}.
-        /// </summary>
-        public static string BoxDrawingCharacterSingleHorizontalLine {
-            get {
-                return ResourceManager.GetString("BoxDrawingCharacterSingleHorizontalLine", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;code&quot;: 192,&quot;symbol&quot;: &quot;└&quot;,&quot;type&quot;: &quot;extended&quot;}.
-        /// </summary>
-        public static string BoxDrawingCharacterSingleLineLowerLeftCorner {
-            get {
-                return ResourceManager.GetString("BoxDrawingCharacterSingleLineLowerLeftCorner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;code&quot;: 217,&quot;symbol&quot;: &quot;┘&quot;,&quot;type&quot;: &quot;extended&quot;}.
-        /// </summary>
-        public static string BoxDrawingCharacterSingleLineLowerRightCorner {
-            get {
-                return ResourceManager.GetString("BoxDrawingCharacterSingleLineLowerRightCorner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;code&quot;: 218,&quot;symbol&quot;: &quot;┌&quot;,&quot;type&quot;: &quot;extended&quot;}.
-        /// </summary>
-        public static string BoxDrawingCharacterSingleLineUpperLeftCorner {
-            get {
-                return ResourceManager.GetString("BoxDrawingCharacterSingleLineUpperLeftCorner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;code&quot;: 191,&quot;symbol&quot;: &quot;┐&quot;,&quot;type&quot;: &quot;extended&quot;}.
-        /// </summary>
-        public static string BoxDrawingCharacterSingleLineUpperRightCorner {
-            get {
-                return ResourceManager.GetString("BoxDrawingCharacterSingleLineUpperRightCorner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;code&quot;: 179,&quot;symbol&quot;: &quot;│&quot;,&quot;type&quot;: &quot;extended&quot;}.
-        /// </summary>
-        public static string BoxDrawingCharacterSingleVerticalLine {
-            get {
-                return ResourceManager.GetString("BoxDrawingCharacterSingleVerticalLine", resourceCulture);
             }
         }
     }

@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Structures
+namespace Pentagon.ConsolePresentation.Structures
 {
     using System;
 

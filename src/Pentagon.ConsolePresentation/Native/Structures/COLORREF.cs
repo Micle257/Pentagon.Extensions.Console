@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Native.Structures
+namespace Pentagon.ConsolePresentation.Native.Structures
 {
     using System.Runtime.InteropServices;
     using Design.Coloring;

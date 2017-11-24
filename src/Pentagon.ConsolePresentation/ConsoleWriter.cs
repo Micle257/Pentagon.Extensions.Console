@@ -4,13 +4,13 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.ConsolePresentation
 {
     using System;
     using Abstractions;
     using Buffers;
+    using ColorSystem;
     using Helpers;
-    using Structures;
 
     public class ConsoleWriter : IConsoleWriter
     {

@@ -4,14 +4,12 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Borders
+namespace Pentagon.ConsolePresentation.Controls.Borders
 {
     using System;
     using System.Collections.Generic;
     using Ascii;
     using Buffers;
-    using Data.Helpers;
-    using Properties;
     using Structures;
 
     public class BorderBuilder
@@ -240,7 +238,7 @@ namespace Pentagon.Utilities.Console.Controls.Borders
 
                                 {
                                     (BorderLineType.Box, BorderLineSegmentType.Any),
-                                    ResourceReader.ReadJson<AsciiCode>(Resources.Block)?.Char
+                                    Ascii.Extended.Block?.Char
                                 }
                             };
         }

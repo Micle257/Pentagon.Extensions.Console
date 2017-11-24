@@ -4,15 +4,15 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.ConsolePresentation.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Buffers;
+    using ColorSystem;
     using Enums;
     using JetBrains.Annotations;
-    using Structures;
 
     public class TextBlock : Control
     {

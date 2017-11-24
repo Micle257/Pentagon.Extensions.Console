@@ -4,12 +4,13 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Buffers
+namespace Pentagon.ConsolePresentation.Buffers
 {
     using System;
     using Helpers;
     using Pentagon.Extensions;
     using Structures;
+    using Utilities.Console;
 
     /// <summary> Represent a typing cursor in the console buffer. </summary>
     public class Cursor

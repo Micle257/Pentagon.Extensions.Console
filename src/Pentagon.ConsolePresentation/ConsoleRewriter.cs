@@ -4,9 +4,10 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.ConsolePresentation
 {
     using System;
+    using Abstractions;
     using Buffers;
 
     public class ConsoleRewriter : IConsoleRewriter

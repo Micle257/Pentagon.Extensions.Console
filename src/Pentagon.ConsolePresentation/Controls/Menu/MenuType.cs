@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Menu
+namespace Pentagon.ConsolePresentation.Controls.Menu
 {
     /// <summary> Represents a layout orientation of <see cref="Menu" />. </summary>
     public enum MenuType

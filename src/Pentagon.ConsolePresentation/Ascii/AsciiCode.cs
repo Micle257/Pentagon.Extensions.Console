@@ -4,11 +4,11 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Ascii
+namespace Pentagon.ConsolePresentation.Ascii
 {
     using System.Linq;
-    using Data.Json;
     using Newtonsoft.Json;
+    using Utilities.Data.Json;
 
     public class AsciiCode
     {

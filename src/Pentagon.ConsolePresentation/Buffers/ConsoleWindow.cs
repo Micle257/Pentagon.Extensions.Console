@@ -4,11 +4,12 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Buffers
+namespace Pentagon.ConsolePresentation.Buffers
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Abstractions;
     using JetBrains.Annotations;
     using Native;
     using Native.Flags;

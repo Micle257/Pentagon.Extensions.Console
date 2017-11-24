@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Native.Flags
+namespace Pentagon.ConsolePresentation.Native.Flags
 {
     public enum TextMetricPitchAndFamily : uint
     {

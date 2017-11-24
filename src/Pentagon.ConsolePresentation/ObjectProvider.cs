@@ -4,12 +4,13 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.ConsolePresentation
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Buffers;
+    using ColorSystem;
     using Enums;
     using Pentagon.Helpers;
     using Structures;

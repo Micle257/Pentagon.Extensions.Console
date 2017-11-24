@@ -4,13 +4,12 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Buffers
+namespace Pentagon.ConsolePresentation.Buffers
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using Registration;
     using Structures;
-    using Enumerable = System.Linq.Enumerable;
 
     [Register(RegisterType.Transient, typeof(IScreenCellCache))]
     public class ScreenCellCache : IScreenCellCache

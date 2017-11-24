@@ -117,27 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BoxDrawingCharacterSingleLineUpperLeftCorner" xml:space="preserve">
-    <value>{"code": 218,"symbol": "┌","type": "extended"}</value>
-  </data>
-  <data name="BoxDrawingCharacterSingleLineUpperRightCorner" xml:space="preserve">
-    <value>{"code": 191,"symbol": "┐","type": "extended"}</value>
-  </data>
-  <data name="BoxDrawingCharacterSingleLineLowerLeftCorner" xml:space="preserve">
-    <value>{"code": 192,"symbol": "└","type": "extended"}</value>
-  </data>
-  <data name="BoxDrawingCharacterSingleLineLowerRightCorner" xml:space="preserve">
-    <value>{"code": 217,"symbol": "┘","type": "extended"}</value>
-  </data>
-  <data name="BoxDrawingCharacterSingleHorizontalLine" xml:space="preserve">
-    <value>{"code": 196,"symbol": "─","type": "extended"}</value>
-  </data>
-  <data name="BoxDrawingCharacterSingleVerticalLine" xml:space="preserve">
-    <value>{"code": 179,"symbol": "│","type": "extended"}</value>
-  </data>
-  <data name="Block" xml:space="preserve">
-    <value>{"code": 219,"symbol": "█","type": "extended"}</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ASCIITable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ASCIITable.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

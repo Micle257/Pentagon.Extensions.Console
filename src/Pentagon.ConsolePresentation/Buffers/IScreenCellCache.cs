@@ -1,4 +1,4 @@
-﻿namespace Pentagon.Utilities.Console.Buffers {
+﻿namespace Pentagon.ConsolePresentation.Buffers {
     using System.Collections.Generic;
     using Structures;
 

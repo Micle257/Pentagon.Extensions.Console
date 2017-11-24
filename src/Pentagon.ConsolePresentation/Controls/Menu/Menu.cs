@@ -4,13 +4,14 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Menu
+namespace Pentagon.ConsolePresentation.Controls.Menu
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using Buffers;
+    using ColorSystem;
     using EventArguments;
     using Inputs;
     using Pentagon.Extensions;

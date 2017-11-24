@@ -4,12 +4,13 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.ConsolePresentation.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Buffers;
+    using ColorSystem;
     using Structures;
 
     /// <summary> Represents a printed text on the buffer of the console window. </summary>

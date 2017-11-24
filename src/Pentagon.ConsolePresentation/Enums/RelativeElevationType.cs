@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Enums
+namespace Pentagon.ConsolePresentation.Enums
 {
     using System;
 

@@ -4,12 +4,13 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Inputs
+namespace Pentagon.ConsolePresentation.Controls.Inputs
 {
     using System;
     using Buffers;
-    using Helpers;
+    using ColorSystem;
     using Structures;
+    using Utilities.Console.Helpers;
 
     public class Input
     {

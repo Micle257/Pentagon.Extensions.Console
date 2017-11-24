@@ -4,8 +4,10 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Structures
+namespace Pentagon.ConsolePresentation.Structures
 {
+    using ColorSystem;
+
     public struct BufferCell
     {
         public BufferCell(char character, BufferPoint point, ConsoleColour color, int elevation)

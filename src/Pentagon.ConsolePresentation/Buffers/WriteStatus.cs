@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Buffers
+namespace Pentagon.ConsolePresentation.Buffers
 {
     public enum WriteStatus
     {

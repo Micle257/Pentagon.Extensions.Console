@@ -4,14 +4,14 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.ConsolePresentation
 {
     using System;
     using System.Linq;
     using Abstractions;
     using Buffers;
+    using ColorSystem;
     using Helpers;
-    using Structures;
 
     public class ConsoleCleaner : IConsoleCleaner
     {

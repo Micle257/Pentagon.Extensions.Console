@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Inputs
+namespace Pentagon.ConsolePresentation.Controls.Inputs
 {
     public enum InputType
     {

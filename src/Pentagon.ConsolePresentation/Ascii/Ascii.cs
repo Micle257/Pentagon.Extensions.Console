@@ -1,7 +1,7 @@
-﻿namespace Pentagon.Utilities.Console.Ascii {
+﻿namespace Pentagon.ConsolePresentation.Ascii {
     using System.Linq;
-    using Data.Helpers;
     using Properties;
+    using Utilities.Data.Helpers;
 
     public static class Ascii
     {

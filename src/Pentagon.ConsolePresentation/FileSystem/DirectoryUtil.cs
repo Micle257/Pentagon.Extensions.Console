@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.FileSystem
+namespace Pentagon.ConsolePresentation.FileSystem
 {
     using System.Collections.Generic;
     using System.Diagnostics;

@@ -4,9 +4,10 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Structures
+namespace Pentagon.ConsolePresentation.Structures
 {
     using System;
+    using ColorSystem;
     using Controls.Borders;
 
     public struct BorderLine : IValueDataType<BorderLine>

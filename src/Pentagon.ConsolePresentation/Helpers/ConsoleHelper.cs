@@ -4,12 +4,12 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Helpers
+namespace Pentagon.ConsolePresentation.Helpers
 {
     using System;
     using System.IO;
+    using ColorSystem;
     using Native;
-    using Structures;
 
     public static class ConsoleHelper
     {

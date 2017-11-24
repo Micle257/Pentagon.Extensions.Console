@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Ascii
+namespace Pentagon.ConsolePresentation.Ascii
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;

@@ -4,11 +4,12 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.ConsolePresentation.Controls
 {
     using System;
     using System.Collections.Generic;
     using Buffers;
+    using ColorSystem;
     using Inputs;
     using Structures;
 

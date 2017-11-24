@@ -6,7 +6,7 @@
 
 using IOFile = System.IO.File;
 
-namespace Pentagon.Utilities.Console.FileSystem
+namespace Pentagon.ConsolePresentation.FileSystem
 {
     using System;
     using System.Collections.Generic;

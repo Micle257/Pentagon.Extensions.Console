@@ -1,4 +1,4 @@
-﻿namespace Pentagon.Utilities.Console.Structures {
+﻿namespace Pentagon.ConsolePresentation.ColorSystem {
     using System.Collections.Generic;
 
     public interface IConsoleColorProvider {

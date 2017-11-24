@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.ConsolePresentation.Controls
 {
     using System;
     using System.Collections.Generic;

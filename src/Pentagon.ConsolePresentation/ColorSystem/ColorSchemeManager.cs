@@ -1,4 +1,4 @@
-﻿namespace Pentagon.Utilities.Console.ColorSystem {
+﻿namespace Pentagon.ConsolePresentation.ColorSystem {
     using System;
     using System.Collections.Generic;
 

@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Menu
+namespace Pentagon.ConsolePresentation.Controls.Menu
 {
     /// <summary> Represents an exit state of <see cref="Menu" />. </summary>
     public enum MenuExitStatus

@@ -4,9 +4,10 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Buffers
+namespace Pentagon.ConsolePresentation.Buffers
 {
     using System.Collections.Generic;
+    using ColorSystem;
     using Structures;
 
     public class WriteObject

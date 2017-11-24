@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Borders
+namespace Pentagon.ConsolePresentation.Controls.Borders
 {
     using System;
     using Structures;

@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Native
+namespace Pentagon.ConsolePresentation.Native
 {
     using System;
 

@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls.Pointers
+namespace Pentagon.ConsolePresentation.Controls.Pointers
 {
     /// <summary> Representing move direction of the pointer. </summary>
     public enum PointerMoveDirection

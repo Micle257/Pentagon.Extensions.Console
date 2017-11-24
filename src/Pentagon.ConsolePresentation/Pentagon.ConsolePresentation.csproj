@@ -2,12 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Pentagon.Utilities.Console</RootNamespace>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <Authors>Michal Pokorný</Authors>
-    <Company />
-    <Product>Pentagon - Console Utilities</Product>
-    <Description>Console Utilities.</Description>
+    <Product>Pentagon - Console Presentation Framework (CPF)</Product>
+    <Description>TODO.</Description>
     <Copyright>Copyright (c) Michal Pokorný. All Rights Reserved.</Copyright>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.0.0</Version>
@@ -37,6 +34,10 @@
     <PackageReference Include="Pentagon.Common" Version="1.4.0" />
     <PackageReference Include="Pentagon.Data" Version="1.2.6" />
     <PackageReference Include="Pentagon.Design" Version="1.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pentagon.Utilities.Console\Pentagon.Utilities.Console.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,8 +4,9 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.ConsolePresentation
 {
+    using Abstractions;
     using Buffers;
     using ColorSystem;
     using Registration;

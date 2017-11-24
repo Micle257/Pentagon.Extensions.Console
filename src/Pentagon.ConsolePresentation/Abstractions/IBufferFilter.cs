@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Abstractions
+namespace Pentagon.ConsolePresentation.Abstractions
 {
     using System.Collections.Generic;
     using Buffers;

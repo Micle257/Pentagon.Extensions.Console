@@ -1,4 +1,4 @@
-﻿namespace Pentagon.Utilities.Console.ColorSystem {
+﻿namespace Pentagon.ConsolePresentation.ColorSystem {
     public enum DefaultColorScheme
     {
         Black = 0x000000,
