@@ -8,7 +8,7 @@ namespace Pentagon.Utilities.Console.Buffers
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using Attributes;
+    using Registration;
     using Structures;
     using Enumerable = System.Linq.Enumerable;
 

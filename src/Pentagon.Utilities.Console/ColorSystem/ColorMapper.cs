@@ -9,11 +9,11 @@ namespace Pentagon.Utilities.Console.ColorSystem
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using Attributes;
     using Design.Coloring;
     using Native;
     using Native.Flags;
     using Native.Structures;
+    using Registration;
 
     [Register(RegisterType.Transient, typeof(IColorMapper))]
     public class ColorMapper : IColorMapper

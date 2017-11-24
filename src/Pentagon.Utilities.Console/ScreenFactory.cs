@@ -6,9 +6,9 @@
 
 namespace Pentagon.Utilities.Console
 {
-    using Attributes;
     using Buffers;
     using ColorSystem;
+    using Registration;
 
     [Register(RegisterType.Transient, typeof(IScreenProvider))]
     public class ScreenFactory : IScreenProvider

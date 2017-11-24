@@ -10,7 +10,7 @@ namespace Pentagon.Utilities.Console.Controls.Borders
     using System.Collections.Generic;
     using Ascii;
     using Buffers;
-    using Pentagon.Data.Helpers;
+    using Data.Helpers;
     using Properties;
     using Structures;
 

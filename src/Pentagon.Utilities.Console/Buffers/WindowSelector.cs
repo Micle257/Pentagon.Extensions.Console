@@ -9,8 +9,9 @@ namespace Pentagon.Utilities.Console.Buffers
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using Attributes;
+    using Collections;
     using EventArguments;
+    using Registration;
 
     [Register(RegisterType.Singleton, typeof(ISelectable<ConsoleWindow>))]
     public class WindowSelector : IContainer<ConsoleWindow>, ISelectable<ConsoleWindow>

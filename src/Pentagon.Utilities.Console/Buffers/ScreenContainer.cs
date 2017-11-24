@@ -9,6 +9,7 @@ namespace Pentagon.Utilities.Console.Buffers
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Collections;
     using EventArguments;
     using JetBrains.Annotations;
 

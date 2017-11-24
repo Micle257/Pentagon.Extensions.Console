@@ -9,11 +9,11 @@ namespace Pentagon.Utilities.Console.Controls.Menu
     using System;
     using System.Linq;
     using Buffers;
+    using Collections;
     using Inputs;
     using Structures;
 
     /// <summary> Class representing a item in <see cref="Menu" /> object. </summary>
-    /// <seealso cref="Pentagon.IContaible{Pentagon.WinConsole.Menu}" />
     public class MenuItem : IContainable<Menu>
     {
         internal Text selectChar;

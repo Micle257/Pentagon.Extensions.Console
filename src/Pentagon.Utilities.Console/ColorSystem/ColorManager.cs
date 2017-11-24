@@ -9,10 +9,10 @@ namespace Pentagon.Utilities.Console.ColorSystem
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using Attributes;
     using Design.Coloring;
     using Design.Coloring.ColorModels;
     using JetBrains.Annotations;
+    using Registration;
 
     [Register(RegisterType.Transient, typeof(IColorManager))]
     public class ColorManager : IColorManager

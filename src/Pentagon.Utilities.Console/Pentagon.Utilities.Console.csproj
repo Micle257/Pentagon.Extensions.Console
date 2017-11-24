@@ -36,7 +36,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Pentagon.Common" Version="1.4.0" />
     <PackageReference Include="Pentagon.Data" Version="1.2.6" />
-    <PackageReference Include="Pentagon.Design" Version="1.2.0" />
+    <PackageReference Include="Pentagon.Design" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>

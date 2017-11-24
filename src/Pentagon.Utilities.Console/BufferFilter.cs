@@ -9,8 +9,8 @@ namespace Pentagon.Utilities.Console
     using System.Collections.Generic;
     using System.Linq;
     using Abstractions;
-    using Attributes;
     using Buffers;
+    using Registration;
     using Structures;
 
     [Register(RegisterType.Singleton, typeof(IBufferFilter))]
