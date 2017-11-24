@@ -14,6 +14,7 @@ namespace Pentagon.Utilities.Console.Buffers
     /// <summary> Represent a typing cursor in the console buffer. </summary>
     public class Cursor
     {
+#pragma warning disable PC001 
         readonly IScreen _screen;
         int _x = 1;
 
@@ -83,7 +84,7 @@ namespace Pentagon.Utilities.Console.Buffers
             {
                 _show = value;
 
-                if (_screen.IsActive)
+                if (_screen.IsActive && OS.Platform == OperatingSystemPlatform.Windows)
                     ConsoleHelper.Run(() => Console.CursorVisible = _show);
             }
         }
@@ -98,7 +99,7 @@ namespace Pentagon.Utilities.Console.Buffers
                 else
                     throw new ArgumentOutOfRangeException(nameof(value), message: "Size of cursor must be in range 0 to 100.");
 
-                if (_screen.IsActive)
+                if (_screen.IsActive && OS.Platform == OperatingSystemPlatform.Windows)
                     ConsoleHelper.Run(() => Console.CursorSize = _size);
             }
         }
@@ -110,8 +111,13 @@ namespace Pentagon.Utilities.Console.Buffers
 
             Console.CursorLeft = _x - 1;
             Console.CursorTop = _y - 1;
-            Console.CursorSize = _size;
-            Console.CursorVisible = _show;
+            if (OS.Platform == OperatingSystemPlatform.Windows)
+            {
+                Console.CursorSize = _size;
+                Console.CursorVisible = _show;
+#pragma warning restore PC001 
+            }
+
         }
 
         public Cursor Offset(int x, int y, bool canMove)

@@ -8,30 +8,29 @@ namespace Pentagon.Utilities.Console.Helpers
 {
     using System;
     using System.Runtime.InteropServices;
-    using OperatingSystem = Console.OperatingSystem;
 
     public static class Clipboard
     {
         public static void Copy(string value)
         {
-            switch (OperatingSystem.Platform)
+            switch (OS.Platform)
             {
                 case OperatingSystemPlatform.Windows:
-                    Shell.Bat($"echo|set /p={value} | clip");
+                    ShellHelper.Batch($"echo|set /p={value} | clip");
                     break;
 
                 case OperatingSystemPlatform.OSX:
-                    Shell.Bash($"echo \"{value}\" | pbcopy");
+                    ShellHelper.Bash($"echo \"{value}\" | pbcopy");
                     break;
             }
         }
 
         public static string GetText()
         {
-            switch (OperatingSystem.Platform)
+            switch (OS.Platform)
             {
                 case OperatingSystemPlatform.Windows:
-                    return Shell.Bat(command: "pclip");
+                    return ShellHelper.Batch(command: "pclip");
             }
 
             throw new NotSupportedException();

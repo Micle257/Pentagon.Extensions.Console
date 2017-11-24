@@ -16,7 +16,7 @@ namespace Pentagon.Utilities.Console
         OSX
     }
 
-    public class OperatingSystem
+    public static class OS
     {
         static OSPlatform _osPlatform;
         static OperatingSystemPlatform _platform;

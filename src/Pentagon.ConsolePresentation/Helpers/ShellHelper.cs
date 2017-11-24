@@ -8,15 +8,30 @@ namespace Pentagon.Utilities.Console.Helpers
 {
     using System.Diagnostics;
 
-    public class Shell
+    public class ShellHelper
     {
+        public static string RunCommand(string command)
+        {
+            switch (OS.Platform)
+            {
+                case OperatingSystemPlatform.Windows:
+                    return Batch(command);
+
+                case OperatingSystemPlatform.Linux:
+                case OperatingSystemPlatform.OSX:
+                    return Bash(command);
+            }
+
+            return null;
+        }
+
         public static string Bash(string command)
         {
             var args = command.Replace(oldValue: "\"", newValue: "\\\"");
             return Run(fileName: "/bin/bash", arguments: $"-c \"{args}\"");
         }
 
-        public static string Bat(string command)
+        public static string Batch(string command)
         {
             var args = command.Replace(oldValue: "\"", newValue: "\\\"");
             return Run(fileName: "cmd.exe", arguments: $"/c \"{args}\"");
