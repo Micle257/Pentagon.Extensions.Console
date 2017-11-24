@@ -5,14 +5,13 @@ namespace Pentagon.Utilities.Console.Demo
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Buffers;
-    using ColorSystem;
-    using Controls;
-    using Controls.Borders;
-    using Controls.Inputs;
-    using Controls.Pointers;
-    using Enums;
-    using Structures;
+    using ConsolePresentation;
+    using ConsolePresentation.Buffers;
+    using ConsolePresentation.ColorSystem;
+    using ConsolePresentation.Controls;
+    using ConsolePresentation.Controls.Borders;
+    using ConsolePresentation.Enums;
+    using ConsolePresentation.Structures;
     using Console = System.Console;
 
     class Program
