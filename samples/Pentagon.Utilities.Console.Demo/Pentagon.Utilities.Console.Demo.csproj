@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Pentagon.Utilities.Console\Pentagon.Utilities.Console.csproj" />
+    <ProjectReference Include="..\..\src\Pentagon.ConsolePresentation\Pentagon.ConsolePresentation.csproj" />
   </ItemGroup>
 
 </Project>
