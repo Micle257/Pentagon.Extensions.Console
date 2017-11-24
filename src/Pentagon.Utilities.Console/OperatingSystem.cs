@@ -8,21 +8,53 @@ namespace Pentagon.Utilities.Console
 {
     using System.Runtime.InteropServices;
 
+    public enum OperatingSystemPlatform
+    {
+        Unspecified,
+        Windows,
+        Linux,
+        OSX
+    }
+
     public class OperatingSystem
     {
-        public OSPlatform Platform { get; private set; }
+        static OSPlatform _osPlatform;
+        static OperatingSystemPlatform _platform;
 
-        public void Initialize()
+        public static OSPlatform OSPlatform
         {
-            Platform = OSPlatform.Windows;
-            if (RuntimeInformation.IsOSPlatform(Platform))
+            get
+            {
+                if (_osPlatform == default(OSPlatform))
+                Initialize();
+                return _osPlatform;
+            }
+        }
+
+        public static OperatingSystemPlatform Platform
+        {
+            get
+            {
+                if (_platform == OperatingSystemPlatform.Unspecified)
+                    Initialize();
+                return _platform;
+            }
+        }
+
+        public static void Initialize()
+        {
+            _osPlatform = OSPlatform.Windows;
+            _platform = OperatingSystemPlatform.Windows;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform))
                 return;
 
-            Platform = OSPlatform.Linux;
-            if (RuntimeInformation.IsOSPlatform(Platform))
+            _osPlatform = OSPlatform.Linux;
+            _platform = OperatingSystemPlatform.Linux;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform))
                 return;
-
-            Platform = OSPlatform.OSX;
+            
+            _osPlatform = OSPlatform.OSX;
+            _platform = OperatingSystemPlatform.OSX;
         }
     }
 }

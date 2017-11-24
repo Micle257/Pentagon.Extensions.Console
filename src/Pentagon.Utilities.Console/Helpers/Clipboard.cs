@@ -14,24 +14,27 @@ namespace Pentagon.Utilities.Console.Helpers
     {
         public static void Copy(string value)
         {
-            var os = new OperatingSystem();
-            os.Initialize();
+            switch (OperatingSystem.Platform)
+            {
+                case OperatingSystemPlatform.Windows:
+                    Shell.Bat($"echo|set /p={value} | clip");
+                    break;
 
-            if (os.Platform == OSPlatform.Windows)
-                Shell.Bat($"echo|set /p={value} | clip");
-            else if (os.Platform == OSPlatform.OSX)
-                Shell.Bash($"echo \"{value}\" | pbcopy");
+                case OperatingSystemPlatform.OSX:
+                    Shell.Bash($"echo \"{value}\" | pbcopy");
+                    break;
+            }
         }
 
         public static string GetText()
         {
-            var os = new OperatingSystem();
-            os.Initialize();
+            switch (OperatingSystem.Platform)
+            {
+                case OperatingSystemPlatform.Windows:
+                    return Shell.Bat(command: "pclip");
+            }
 
-            if (os.Platform == OSPlatform.Windows)
-                return Shell.Bat(command: "pclip");
-
-            throw new ArgumentException();
+            throw new NotSupportedException();
         }
     }
 }
