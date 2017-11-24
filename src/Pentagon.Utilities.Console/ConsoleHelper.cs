@@ -8,6 +8,7 @@ namespace Pentagon.Utilities.Console.Helpers
 {
     using System;
     using System.IO;
+    using System.Security;
 
     public static class ConsoleHelper
     {
@@ -46,6 +47,35 @@ namespace Pentagon.Utilities.Console.Helpers
         public static void WriteError(object errorValue) => Write(errorValue, ConsoleColor.Red);
 
         public static void WriteWarning(object warningValue) => Write(warningValue, ConsoleColor.Yellow);
+
+        public static SecureString ReadSecret(bool writeAsterisk = false)
+        {
+            var secret = new SecureString();
+            while (true)
+            {
+                var i = Console.ReadKey(true);
+
+                if (i.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+                else if (i.Key == ConsoleKey.Backspace )
+                {
+                    if (secret.Length > 0 && writeAsterisk)
+                    {
+                        secret.RemoveAt(secret.Length - 1);
+                        Console.Write("\b \b");
+                    }
+                }
+                else
+                {
+                    secret.AppendChar(i.KeyChar);
+                    if (writeAsterisk)
+                        Console.Write("*");
+                }
+            }
+            return secret;
+        }
 
         public static void PlayWavFile(string wavFilePath, bool writeOutput = false)
         {
