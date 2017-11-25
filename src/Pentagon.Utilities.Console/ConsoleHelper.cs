@@ -9,6 +9,7 @@ namespace Pentagon.Utilities.Console.Helpers
     using System;
     using System.IO;
     using System.Security;
+    using System.Text;
 
     public static class ConsoleHelper
     {
@@ -75,6 +76,34 @@ namespace Pentagon.Utilities.Console.Helpers
                 }
             }
             return secret;
+        }
+
+        public static string Read()
+        {
+            var result = new StringBuilder();
+            while (true)
+            {
+                var i = Console.ReadKey(true);
+
+                if (i.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+                else if (i.Key == ConsoleKey.Backspace)
+                {
+                    if (result.Length > 0)
+                    {
+                        result.Remove(result.Length - 1, 1);
+                        Console.Write("\b \b");
+                    }
+                }
+                else
+                {
+                    result.Append(i.KeyChar);
+                    Console.Write(i.KeyChar);
+                }
+            }
+            return result.ToString();
         }
 
         public static void PlayWavFile(string wavFilePath, bool writeOutput = false)

@@ -8,14 +8,6 @@ namespace Pentagon.Utilities.Console
 {
     using System.Runtime.InteropServices;
 
-    public enum OperatingSystemPlatform
-    {
-        Unspecified,
-        Windows,
-        Linux,
-        OSX
-    }
-
     public static class OS
     {
         static OSPlatform _osPlatform;

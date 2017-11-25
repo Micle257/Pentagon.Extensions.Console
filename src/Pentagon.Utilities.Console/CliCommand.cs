@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------
 namespace Pentagon.Utilities.Console
 {
+    using System.Linq;
     using Helpers;
     using McMaster.Extensions.CommandLineUtils;
 
