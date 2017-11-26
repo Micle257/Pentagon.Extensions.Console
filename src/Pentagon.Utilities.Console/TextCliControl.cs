@@ -1,4 +1,5 @@
-﻿namespace Pentagon.Utilities.Console {
+﻿namespace Pentagon.Utilities.Console
+{
     using System;
     using Helpers;
 
@@ -6,11 +7,16 @@
     {
         readonly string _text;
         readonly string _defaultValue;
+        readonly string _helperText;
 
-        public TextCliControl(string text, string defaultValue)
+        public TextCliControl(string text, string defaultValue = null)
         {
             _text = text;
-            _defaultValue = defaultValue;
+            _defaultValue = defaultValue ?? string.Empty;
+            if (defaultValue != null)
+                _helperText = $" ({_defaultValue})";
+            else
+                _helperText = "";
         }
 
         void Write()
@@ -18,7 +24,8 @@
             ConsoleHelper.Write("? ", ConsoleColor.DarkGreen);
             ConsoleHelper.Write(_text, ConsoleColor.White);
             if (!string.IsNullOrEmpty(_defaultValue))
-                ConsoleHelper.Write($" ({_defaultValue}) ", ConsoleColor.Gray);
+                ConsoleHelper.Write(_helperText, ConsoleColor.Gray);
+            Console.Write(" ");
         }
 
         public string Run()
@@ -28,7 +35,7 @@
 
             var remoteLength = read.Length;
 
-            for (int i = 0; i < remoteLength+6; i++)
+            for (int i = 0; i < remoteLength + _helperText.Length; i++)
             {
                 Console.Write("\b \b");
             }
