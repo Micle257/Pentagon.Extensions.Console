@@ -1,16 +1,14 @@
 ﻿// -----------------------------------------------------------------------
-//  <copyright file="OperatingSystemPlatform.cs">
+//  <copyright file="CliControl.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.Utilities.Console.Controls
 {
-    public enum OperatingSystemPlatform
+    public abstract class CliControl<T>
     {
-        Unspecified,
-        Windows,
-        Linux,
-        OSX
+        public abstract T Run();
+        protected abstract void Write();
     }
 }

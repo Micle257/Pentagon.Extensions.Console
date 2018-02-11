@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-//  <copyright file="OperatingSystem.cs">
+//  <copyright file="OS.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
@@ -18,7 +18,7 @@ namespace Pentagon.Utilities.Console
             get
             {
                 if (_osPlatform == default(OSPlatform))
-                Initialize();
+                    Initialize();
                 return _osPlatform;
             }
         }
@@ -44,7 +44,7 @@ namespace Pentagon.Utilities.Console
             _platform = OperatingSystemPlatform.Linux;
             if (RuntimeInformation.IsOSPlatform(OSPlatform))
                 return;
-            
+
             _osPlatform = OSPlatform.OSX;
             _platform = OperatingSystemPlatform.OSX;
         }

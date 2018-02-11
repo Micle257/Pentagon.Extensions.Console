@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-//  <copyright file="Shell.cs">
+//  <copyright file="ShellHelper.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
@@ -41,14 +41,14 @@ namespace Pentagon.Utilities.Console.Helpers
         {
             var process = new Process
                           {
-                              StartInfo = new ProcessStartInfo
-                                          {
-                                              FileName = fileName,
-                                              Arguments = arguments,
-                                              RedirectStandardOutput = true,
-                                              UseShellExecute = false,
-                                              CreateNoWindow = false
-                                          }
+                                  StartInfo = new ProcessStartInfo
+                                              {
+                                                      FileName = fileName,
+                                                      Arguments = arguments,
+                                                      RedirectStandardOutput = true,
+                                                      UseShellExecute = false,
+                                                      CreateNoWindow = false
+                                              }
                           };
 
             process.Start();

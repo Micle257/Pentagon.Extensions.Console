@@ -7,7 +7,6 @@
 namespace Pentagon.Utilities.Console.Helpers
 {
     using System;
-    using System.IO;
     using System.Security;
     using System.Text;
 
@@ -57,24 +56,23 @@ namespace Pentagon.Utilities.Console.Helpers
                 var i = Console.ReadKey(true);
 
                 if (i.Key == ConsoleKey.Enter)
-                {
                     break;
-                }
-                else if (i.Key == ConsoleKey.Backspace )
+                if (i.Key == ConsoleKey.Backspace)
                 {
                     if (secret.Length > 0 && writeAsterisk)
                     {
                         secret.RemoveAt(secret.Length - 1);
-                        Console.Write("\b \b");
+                        Console.Write(value: "\b \b");
                     }
                 }
                 else
                 {
                     secret.AppendChar(i.KeyChar);
                     if (writeAsterisk)
-                        Console.Write("*");
+                        Console.Write(value: "*");
                 }
             }
+
             return secret;
         }
 
@@ -86,15 +84,13 @@ namespace Pentagon.Utilities.Console.Helpers
                 var i = Console.ReadKey(true);
 
                 if (i.Key == ConsoleKey.Enter)
-                {
                     break;
-                }
-                else if (i.Key == ConsoleKey.Backspace)
+                if (i.Key == ConsoleKey.Backspace)
                 {
                     if (result.Length > 0)
                     {
                         result.Remove(result.Length - 1, 1);
-                        Console.Write("\b \b");
+                        Console.Write(value: "\b \b");
                     }
                 }
                 else
@@ -103,6 +99,7 @@ namespace Pentagon.Utilities.Console.Helpers
                     Console.Write(i.KeyChar);
                 }
             }
+
             return result.ToString();
         }
 

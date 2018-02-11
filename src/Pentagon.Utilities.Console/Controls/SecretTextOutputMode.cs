@@ -1,16 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-//  <copyright file="OperatingSystemPlatform.cs">
+//  <copyright file="SecretTextOutputMode.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.Utilities.Console.Controls
 {
-    public enum OperatingSystemPlatform
+    public enum SecretTextOutputMode
     {
         Unspecified,
-        Windows,
-        Linux,
-        OSX
+        Asterisk,
+        NoOutput
     }
 }

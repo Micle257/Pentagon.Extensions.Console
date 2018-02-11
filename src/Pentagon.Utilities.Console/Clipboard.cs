@@ -7,7 +7,6 @@
 namespace Pentagon.Utilities.Console.Helpers
 {
     using System;
-    using System.Runtime.InteropServices;
 
     public static class Clipboard
     {

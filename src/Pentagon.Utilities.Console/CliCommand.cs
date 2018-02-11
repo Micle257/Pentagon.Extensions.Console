@@ -3,13 +3,15 @@
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
+
 namespace Pentagon.Utilities.Console
 {
-    using System.Linq;
+    using System;
     using Helpers;
     using McMaster.Extensions.CommandLineUtils;
 
     [HelpOption(template: "--help|-h")]
+    [Obsolete(message: "Work in progress", error: true)]
     public abstract class CliCommand
     {
         protected virtual int OnExecute(CommandLineApplication app)

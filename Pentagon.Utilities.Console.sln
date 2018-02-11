@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{14A526D6-E6D5-47F4-8B51-0F5AF4DBD444}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Utilities.Console.Demo", "samples\Pentagon.Utilities.Console.Demo\Pentagon.Utilities.Console.Demo.csproj", "{62E83F4C-8951-41E0-8106-25750936AB14}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pentagon.Utilities.Console", "src\Pentagon.Utilities.Console\Pentagon.Utilities.Console.csproj", "{EF5728BE-1721-48B0-A894-9F7176CBC606}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Utilities.Console", "src\Pentagon.Utilities.Console\Pentagon.Utilities.Console.csproj", "{EF5728BE-1721-48B0-A894-9F7176CBC606}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.ConsolePresentation", "src\Pentagon.ConsolePresentation\Pentagon.ConsolePresentation.csproj", "{F8C07FF8-0E61-4870-9A13-44ADDF17C39B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pentagon.Utilities.Console.Demo.Wpf", "samples\Pentagon.Utilities.Console.Demo.Wpf\Pentagon.Utilities.Console.Demo.Wpf.csproj", "{891BFC42-8442-4199-BF05-C04BAD1D64FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pentagon.Utilities.Console.Demo", "samples\Pentagon.Utilities.Console.Demo\Pentagon.Utilities.Console.Demo.csproj", "{EE260A56-901E-4FC0-A3D6-3631AA99916C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{62E83F4C-8951-41E0-8106-25750936AB14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62E83F4C-8951-41E0-8106-25750936AB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62E83F4C-8951-41E0-8106-25750936AB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62E83F4C-8951-41E0-8106-25750936AB14}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF5728BE-1721-48B0-A894-9F7176CBC606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF5728BE-1721-48B0-A894-9F7176CBC606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF5728BE-1721-48B0-A894-9F7176CBC606}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,13 +31,17 @@ Global
 		{891BFC42-8442-4199-BF05-C04BAD1D64FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{891BFC42-8442-4199-BF05-C04BAD1D64FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{891BFC42-8442-4199-BF05-C04BAD1D64FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE260A56-901E-4FC0-A3D6-3631AA99916C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE260A56-901E-4FC0-A3D6-3631AA99916C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE260A56-901E-4FC0-A3D6-3631AA99916C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE260A56-901E-4FC0-A3D6-3631AA99916C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{62E83F4C-8951-41E0-8106-25750936AB14} = {14A526D6-E6D5-47F4-8B51-0F5AF4DBD444}
 		{891BFC42-8442-4199-BF05-C04BAD1D64FB} = {14A526D6-E6D5-47F4-8B51-0F5AF4DBD444}
+		{EE260A56-901E-4FC0-A3D6-3631AA99916C} = {14A526D6-E6D5-47F4-8B51-0F5AF4DBD444}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5E31A500-F437-46F4-914E-C3E00628C9F3}
