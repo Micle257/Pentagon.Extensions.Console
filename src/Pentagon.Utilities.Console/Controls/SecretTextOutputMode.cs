@@ -4,12 +4,13 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.Extensions.Console.Controls
 {
     public enum SecretTextOutputMode
     {
         Unspecified,
         Asterisk,
-        NoOutput
+        NoOutput,
+        PeekLast
     }
 }

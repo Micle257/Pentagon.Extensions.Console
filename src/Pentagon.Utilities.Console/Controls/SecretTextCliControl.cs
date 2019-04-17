@@ -4,11 +4,10 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.Extensions.Console.Controls
 {
     using System;
     using System.Security;
-    using Helpers;
 
     public class SecretTextCliControl : CliControl<SecureString>
     {
@@ -24,11 +23,11 @@ namespace Pentagon.Utilities.Console.Controls
         public override SecureString Run()
         {
             Write();
-            var read = ConsoleHelper.ReadSecret(_outputMode == SecretTextOutputMode.Asterisk);
+            var read = ConsoleHelper.ReadSecret(_outputMode);
 
             var remoteLength = read.Length;
 
-            if (_outputMode == SecretTextOutputMode.Asterisk)
+            if (_outputMode == SecretTextOutputMode.Asterisk || _outputMode == SecretTextOutputMode.PeekLast)
             {
                 for (int i = 0; i < remoteLength; i++)
                     Console.Write(value: "\b \b");

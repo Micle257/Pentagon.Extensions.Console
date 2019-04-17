@@ -4,10 +4,9 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.Extensions.Console.Controls
 {
     using System;
-    using Helpers;
 
     public class TextCliControl : CliControl<string>
     {

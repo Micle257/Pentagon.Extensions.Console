@@ -4,8 +4,9 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Helpers
+namespace Pentagon.Extensions.Console
 {
+    using System;
     using System.Diagnostics;
 
     public class ShellHelper
@@ -25,10 +26,25 @@ namespace Pentagon.Utilities.Console.Helpers
             return null;
         }
 
+        static string GetBashFile()
+        {
+            switch (OS.Platform)
+            {
+                case OperatingSystemPlatform.Windows:
+                    return "C:\\Program Files\\Git\\bin\\bash.exe";
+
+                case OperatingSystemPlatform.Linux:
+                case OperatingSystemPlatform.OSX:
+                    return "/bin/bash";
+            }
+
+            throw new NotSupportedException();
+        }
+
         public static string Bash(string command)
         {
             var args = command.Replace(oldValue: "\"", newValue: "\\\"");
-            return Run(fileName: "/bin/bash", arguments: $"-c \"{args}\"");
+            return Run(GetBashFile(), arguments: $"-c \"{args}\"");
         }
 
         public static string Batch(string command)

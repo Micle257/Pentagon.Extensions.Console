@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.Extensions.Console.Controls
 {
     public abstract class CliControl<T>
     {

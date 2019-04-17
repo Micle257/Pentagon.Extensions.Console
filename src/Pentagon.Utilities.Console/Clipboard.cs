@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Helpers
+namespace Pentagon.Extensions.Console
 {
     using System;
 

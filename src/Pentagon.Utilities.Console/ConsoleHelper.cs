@@ -4,11 +4,12 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Helpers
+namespace Pentagon.Extensions.Console
 {
     using System;
     using System.Security;
     using System.Text;
+    using Controls;
 
     public static class ConsoleHelper
     {
@@ -48,28 +49,40 @@ namespace Pentagon.Utilities.Console.Helpers
 
         public static void WriteWarning(object warningValue) => Write(warningValue, ConsoleColor.Yellow);
 
-        public static SecureString ReadSecret(bool writeAsterisk = false)
+        public static SecureString ReadSecret(SecretTextOutputMode outputMode = SecretTextOutputMode.NoOutput)
         {
             var secret = new SecureString();
+
+            var writeAsterisk = outputMode == SecretTextOutputMode.Asterisk;
+            var peekLast = outputMode == SecretTextOutputMode.PeekLast;
+
             while (true)
             {
                 var i = Console.ReadKey(true);
+
+                if (peekLast && secret.Length > 0)
+                {
+                    Console.Write(value: "\b*");
+                }
 
                 if (i.Key == ConsoleKey.Enter)
                     break;
                 if (i.Key == ConsoleKey.Backspace)
                 {
-                    if (secret.Length > 0 && writeAsterisk)
+                    if (secret.Length > 0 && (writeAsterisk || peekLast))
                     {
                         secret.RemoveAt(secret.Length - 1);
                         Console.Write(value: "\b \b");
                     }
                 }
-                else
+                else if (!char.IsControl(i.KeyChar))
                 {
                     secret.AppendChar(i.KeyChar);
+
                     if (writeAsterisk)
                         Console.Write(value: "*");
+                    else if (peekLast)
+                        Console.Write(i.KeyChar);
                 }
             }
 

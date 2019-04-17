@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pentagon.Utilities.Console\Pentagon.Utilities.Console.csproj" />
+    <ProjectReference Include="..\Pentagon.Utilities.Console\Pentagon.Extensions.Console.csproj" />
   </ItemGroup>
 
   <ItemGroup>

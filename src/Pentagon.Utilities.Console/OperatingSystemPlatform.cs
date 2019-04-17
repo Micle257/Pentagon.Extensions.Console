@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console
+namespace Pentagon.Extensions.Console
 {
     public enum OperatingSystemPlatform
     {

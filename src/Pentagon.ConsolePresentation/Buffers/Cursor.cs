@@ -7,10 +7,10 @@
 namespace Pentagon.ConsolePresentation.Buffers
 {
     using System;
-    using Helpers;
     using Pentagon.Extensions;
+    using Pentagon.Extensions.Console;
     using Structures;
-    using Utilities.Console;
+    using ConsoleHelper = Helpers.ConsoleHelper;
 
     /// <summary> Represent a typing cursor in the console buffer. </summary>
     public class Cursor

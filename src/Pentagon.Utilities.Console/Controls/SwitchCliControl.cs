@@ -4,13 +4,18 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Utilities.Console.Controls
+namespace Pentagon.Extensions.Console.Controls
 {
     using System;
-    using Helpers;
+    using System.Globalization;
 
     public class SwitchCliControl : CliControl<bool>
     {
+        readonly static string YesName = Localization.Get(LocalizationKeyNames.Yes);
+        readonly static string NoName = Localization.Get(LocalizationKeyNames.No);
+        readonly static string YesShortName = Localization.Get(LocalizationKeyNames.YesShort);
+        readonly static string NoShortName = Localization.Get(LocalizationKeyNames.NoShort);
+
         readonly string _text;
         readonly bool _defaultValue;
 
@@ -36,7 +41,7 @@ namespace Pentagon.Utilities.Console.Controls
             for (int i = 0; i < 6; i++)
                 Console.Write(value: "\b \b");
 
-            ConsoleHelper.Write(result.Value ? "Yes" : "No", ConsoleColor.DarkCyan);
+            ConsoleHelper.Write(result.Value ? YesName : NoName, ConsoleColor.DarkCyan);
             Console.WriteLine();
             return result.Value;
         }
@@ -46,9 +51,9 @@ namespace Pentagon.Utilities.Console.Controls
             ConsoleHelper.Write(value: "? ", foreColor: ConsoleColor.DarkGreen);
             ConsoleHelper.Write(_text, ConsoleColor.White);
             if (_defaultValue)
-                ConsoleHelper.Write(value: " (Y/n) ", foreColor: ConsoleColor.Gray);
+                ConsoleHelper.Write(value: $" ({YesShortName.ToUpper()}/{NoShortName}) ", foreColor: ConsoleColor.Gray);
             else
-                ConsoleHelper.Write(value: " (y/N) ", foreColor: ConsoleColor.Gray);
+                ConsoleHelper.Write(value: $" ({YesShortName}/{NoShortName.ToUpper()}) ", foreColor: ConsoleColor.Gray);
         }
 
         bool? ProccessInput(string input)
@@ -56,9 +61,9 @@ namespace Pentagon.Utilities.Console.Controls
             if (string.IsNullOrWhiteSpace(input))
                 return _defaultValue;
 
-            if (input.Equals(value: "y", comparisonType: StringComparison.OrdinalIgnoreCase))
+            if (input.Equals(value: YesShortName, comparisonType: StringComparison.OrdinalIgnoreCase))
                 return true;
-            if (input.Equals(value: "n", comparisonType: StringComparison.OrdinalIgnoreCase))
+            if (input.Equals(value: NoShortName, comparisonType: StringComparison.OrdinalIgnoreCase))
                 return false;
 
             return null;

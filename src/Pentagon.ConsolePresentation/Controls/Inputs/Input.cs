@@ -9,8 +9,8 @@ namespace Pentagon.ConsolePresentation.Controls.Inputs
     using System;
     using Buffers;
     using ColorSystem;
+    using Pentagon.Extensions.Console;
     using Structures;
-    using Utilities.Console.Helpers;
 
     public class Input
     {
