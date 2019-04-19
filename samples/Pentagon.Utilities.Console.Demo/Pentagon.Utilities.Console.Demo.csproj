@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Pentagon.Utilities.Console\Pentagon.Extensions.Console.csproj" />
+    <ProjectReference Include="..\..\src\Pentagon.Extensions.Console\Pentagon.Extensions.Console.csproj" />
   </ItemGroup>
 
 </Project>
