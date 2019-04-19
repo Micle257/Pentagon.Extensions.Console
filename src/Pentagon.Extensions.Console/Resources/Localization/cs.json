@@ -1,0 +1,21 @@
+{
+  "culture": "cs",
+  "resources": [
+    {
+      "key": "Controls.Yes",
+      "value": "Ano"
+    },
+    {
+      "key": "Controls.Yes.Short",
+      "value": "a"
+    },
+    {
+      "key": "Controls.No",
+      "value": "Ne"
+    },
+    {
+      "key": "Controls.No.Short",
+      "value": "n"
+    }
+  ]
+}

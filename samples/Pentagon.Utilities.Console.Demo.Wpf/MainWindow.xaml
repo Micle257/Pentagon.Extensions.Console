@@ -1,0 +1,18 @@
+﻿<Window x:Class="Pentagon.Utilities.Console.Demo.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pentagon.Utilities.Console.Demo.Wpf"
+        mc:Ignorable="d"
+        Background="Black"
+        FontFamily="Consolas"
+        Title="MainWindow" Height="350" Width="551.731">
+    <StackPanel Name="Panel">
+        <TextBlock Foreground="White"
+                   Background="DarkSlateGray"
+                   TextTrimming="CharacterEllipsis"
+                   TextWrapping="Wrap" Margin="0,0,-452,0"><Run Text="In sanhjhjhjhjjjjjjjjjjjjjjjjjjctus hendrerit et ea sadipscing takimata dolor vel nonumy no quis ad eirmod nonumy duis eos sit ut erat"/></TextBlock>
+        
+    </StackPanel>
+</Window>
