@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Michal Pokorný</Authors>
@@ -9,31 +8,37 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.2.0</Version>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\build\$(AssemblyName)\</OutputPath>
     <DocumentationFile>..\..\build\$(AssemblyName)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\debug\$(AssemblyName)\</OutputPath>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Resources\Localization\cs.json" />
     <None Remove="Resources\Localization\invariant.json" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Resources\Localization\cs.json" />
     <EmbeddedResource Include="Resources\Localization\invariant.json" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" PrivateAssets="All" />
     <PackageReference Include="Pentagon.Extensions.IO.Json" Version="1.1.1" />
-    <PackageReference Include="Pentagon.Extensions.Localization.Json" Version="0.4.3" />
-    <PackageReference Include="Pentagon.Extensions.Security" Version="1.1.0" />
   </ItemGroup>
-
+  <Choose>
+    <When Condition="'$(SolutionPath)'=='C:\Users\Michal\Source\Pentagon.All.sln' AND '$(Configuration)'=='Debug'">
+      <ItemGroup>
+    <ProjectReference Include="..\..\..\Pentagon.Extensions.Localization\src\Pentagon.Extensions.Localization.Json\Pentagon.Extensions.Localization.Json.csproj" />
+    <ProjectReference Include="..\..\..\Pentagon.Extensions.Security\src\Pentagon.Extensions.Security\Pentagon.Extensions.Security.csproj" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Pentagon.Extensions.Localization.Json" Version="0.4.3" />
+        <PackageReference Include="Pentagon.Extensions.Security" Version="1.1.0" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 </Project>
