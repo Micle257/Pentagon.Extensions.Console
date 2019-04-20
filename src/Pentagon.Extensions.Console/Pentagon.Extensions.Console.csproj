@@ -44,8 +44,8 @@
     <Otherwise>
       <ItemGroup>
         <PackageReference Include="Pentagon.Extensions.IO" Version="1.5.0" />
-        <PackageReference Include="Pentagon.Extensions.Localization.Json" Version="0.4.3" />
-        <PackageReference Include="Pentagon.Extensions.Security" Version="1.1.0" />
+        <PackageReference Include="Pentagon.Extensions.Localization.Json" Version="1.5.0" />
+        <PackageReference Include="Pentagon.Extensions.Security" Version="1.5.0" />
       </ItemGroup>
     </Otherwise>
   </Choose>
