@@ -13,7 +13,7 @@ namespace Pentagon.Extensions.Console
 
     public static class ConsoleHelper
     {
-        public static void Write(object value, ConsoleColor? foreColor, ConsoleColor? backColor = null)
+        public static void Write(object value, ConsoleColor? foreColor = null, ConsoleColor? backColor = null)
         {
             var fore = Console.ForegroundColor;
             var back = Console.BackgroundColor;
@@ -28,7 +28,7 @@ namespace Pentagon.Extensions.Console
                 Console.BackgroundColor = back;
         }
 
-        public static void WriteLine(object value, ConsoleColor? foreColor, ConsoleColor? backColor = null)
+        public static void WriteLine(object value, ConsoleColor? foreColor = null, ConsoleColor? backColor = null)
         {
             var fore = Console.ForegroundColor;
             var back = Console.BackgroundColor;

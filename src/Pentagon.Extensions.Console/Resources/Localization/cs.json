@@ -16,6 +16,14 @@
     {
       "key": "Controls.No.Short",
       "value": "n"
+    },
+    {
+      "key": "Controls.ErrorHeader",
+      "value": "Chyba:"
+    },
+    {
+      "key": "Controls.Switch.ErrorContent",
+      "value": "Prosím poskytnìte správnou odpovìd, možné odpovìdi: a, A, n, N"
     }
   ]
 }

@@ -16,6 +16,14 @@
     {
       "key": "Controls.No.Short",
       "value": "n"
+    },
+    {
+      "key": "Controls.ErrorHeader",
+      "value": "Error:"
+    },
+    {
+      "key": "Controls.Switch.ErrorContent",
+      "value": "Please type valid answer, supported answers: y, Y, n, N"
     }
   ]
 }

@@ -13,7 +13,7 @@ namespace Pentagon.Utilities.Console.Demo
         {
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("cs");
 
-            var swi = new SwitchCliControl("Is itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs itIs it?", true);
+            var swi = new SwitchCliControl("Is it?", true);
 
           var result =  swi.Run();
 
