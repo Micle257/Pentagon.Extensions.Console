@@ -15,7 +15,20 @@ namespace Pentagon.Utilities.Console.Demo
 
             var swi = new SwitchCliControl("Is it?", true);
 
-          var result =  swi.Run();
+            var result =  swi.Run();
+
+            Console.WriteLine();
+            Console.Write("SAS");
+
+            var lol = new TextCliControl
+                      {
+                              DefaultValue = "non",
+                              TypedText = "pol",
+                              Text = "D ...d",
+                              Label = CliLabels.Warning
+                      };
+
+            var results = lol.Run();
 
             Console.WriteLine();
 
@@ -23,7 +36,6 @@ namespace Pentagon.Utilities.Console.Demo
 
             Console.WriteLine();
             Console.WriteLine(sad.ConvertToString());
-            Console.ReadKey();
         }
     }
 }
