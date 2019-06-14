@@ -8,6 +8,7 @@ namespace Pentagon.Extensions.Console.Controls
 {
     using System;
     using System.Globalization;
+    using Resources.Localization;
 
     public class SwitchCliControl : CliControl<bool>
     {

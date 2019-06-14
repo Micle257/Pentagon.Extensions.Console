@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Console
+namespace Pentagon.Extensions.Console.Commands
 {
     using System;
     using System.Diagnostics;

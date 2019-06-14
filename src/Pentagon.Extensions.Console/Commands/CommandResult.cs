@@ -1,4 +1,4 @@
-﻿namespace Pentagon.Extensions.Console {
+﻿namespace Pentagon.Extensions.Console.Commands {
     using System.Diagnostics;
 
     public class CommandResult : OperationResult<string>

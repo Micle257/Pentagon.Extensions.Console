@@ -7,6 +7,7 @@
 namespace Pentagon.Extensions.Console
 {
     using System;
+    using Commands;
 
     public static class Clipboard
     {

@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Console.Controls
+namespace Pentagon.Extensions.Console.Resources.Localization
 {
     public static class LocalizationKeyNames
     {

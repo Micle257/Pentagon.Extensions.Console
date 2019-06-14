@@ -3,6 +3,7 @@
 namespace Pentagon.Utilities.Console.Demo
 {
     using System.Globalization;
+    using Extensions.Console;
     using Extensions.Console.Controls;
     using Extensions.Security;
     using Console = System.Console;
@@ -11,6 +12,8 @@ namespace Pentagon.Utilities.Console.Demo
     {
         static void Main(string[] args)
         {
+            goto lo;
+
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("cs");
 
             var swi = new SwitchCliControl("Is it?", true);
@@ -36,6 +39,24 @@ namespace Pentagon.Utilities.Console.Demo
 
             Console.WriteLine();
             Console.WriteLine(sad.ConvertToString());
+
+            lo:
+            var cursor = Cursor.FromCurrentPosition(new SystemConsole());
+            cursor.Show = true;
+
+            while (true)
+            {
+                cursor.Apply();
+                cursor.EnsureNewLine();
+
+                Console.Read();
+
+                ConsoleHelper.WriteSuccess("EJ");
+                Console.WriteLine();
+
+                cursor.Offset(0, 5);
+                cursor.X = 1;
+            }
         }
     }
 }

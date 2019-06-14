@@ -9,6 +9,7 @@ namespace Pentagon.Extensions.Console
     using System;
     using System.Security;
     using System.Text;
+    using Commands;
     using Controls;
     using JetBrains.Annotations;
 
