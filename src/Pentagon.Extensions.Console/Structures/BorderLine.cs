@@ -18,11 +18,13 @@ namespace Pentagon.Extensions.Console.Structures
             HasValue = true;
         }
 
+        public bool HasValue { get; }
+
         public CliConsoleColor Color { get; set; }
 
         public BorderLineType Type { get; set; }
 
-        public bool HasValue { get; }
+        #region Operators
 
         /// <inheritdoc />
         public static bool operator ==(BorderLine left, BorderLine right) => left.Equals(right);
@@ -30,8 +32,7 @@ namespace Pentagon.Extensions.Console.Structures
         /// <inheritdoc />
         public static bool operator !=(BorderLine left, BorderLine right) => !left.Equals(right);
 
-        /// <inheritdoc />
-        public bool Equals(BorderLine other) => Color == other.Color && Type == other.Type;
+        #endregion
 
         /// <inheritdoc />
         public override bool Equals(object obj)
@@ -49,5 +50,8 @@ namespace Pentagon.Extensions.Console.Structures
                 return (Color.GetHashCode() * 397) ^ (int) Type;
             }
         }
+
+        /// <inheritdoc />
+        public bool Equals(BorderLine other) => Color == other.Color && Type == other.Type;
     }
 }

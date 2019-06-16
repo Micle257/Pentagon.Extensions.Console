@@ -8,48 +8,28 @@ namespace Pentagon.Extensions.Console
 {
     using System;
     using JetBrains.Annotations;
-    using Pentagon.Extensions;
     using Structures;
     using SC = System.Console;
-
-    public interface IConsole
-    {
-        ConsoleSize Size { get; }
-    }
-
-    public class SystemConsole : IConsole
-    {
-        public ConsoleSize Size
-        {
-            get => new ConsoleSize(SC.WindowWidth, SC.WindowHeight);
-            set
-            {
-                SC.WindowWidth = value.Width;
-                SC.WindowHeight = value.Height;
-            }
-        }
-    }
 
     /// <summary> Represent a typing cursor in the console buffer. </summary>
     public class Cursor
     {
-        [NotNull]
-        readonly IConsole _console;
-
         int _x = 1;
 
         int _y = 1;
 
         BufferPoint _coord = new BufferPoint(1, 1);
 
-        public Cursor([NotNull] IConsole console)
-        {
-            _console = console ?? throw new ArgumentNullException(nameof(console));
-        }
-
-        bool _show;
-
         int _size = 25;
+
+        [NotNull]
+        public static Cursor Current => new Cursor
+                                        {
+                                                X = SC.CursorLeft + 1,
+                                                Y = SC.CursorTop + 1,
+                                                Show = SC.CursorVisible,
+                                                Size = SC.CursorSize
+                                        };
 
         public int X
         {
@@ -57,31 +37,9 @@ namespace Pentagon.Extensions.Console
             set
             {
                 _x = NormalizeXCoord(value);
-                
+
                 _coord = new BufferPoint(_x, _y);
             }
-        }
-
-        void NormalizeCoord()
-        {
-            X = _x;
-            Y = _y;
-        }
-
-        int NormalizeXCoord(int value)
-        {
-            if (value < 0 || value > _console.Size.Width)
-                return value.Mod(_console.Size.Width) + 1;
-
-            return value;
-        }
-
-        int NormalizeYCoord(int value)
-        {
-            if (value < 0 || value > _console.Size.Height)
-                return value.Mod(_console.Size.Height) + 1;
-
-            return value;
         }
 
         public int Y
@@ -106,14 +64,7 @@ namespace Pentagon.Extensions.Console
             }
         }
 
-        public bool Show
-        {
-            get => _show;
-            set
-            {
-                _show = value;
-            }
-        }
+        public bool Show { get; set; }
 
         public int Size
         {
@@ -127,19 +78,53 @@ namespace Pentagon.Extensions.Console
             }
         }
 
+        public static void SetCurrent(int x, int y, bool show, int size)
+        {
+            var cursor = new Cursor
+                         {
+                                 X = x,
+                                 Y = y,
+                                 Size = size,
+                                 Show = show
+                         };
+
+            cursor.Apply();
+        }
+
+        public static void SetCurrent([NotNull] Action<Cursor> configure)
+        {
+            if (configure == null)
+                throw new ArgumentNullException(nameof(configure));
+
+            var cursor = Current;
+
+            configure(cursor);
+
+            cursor.Apply();
+        }
+
+        public static void SetCurrent(BufferPoint coord)
+        {
+            SetCurrent(c => c.Coord = coord);
+        }
+
+        public static void SetCurrent(Cursor cursor)
+        {
+            cursor.Apply();
+        }
+
         public void Apply()
         {
             NormalizeCoord();
 
-            Console.CursorLeft = _x - 1;
-            Console.CursorTop = _y - 1;
+            SC.CursorLeft = _x - 1;
+            SC.CursorTop = _y - 1;
 
             if (OS.Platform == OperatingSystemPlatform.Windows)
             {
-                Console.CursorSize = _size;
-                Console.CursorVisible = _show;
+                SC.CursorSize = _size;
+                SC.CursorVisible = Show;
             }
-
         }
 
         public Cursor Offset(int x, int y, bool canMove)
@@ -147,24 +132,25 @@ namespace Pentagon.Extensions.Console
             if (canMove)
             {
                 if (X + x < 1)
-                    X = (X + x - 1).Mod(_console.Size.Width + 1);
-                else if (X + x > _console.Size.Width)
-                    X = (X + x).Mod(_console.Size.Width);
+                    X = (X + x - 1).Mod(SC.WindowWidth + 1);
+                else if (X + x > SC.WindowWidth)
+                    X = (X + x).Mod(SC.WindowWidth);
                 else
-                    X = (X + x).Mod(_console.Size.Width + 1);
+                    X = (X + x).Mod(SC.WindowWidth + 1);
 
                 if (Y + y < 1)
-                    Y = (Y + y - 1).Mod(_console.Size.Height + 1);
-                else if (Y + y > _console.Size.Height)
-                    Y = (Y + y).Mod(_console.Size.Height);
+                    Y = (Y + y - 1).Mod(SC.WindowHeight + 1);
+                else if (Y + y > SC.WindowHeight)
+                    Y = (Y + y).Mod(SC.WindowHeight);
                 else
-                    Y = (Y + y).Mod(_console.Size.Height + 1);
+                    Y = (Y + y).Mod(SC.WindowHeight + 1);
             }
             else
             {
                 X += x;
                 Y += y;
             }
+
             return this;
         }
 
@@ -179,16 +165,26 @@ namespace Pentagon.Extensions.Console
             return this;
         }
 
-        public static Cursor FromCurrentPosition(IConsole console)
+        void NormalizeCoord()
         {
-            var cursor = new Cursor(console);
+            X = _x;
+            Y = _y;
+        }
 
-            cursor.X = SC.CursorLeft + 1;
-            cursor.Y = SC.CursorTop + 1;
-            cursor.Show = SC.CursorVisible;
-            cursor.Size = SC.CursorSize;
+        int NormalizeXCoord(int value)
+        {
+            if (value < 0 || value > SC.WindowWidth)
+                return value.Mod(SC.WindowWidth) + 1;
 
-            return cursor;
+            return value;
+        }
+
+        int NormalizeYCoord(int value)
+        {
+            if (value < 0 || value > SC.WindowHeight)
+                return value.Mod(SC.WindowHeight) + 1;
+
+            return value;
         }
     }
 }

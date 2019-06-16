@@ -29,7 +29,7 @@ namespace Pentagon.Extensions.Console.Controls
 
             if (_outputMode == SecretTextOutputMode.Asterisk || _outputMode == SecretTextOutputMode.PeekLast)
             {
-                for (int i = 0; i < remoteLength; i++)
+                for (var i = 0; i < remoteLength; i++)
                     Console.Write(value: "\b \b");
 
                 ConsoleHelper.Write(new string('*', read.Length), ConsoleColor.DarkCyan);
@@ -41,7 +41,7 @@ namespace Pentagon.Extensions.Console.Controls
 
         protected override void Write()
         {
-            ConsoleHelper.Write(value: "? ", foreColor: ConsoleColor.DarkGreen);
+            ConsoleHelper.Write(value: "? ", ConsoleColor.DarkGreen);
             ConsoleHelper.Write(_text, ConsoleColor.White);
             Console.Write(value: " ");
         }

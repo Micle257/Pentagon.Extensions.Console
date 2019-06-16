@@ -18,7 +18,7 @@ namespace Pentagon.Extensions.Console.Resources.Localization
         {
             if (!_isLoaded)
             {
-               var s = JsonLocalization.LoadJsonFromAssembly(Assembly.GetExecutingAssembly());
+                var s = JsonLocalization.LoadJsonFromAssembly(Assembly.GetExecutingAssembly());
                 _isLoaded = true;
             }
 

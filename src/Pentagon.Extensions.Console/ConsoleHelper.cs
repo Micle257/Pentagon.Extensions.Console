@@ -13,57 +13,10 @@ namespace Pentagon.Extensions.Console
     using Controls;
     using JetBrains.Annotations;
 
-    public struct CliConsoleColor : IEquatable<CliConsoleColor>
-    {
-        /// <inheritdoc />
-        public bool Equals(CliConsoleColor other) => Foreground == other.Foreground && Background == other.Background;
-
-        /// <inheritdoc />
-        public override bool Equals(object obj) => obj is CliConsoleColor other && Equals(other);
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (Foreground.GetHashCode() * 397) ^ Background.GetHashCode();
-            }
-        }
-
-        public static bool operator ==(CliConsoleColor left, CliConsoleColor right) => left.Equals(right);
-
-        public static bool operator !=(CliConsoleColor left, CliConsoleColor right) => !left.Equals(right);
-
-        public CliConsoleColor(ConsoleColor? foreground = null, ConsoleColor? background = null)
-        {
-            Foreground = foreground;
-            Background = background;
-        }
-
-        public ConsoleColor? Foreground { get; }
-
-        public ConsoleColor? Background { get;  }
-    }
-
-    public class ConsoleColorScheme
-    {
-        public CliConsoleColor Success { get; set; } = new CliConsoleColor(ConsoleColor.Green);
-
-        public CliConsoleColor Error { get; set; } = new CliConsoleColor(ConsoleColor.Red);
-
-        public CliConsoleColor Warning { get; set; } = new CliConsoleColor(ConsoleColor.Yellow);
-
-        public CliConsoleColor Info { get; set; } = new CliConsoleColor(ConsoleColor.Cyan);
-
-        public CliConsoleColor Text { get; set; } = new CliConsoleColor(ConsoleColor.White);
-
-        public CliConsoleColor MutedText { get; set; } = new CliConsoleColor(ConsoleColor.Gray);
-    }
-
     public static class ConsoleHelper
     {
         [NotNull]
-        public static ConsoleColorScheme ColorScheme { get;  } = new ConsoleColorScheme();
+        public static ConsoleColorScheme ColorScheme { get; } = new ConsoleColorScheme();
 
         public static void ColoredWrite(Action action, CliConsoleColor color)
         {
@@ -131,9 +84,7 @@ namespace Pentagon.Extensions.Console
                 var i = Console.ReadKey(true);
 
                 if (peekLast && secret.Length > 0)
-                {
                     Console.Write(value: "\b*");
-                }
 
                 if (i.Key == ConsoleKey.Enter)
                     break;
@@ -211,7 +162,7 @@ namespace Pentagon.Extensions.Console
 
         public static void EnsureNewLine()
         {
-            if (Console.CursorLeft >0)
+            if (Console.CursorLeft > 0)
             {
                 Console.CursorLeft = 0;
                 Console.CursorTop++;

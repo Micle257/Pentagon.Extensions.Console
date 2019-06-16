@@ -1,4 +1,11 @@
-﻿namespace Pentagon.Extensions.Console.Ascii {
+﻿// -----------------------------------------------------------------------
+//  <copyright file="Ascii.cs">
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
+//  </copyright>
+// -----------------------------------------------------------------------
+
+namespace Pentagon.Extensions.Console.Ascii
+{
     using System;
     using System.Linq;
     using IO.Json;
@@ -8,7 +15,7 @@
     public static class Ascii
     {
         [NotNull]
-        static Lazy<AsciiTable> _tableLazy = new Lazy<AsciiTable>(GetAsciiTable);
+        static readonly Lazy<AsciiTable> _tableLazy = new Lazy<AsciiTable>(GetAsciiTable);
 
         [NotNull]
         public static AsciiTable Table { get; } = _tableLazy.Value;

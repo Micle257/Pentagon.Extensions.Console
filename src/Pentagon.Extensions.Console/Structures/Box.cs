@@ -43,34 +43,6 @@ namespace Pentagon.Extensions.Console.Structures
 
         #endregion
 
-        #region IEquatable members
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = Point.GetHashCode();
-                hashCode = (hashCode * 397) ^ Width;
-                hashCode = (hashCode * 397) ^ Height;
-                hashCode = (hashCode * 397) ^ (ExcludedBoxes != null ? ExcludedBoxes.GetHashCode() : 0);
-                return hashCode;
-            }
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-                return false;
-            return obj is Box box && Equals(box);
-        }
-
-        /// <inheritdoc />
-        public bool Equals(Box other) => Point.Equals(other.Point) && Width == other.Width && Height == other.Height && Equals(ExcludedBoxes, other.ExcludedBoxes);
-
-        #endregion
-
         public void ExcludeBox(Box boxToExlude)
         {
             if (Points.Intersect(boxToExlude.Points).Count() == boxToExlude.Points.Count())
@@ -122,5 +94,33 @@ namespace Pentagon.Extensions.Console.Structures
             var excludePoints = ExcludedBoxes.SelectMany(a => a.Points).Distinct();
             return Points.Except(excludePoints);
         }
+
+        #region IEquatable members
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Point.GetHashCode();
+                hashCode = (hashCode * 397) ^ Width;
+                hashCode = (hashCode * 397) ^ Height;
+                hashCode = (hashCode * 397) ^ (ExcludedBoxes != null ? ExcludedBoxes.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            return obj is Box box && Equals(box);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Box other) => Point.Equals(other.Point) && Width == other.Width && Height == other.Height && Equals(ExcludedBoxes, other.ExcludedBoxes);
+
+        #endregion
     }
 }

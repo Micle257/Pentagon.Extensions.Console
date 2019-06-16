@@ -13,10 +13,7 @@ namespace Pentagon.Extensions.Console.Commands
 
     public class ShellHelper
     {
-        public static CommandResult RunCommand(string command)
-        {
-            return RunCommandAsync(command).Result;
-        }
+        public static CommandResult RunCommand(string command) => RunCommandAsync(command).Result;
 
         public static Task<CommandResult> RunCommandAsync(string command, CancellationToken cancellationToken = default)
         {
@@ -32,8 +29,24 @@ namespace Pentagon.Extensions.Console.Commands
 
             return Task.FromResult(new CommandResult
                                    {
-                                           Exception = new NotSupportedException("OS not supported.")
+                                           Exception = new NotSupportedException(message: "OS not supported.")
                                    });
+        }
+
+        public static CommandResult Bash(string command) => BashAsync(command).Result;
+
+        public static CommandResult Batch(string command) => BatchAsync(command).Result;
+
+        public static Task<CommandResult> BashAsync(string command, CancellationToken cancellationToken = default)
+        {
+            var args = command.Replace(oldValue: "\"", newValue: "\\\"");
+            return RunAsync(GetBashFile(), $"-c \"{args}\"", cancellationToken);
+        }
+
+        public static Task<CommandResult> BatchAsync(string command, CancellationToken cancellationToken = default)
+        {
+            var args = command.Replace(oldValue: "\"", newValue: "\\\"");
+            return RunAsync(fileName: "cmd.exe", $"/c \"{args}\"", cancellationToken);
         }
 
         static string GetBashFile()
@@ -49,28 +62,6 @@ namespace Pentagon.Extensions.Console.Commands
             }
 
             throw new NotSupportedException();
-        }
-
-        public static CommandResult Bash(string command)
-        {
-            return BashAsync(command).Result;
-        }
-
-        public static CommandResult Batch(string command)
-        {
-            return BatchAsync(command).Result;
-        }
-
-        public static Task<CommandResult> BashAsync(string command, CancellationToken cancellationToken = default)
-        {
-            var args = command.Replace(oldValue: "\"", newValue: "\\\"");
-            return RunAsync(GetBashFile(), arguments: $"-c \"{args}\"", cancellationToken: cancellationToken);
-        }
-
-        public static Task<CommandResult> BatchAsync(string command, CancellationToken cancellationToken = default)
-        {
-            var args = command.Replace(oldValue: "\"", newValue: "\\\"");
-            return RunAsync(fileName: "cmd.exe", arguments: $"/c \"{args}\"", cancellationToken: cancellationToken);
         }
 
         static async Task<CommandResult> RunAsync(string fileName, string arguments, CancellationToken cancellationToken = default)
@@ -94,18 +85,18 @@ namespace Pentagon.Extensions.Console.Commands
             if (process.ExitCode != 0)
             {
                 return new CommandResult
-                                 {
-                                         Process = process,
-                                         Content = processResult,
-                                         Exception = new CommandFailedException(fileName, arguments, process.StandardError.ReadToEnd(), process.ExitCode)
-                                 };
+                       {
+                               Process = process,
+                               Content = processResult,
+                               Exception = new CommandFailedException(fileName, arguments, process.StandardError.ReadToEnd(), process.ExitCode)
+                       };
             }
 
             return new CommandResult
-                             {
-                                     Process = process,
-                                     Content = processResult
-                             };
+                   {
+                           Process = process,
+                           Content = processResult
+                   };
         }
     }
 }

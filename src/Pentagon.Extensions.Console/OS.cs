@@ -17,7 +17,7 @@ namespace Pentagon.Extensions.Console
         {
             get
             {
-                if (_osPlatform == default(OSPlatform))
+                if (_osPlatform == default)
                     Initialize();
                 return _osPlatform;
             }

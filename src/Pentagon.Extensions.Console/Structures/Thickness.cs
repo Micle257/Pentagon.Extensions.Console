@@ -8,19 +8,6 @@ namespace Pentagon.Extensions.Console.Structures
 {
     using System;
 
-    public struct ConsoleSize // TODO bitch
-    {
-        public ConsoleSize(int width, int height)
-        {
-            Width = width;
-            Height = height;
-        }
-
-        public int Width { get; set; }
-
-        public int Height { get; set; }
-    }
-
     public struct Thickness : IValueDataType<Thickness>
     {
         public Thickness(int left, int top, int right, int bottom)
@@ -74,34 +61,6 @@ namespace Pentagon.Extensions.Console.Structures
 
         #endregion
 
-        #region IEquatable members
-
-        /// <inheritdoc />
-        public bool Equals(Thickness other) => Left == other.Left && Top == other.Top && Right == other.Right && Bottom == other.Bottom;
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-                return false;
-            return obj is Thickness t && Equals(t);
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = Left;
-                hashCode = (hashCode * 397) ^ Top;
-                hashCode = (hashCode * 397) ^ Right;
-                hashCode = (hashCode * 397) ^ Bottom;
-                return hashCode;
-            }
-        }
-
-        #endregion
-
         /// <inheritdoc />
         public int CompareTo(Thickness other)
         {
@@ -129,5 +88,33 @@ namespace Pentagon.Extensions.Console.Structures
 
         /// <inheritdoc />
         public override string ToString() => $"Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}";
+
+        #region IEquatable members
+
+        /// <inheritdoc />
+        public bool Equals(Thickness other) => Left == other.Left && Top == other.Top && Right == other.Right && Bottom == other.Bottom;
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            return obj is Thickness t && Equals(t);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Left;
+                hashCode = (hashCode * 397) ^ Top;
+                hashCode = (hashCode * 397) ^ Right;
+                hashCode = (hashCode * 397) ^ Bottom;
+                return hashCode;
+            }
+        }
+
+        #endregion
     }
 }

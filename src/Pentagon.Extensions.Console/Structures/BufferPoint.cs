@@ -21,7 +21,7 @@ namespace Pentagon.Extensions.Console.Structures
             HasValue = true;
         }
 
-        public static BufferPoint Zero => default(BufferPoint);
+        public static BufferPoint Zero => default;
         public static BufferPoint Origin => new BufferPoint(1, 1);
 
         public static BufferPoint Content { get; set; }
@@ -58,30 +58,6 @@ namespace Pentagon.Extensions.Console.Structures
 
         #endregion
 
-        #region IEquatable members
-
-        /// <inheritdoc />
-        public bool Equals(BufferPoint other) => X == other.X && Y == other.Y;
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-                return false;
-            return obj is BufferPoint && Equals((BufferPoint) obj);
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (X * 397) ^ Y;
-            }
-        }
-
-        #endregion
-
         /// <inheritdoc />
         public int CompareTo(object obj)
         {
@@ -109,5 +85,29 @@ namespace Pentagon.Extensions.Console.Structures
         /// <param name="yOffset"> The y offset. </param>
         /// <returns> A  new offsetted <see cref="BufferPoint" />. </returns>
         public BufferPoint WithOffset(int xOffset, int yOffset) => new BufferPoint(X + xOffset, Y + yOffset);
+
+        #region IEquatable members
+
+        /// <inheritdoc />
+        public bool Equals(BufferPoint other) => X == other.X && Y == other.Y;
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            return obj is BufferPoint && Equals((BufferPoint) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
+        }
+
+        #endregion
     }
 }

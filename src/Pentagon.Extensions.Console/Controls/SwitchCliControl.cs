@@ -7,23 +7,22 @@
 namespace Pentagon.Extensions.Console.Controls
 {
     using System;
-    using System.Globalization;
     using Resources.Localization;
 
     public class SwitchCliControl : CliControl<bool>
     {
-        readonly static string YesName = Localization.Get(LocalizationKeyNames.Yes);
-        readonly static string NoName = Localization.Get(LocalizationKeyNames.No);
-        readonly static string YesShortName = Localization.Get(LocalizationKeyNames.YesShort);
-        readonly static string NoShortName = Localization.Get(LocalizationKeyNames.NoShort);
-        readonly static string ErrorHeader = Localization.Get(LocalizationKeyNames.ErrorHeader);
-        readonly static string Error = Localization.Get(LocalizationKeyNames.SwitchErrorContent);
+        static readonly string YesName = Localization.Get(LocalizationKeyNames.Yes);
+        static readonly string NoName = Localization.Get(LocalizationKeyNames.No);
+        static readonly string YesShortName = Localization.Get(LocalizationKeyNames.YesShort);
+        static readonly string NoShortName = Localization.Get(LocalizationKeyNames.NoShort);
+        static readonly string ErrorHeader = Localization.Get(LocalizationKeyNames.ErrorHeader);
+        static readonly string Error = Localization.Get(LocalizationKeyNames.SwitchErrorContent);
 
         readonly string _text;
         readonly bool _defaultValue;
-        bool _hasError = false;
+        bool _hasError;
         int _initialPosition;
-        int _remoteLength = 0;
+        int _remoteLength;
 
         public SwitchCliControl(string text, bool defaultValue)
         {
@@ -47,8 +46,8 @@ namespace Pentagon.Extensions.Console.Controls
 
                 Write();
 
-               // for (var i = 0; i < remoteLength; i++)
-               //     Console.Write(value: "\b \b");
+                // for (var i = 0; i < remoteLength; i++)
+                //     Console.Write(value: "\b \b");
             }
 
             for (var i = 0; i < 6; i++)
@@ -64,13 +63,13 @@ namespace Pentagon.Extensions.Console.Controls
             Console.CursorTop = _initialPosition;
             Console.CursorLeft = 0;
 
-            ConsoleHelper.Write(value: "? ", foreColor: ConsoleColor.DarkGreen);
+            ConsoleHelper.Write(value: "? ", ConsoleColor.DarkGreen);
             ConsoleHelper.Write(_text, ConsoleColor.White);
 
             if (_defaultValue)
-                ConsoleHelper.Write(value: $" ({YesShortName.ToUpper()}/{NoShortName}) ", foreColor: ConsoleColor.Gray);
+                ConsoleHelper.Write($" ({YesShortName.ToUpper()}/{NoShortName}) ", ConsoleColor.Gray);
             else
-                ConsoleHelper.Write(value: $" ({YesShortName}/{NoShortName.ToUpper()}) ", foreColor: ConsoleColor.Gray);
+                ConsoleHelper.Write($" ({YesShortName}/{NoShortName.ToUpper()}) ", ConsoleColor.Gray);
 
             var readPosition = (Console.CursorTop, Console.CursorLeft);
 
@@ -82,7 +81,7 @@ namespace Pentagon.Extensions.Console.Controls
             {
                 Console.WriteLine();
                 ConsoleHelper.Write(errorHeader, ConsoleColor.Red);
-                Console.Write(" ");
+                Console.Write(value: " ");
                 ConsoleHelper.Write(errorContent);
             }
             else
@@ -103,18 +102,12 @@ namespace Pentagon.Extensions.Console.Controls
             _hasError = false;
 
             if (string.IsNullOrWhiteSpace(input))
-            {
                 return _defaultValue;
-            }
 
-            if (input.Equals(value: YesShortName, comparisonType: StringComparison.OrdinalIgnoreCase))
-            {
+            if (input.Equals(YesShortName, StringComparison.OrdinalIgnoreCase))
                 return true;
-            }
-            if (input.Equals(value: NoShortName, comparisonType: StringComparison.OrdinalIgnoreCase))
-            {
+            if (input.Equals(NoShortName, StringComparison.OrdinalIgnoreCase))
                 return false;
-            }
 
             _hasError = true;
 
