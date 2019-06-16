@@ -4,10 +4,9 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Console.Controls
+namespace Pentagon.Extensions.Console.Resources.Localization
 {
     using System.Globalization;
-    using System.Linq;
     using System.Reflection;
     using Pentagon.Extensions.Localization.EntityFramework;
 
@@ -19,7 +18,7 @@ namespace Pentagon.Extensions.Console.Controls
         {
             if (!_isLoaded)
             {
-               var s = JsonLocalization.LoadJsonFromAssembly(Assembly.GetExecutingAssembly());
+                var s = JsonLocalization.LoadJsonFromAssembly(Assembly.GetExecutingAssembly());
                 _isLoaded = true;
             }
 

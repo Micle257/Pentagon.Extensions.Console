@@ -1,1 +1,0 @@
-sh /c/Users/Michal/Source/GitHub/build.sh Pentagon.Utilities.Console Pentagon.Extensions.Console

@@ -7,6 +7,7 @@
 namespace Pentagon.Extensions.Console
 {
     using System;
+    using Commands;
 
     public static class Clipboard
     {
@@ -29,7 +30,7 @@ namespace Pentagon.Extensions.Console
             switch (OS.Platform)
             {
                 case OperatingSystemPlatform.Windows:
-                    return ShellHelper.Batch(command: "pclip");
+                    return ShellHelper.Batch(command: "pclip").Content;
             }
 
             throw new NotSupportedException();

@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Console.Controls
+namespace Pentagon.Extensions.Console.Resources.Localization
 {
     public static class LocalizationKeyNames
     {
@@ -15,5 +15,9 @@ namespace Pentagon.Extensions.Console.Controls
         public const string No = "Controls.No";
 
         public const string NoShort = "Controls.No.Short";
+
+        public const string ErrorHeader = "Controls.ErrorHeader";
+
+        public const string SwitchErrorContent = "Controls.Switch.ErrorContent";
     }
 }

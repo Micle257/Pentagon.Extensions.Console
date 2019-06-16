@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pentagon.Common" Version="1.6.4" />
+    <PackageReference Include="Pentagon.Common" Version="1.7.10" />
   </ItemGroup>
 
   <ItemGroup>

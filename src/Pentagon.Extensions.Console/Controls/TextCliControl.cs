@@ -10,28 +10,32 @@ namespace Pentagon.Extensions.Console.Controls
 
     public class TextCliControl : CliControl<string>
     {
-        readonly string _text;
-        readonly string _defaultValue;
-        readonly string _helperText;
+        string _defaultValue;
+        string _helperText;
 
-        public TextCliControl(string text, string defaultValue = null)
+        public string Text { get; set; }
+
+        public string DefaultValue
         {
-            _text = text;
-            _defaultValue = defaultValue ?? string.Empty;
-            if (defaultValue != null)
-                _helperText = $" ({_defaultValue})";
-            else
-                _helperText = "";
+            get => _defaultValue;
+            set
+            {
+                _defaultValue = value ?? string.Empty;
+                _helperText = value != null ? $" ({_defaultValue})" : "";
+            }
         }
+
+        public string TypedText { get; set; }
 
         public override string Run()
         {
             Write();
-            var read = ConsoleHelper.Read();
+
+            var read = ConsoleHelper.Read(TypedText);
 
             var remoteLength = read.Length;
 
-            for (int i = 0; i < remoteLength + _helperText.Length; i++)
+            for (var i = 0; i < remoteLength + _helperText.Length; i++)
                 Console.Write(value: "\b \b");
 
             if (string.IsNullOrWhiteSpace(read))
@@ -44,10 +48,11 @@ namespace Pentagon.Extensions.Console.Controls
 
         protected override void Write()
         {
-            ConsoleHelper.Write(value: "? ", foreColor: ConsoleColor.DarkGreen);
-            ConsoleHelper.Write(_text, ConsoleColor.White);
+            WriteLabel(Text);
+
             if (!string.IsNullOrEmpty(_defaultValue))
                 ConsoleHelper.Write(_helperText, ConsoleColor.Gray);
+
             Console.Write(value: " ");
         }
     }

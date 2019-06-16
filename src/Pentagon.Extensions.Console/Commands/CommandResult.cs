@@ -1,0 +1,17 @@
+﻿// -----------------------------------------------------------------------
+//  <copyright file="CommandResult.cs">
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
+//  </copyright>
+// -----------------------------------------------------------------------
+
+namespace Pentagon.Extensions.Console.Commands
+{
+    using System.Diagnostics;
+
+    public class CommandResult : OperationResult<string>
+    {
+        public int? ExitCode => Process?.ExitCode;
+
+        public Process Process { get; set; }
+    }
+}

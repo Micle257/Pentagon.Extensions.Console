@@ -17,9 +17,14 @@ namespace Pentagon.Extensions.Console.Controls
             return control.Run();
         }
 
-        public static string RunTextControl(string text, string defaultValue)
+        public static string RunTextControl(string text, string defaultValue, string typedText)
         {
-            var control = new TextCliControl(text, defaultValue);
+            var control = new TextCliControl
+                          {
+                                  Text = text,
+                                  DefaultValue = defaultValue,
+                                  TypedText = typedText
+                          };
 
             return control.Run();
         }

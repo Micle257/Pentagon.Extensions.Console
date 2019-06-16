@@ -6,17 +6,21 @@
     <Product>Pentagon - Console Utilities</Product>
     <Description>TODO.</Description>
     <Copyright>Copyright (c) Michal Pokorný. All Rights Reserved.</Copyright>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.5.0</Version>
+    <LangVersion>Latest</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\build\$(AssemblyName)\</OutputPath>
-    <DocumentationFile>..\..\build\$(AssemblyName)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <DefineConstants>RELEASE</DefineConstants>
+    <OutputPath>..\..\build\$(AssemblyName)\$(Version)\</OutputPath>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\debug\$(AssemblyName)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +35,7 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" PrivateAssets="All" />
+    <PackageReference Include="Pentagon.Common" Version="1.7.10" />
   </ItemGroup>
 
   <Choose>
@@ -44,8 +49,8 @@
     <Otherwise>
       <ItemGroup>
         <PackageReference Include="Pentagon.Extensions.IO" Version="1.5.0" />
-        <PackageReference Include="Pentagon.Extensions.Localization.Json" Version="0.4.3" />
-        <PackageReference Include="Pentagon.Extensions.Security" Version="1.1.0" />
+        <PackageReference Include="Pentagon.Extensions.Localization.Json" Version="1.5.0" />
+        <PackageReference Include="Pentagon.Extensions.Security" Version="1.5.0" />
       </ItemGroup>
     </Otherwise>
   </Choose>
