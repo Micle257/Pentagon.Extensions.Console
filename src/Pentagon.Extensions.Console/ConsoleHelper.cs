@@ -15,9 +15,6 @@ namespace Pentagon.Extensions.Console
 
     public static class ConsoleHelper
     {
-        [NotNull]
-        public static ConsoleColorScheme ColorScheme { get; } = new ConsoleColorScheme();
-
         public static void ColoredWrite(Action action, CliConsoleColor color)
         {
             var fore = Console.ForegroundColor;
@@ -66,11 +63,11 @@ namespace Pentagon.Extensions.Console
             WriteLine(value, new CliConsoleColor(foreColor, backColor));
         }
 
-        public static void WriteSuccess(object successValue) => Write(successValue, ColorScheme.Success);
+        public static void WriteSuccess(object successValue) => Write(successValue, Cli.ColorScheme.Success);
 
-        public static void WriteError(object errorValue) => Write(errorValue, ColorScheme.Error);
+        public static void WriteError(object errorValue) => Write(errorValue, Cli.ColorScheme.Error);
 
-        public static void WriteWarning(object warningValue) => Write(warningValue, ColorScheme.Warning);
+        public static void WriteWarning(object warningValue) => Write(warningValue, Cli.ColorScheme.Warning);
 
         public static SecureString ReadSecret(SecretTextOutputMode outputMode = SecretTextOutputMode.NoOutput)
         {
@@ -166,6 +163,14 @@ namespace Pentagon.Extensions.Console
             {
                 Console.CursorLeft = 0;
                 Console.CursorTop++;
+            }
+        }
+
+        public static void WriteSpace(int count = 1)
+        {
+            if (count >= 1)
+            {
+                Write(new string(' ',count), Cli.ColorScheme.Blank);
             }
         }
     }

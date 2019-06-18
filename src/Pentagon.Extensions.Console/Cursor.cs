@@ -127,6 +127,7 @@ namespace Pentagon.Extensions.Console
             }
         }
 
+        [NotNull]
         public Cursor Offset(int x, int y, bool canMove)
         {
             if (canMove)
@@ -154,10 +155,13 @@ namespace Pentagon.Extensions.Console
             return this;
         }
 
+        [NotNull]
         public Cursor Offset(int x, int y) => Offset(x, y, false);
 
+        [NotNull]
         public Cursor EnsureNewLine() => X > 1 ? NextLine() : this;
 
+        [NotNull]
         public Cursor NextLine()
         {
             Y++;
@@ -185,6 +189,16 @@ namespace Pentagon.Extensions.Console
                 return value.Mod(SC.WindowHeight) + 1;
 
             return value;
+        }
+
+        public Cursor Configure([NotNull] Action<Cursor> callback)
+        {
+            if (callback == null)
+                throw new ArgumentNullException(nameof(callback));
+
+            callback(this);
+
+            return this;
         }
     }
 }
