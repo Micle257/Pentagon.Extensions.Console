@@ -13,6 +13,8 @@ namespace Pentagon.Extensions.Console.Commands
 
     public class ShellHelper
     {
+        public static string BashLocation { get; set; }
+
         public static CommandResult RunCommand(string command) => RunCommandAsync(command).Result;
 
         public static Task<CommandResult> RunCommandAsync(string command, CancellationToken cancellationToken = default)
@@ -54,11 +56,11 @@ namespace Pentagon.Extensions.Console.Commands
             switch (OS.Platform)
             {
                 case OperatingSystemPlatform.Windows:
-                    return "C:\\Program Files\\Git\\bin\\bash.exe";
+                    return BashLocation ?? "C:\\Program Files\\Git\\bin\\bash.exe";
 
                 case OperatingSystemPlatform.Linux:
                 case OperatingSystemPlatform.OSX:
-                    return "/bin/bash";
+                    return BashLocation ?? "/bin/bash";
             }
 
             throw new NotSupportedException();
