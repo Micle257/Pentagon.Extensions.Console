@@ -15,6 +15,9 @@ namespace Pentagon.Utilities.Console.Demo
         {
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("cs");
 
+            var combo = new ComboBoxCliControl("Teststets asd asd asd asd sad asd sad sad sad gfgh fg fg fg fg fg fg fg fg f gfg f gfg fg f gf?", new []{ "LOl", "no", "piss" , "Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd ", "no" });
+
+            var comboFields = combo.Run();
         }
     }
 }
