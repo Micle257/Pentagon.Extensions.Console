@@ -19,6 +19,7 @@ namespace Pentagon.Extensions.Console
         {
             var source = new TaskCompletionSource<int>();
 
+            process.EnableRaisingEvents = true;
             process.Exited += (_, __) => { source.SetResult(process.ExitCode); };
 
             process.Start();
