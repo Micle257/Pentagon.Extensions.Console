@@ -1,7 +1,7 @@
 ﻿namespace Pentagon.Extensions.Console.Controls {
-    public class ComboField
+    public class ComboField<T>
     {
-        public string Text { get; set; }
+        public T Content { get; set; }
 
         public bool IsSelected { get; set; }
 
