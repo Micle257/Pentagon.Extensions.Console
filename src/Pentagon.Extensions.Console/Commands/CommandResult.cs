@@ -12,6 +12,8 @@ namespace Pentagon.Extensions.Console.Commands
     {
         public int? ExitCode => Process?.ExitCode;
 
+        public string ErrorMessage { get; set; }
+
         public Process Process { get; set; }
     }
 }

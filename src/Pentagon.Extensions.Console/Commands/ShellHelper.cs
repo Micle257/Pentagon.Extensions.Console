@@ -75,14 +75,15 @@ namespace Pentagon.Extensions.Console.Commands
                                                       FileName = fileName,
                                                       Arguments = arguments,
                                                       RedirectStandardOutput = true,
-                                                      UseShellExecute = false,
-                                                      CreateNoWindow = false
+                                                      RedirectStandardError =  true,
+                                                      UseShellExecute = false
                                               }
                           };
 
             await process.StartAndWaitAsync(cancellationToken);
 
             var processResult = process.StandardOutput.ReadToEnd();
+            var errorMsg = process.StandardError.ReadToEnd();
 
             if (process.ExitCode != 0)
             {
@@ -90,14 +91,16 @@ namespace Pentagon.Extensions.Console.Commands
                        {
                                Process = process,
                                Content = processResult,
-                               Exception = new CommandFailedException(fileName, arguments, process.StandardError.ReadToEnd(), process.ExitCode)
+                               ErrorMessage = errorMsg,
+                               Exception = new CommandFailedException(fileName, arguments, errorMsg, process.ExitCode)
                        };
             }
 
             return new CommandResult
                    {
                            Process = process,
-                           Content = processResult
+                           ErrorMessage = errorMsg,
+                            Content = processResult
                    };
         }
     }
