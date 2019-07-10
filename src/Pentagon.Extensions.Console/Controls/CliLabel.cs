@@ -22,13 +22,13 @@ namespace Pentagon.Extensions.Console.Controls
 
             if (Prefix.HasValue)
             {
-                ConsoleHelper.Write(Prefix.Value, PrefixColor);
+                ConsoleWriter.Write(Prefix.Value, PrefixColor);
 
-                Console.Write(new string(' ', 1));
+                ConsoleWriter.Write(new string(' ', 1));
             }
 
             if (description != null)
-                ConsoleHelper.Write(description, DescriptionColor);
+                ConsoleWriter.Write(description, DescriptionColor);
         }
     }
 }

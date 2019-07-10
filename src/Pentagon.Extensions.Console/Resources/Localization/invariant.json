@@ -24,6 +24,14 @@
     {
       "key": "Controls.Switch.ErrorContent",
       "value": "Please type valid answer, supported answers: y, Y, n, N"
+    },
+    {
+      "key": "Controls.MultiSelect.Error.Min",
+      "value": "Provide at least {0} selected items."
+    },
+    {
+      "key": "Controls.MultiSelect.Error.Max",
+      "value": "Provide at max {0} selected items."
     }
   ]
 }

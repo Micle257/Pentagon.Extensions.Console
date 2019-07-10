@@ -41,7 +41,7 @@ namespace Pentagon.Extensions.Console.Controls
             if (string.IsNullOrWhiteSpace(read))
                 read = _defaultValue;
 
-            ConsoleHelper.Write(read, ConsoleColor.DarkCyan);
+            ConsoleWriter.Write(read, ConsoleColor.DarkCyan);
             Console.WriteLine();
             return read;
         }
@@ -51,7 +51,7 @@ namespace Pentagon.Extensions.Console.Controls
             WriteLabel(Text);
 
             if (!string.IsNullOrEmpty(_defaultValue))
-                ConsoleHelper.Write(_helperText, ConsoleColor.Gray);
+                ConsoleWriter.Write(_helperText, ConsoleColor.Gray);
 
             Console.Write(value: " ");
         }

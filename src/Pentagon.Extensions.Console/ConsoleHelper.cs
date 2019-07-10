@@ -15,60 +15,6 @@ namespace Pentagon.Extensions.Console
 
     public static class ConsoleHelper
     {
-        public static void ColoredWrite(Action action, CliConsoleColor color)
-        {
-            var fore = Console.ForegroundColor;
-            var back = Console.BackgroundColor;
-
-            if (color.Foreground.HasValue)
-                Console.ForegroundColor = color.Foreground.Value;
-            if (color.Background.HasValue)
-                Console.BackgroundColor = color.Background.Value;
-
-            action?.Invoke();
-
-            if (color.Foreground.HasValue)
-                Console.ForegroundColor = fore;
-            if (color.Background.HasValue)
-                Console.BackgroundColor = back;
-        }
-
-        public static void ColoredWrite(Action action, ConsoleColor foreColor, ConsoleColor backColor)
-        {
-            ColoredWrite(action, new CliConsoleColor(foreColor, backColor));
-        }
-
-        public static void ColoredWrite(Action action, ConsoleColor foreColor)
-        {
-            ColoredWrite(action, new CliConsoleColor(foreColor));
-        }
-
-        public static void Write(object value, CliConsoleColor color)
-        {
-            ColoredWrite(() => Console.Write(value), color);
-        }
-
-        public static void Write(object value, ConsoleColor? foreColor = null, ConsoleColor? backColor = null)
-        {
-            Write(value, new CliConsoleColor(foreColor, backColor));
-        }
-
-        public static void WriteLine(object value, CliConsoleColor color)
-        {
-            ColoredWrite(() => Console.WriteLine(value), color);
-        }
-
-        public static void WriteLine(object value, ConsoleColor? foreColor = null, ConsoleColor? backColor = null)
-        {
-            WriteLine(value, new CliConsoleColor(foreColor, backColor));
-        }
-
-        public static void WriteSuccess(object successValue) => Write(successValue, Cli.ColorScheme.Success);
-
-        public static void WriteError(object errorValue) => Write(errorValue, Cli.ColorScheme.Error);
-
-        public static void WriteWarning(object warningValue) => Write(warningValue, Cli.ColorScheme.Warning);
-
         public static SecureString ReadSecret(SecretTextOutputMode outputMode = SecretTextOutputMode.NoOutput)
         {
             var secret = new SecureString();
@@ -170,7 +116,7 @@ namespace Pentagon.Extensions.Console
         {
             if (count >= 1)
             {
-                Write(new string(' ',count), Cli.ColorScheme.Blank);
+                ConsoleWriter.Write(new string(' ',count), Cli.ColorScheme.Blank);
             }
         }
     }
