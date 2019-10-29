@@ -1,1 +1,1 @@
-sh /c/Users/Michal/Source/GitHub/deploy.sh Pentagon.Extensions.Console
+sh /c/src/GitHub/deploy.sh Pentagon.Extensions.Console

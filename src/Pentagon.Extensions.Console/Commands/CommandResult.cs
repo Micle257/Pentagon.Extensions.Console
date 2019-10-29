@@ -7,6 +7,7 @@
 namespace Pentagon.Extensions.Console.Commands
 {
     using System.Diagnostics;
+    using OperationResults;
 
     public class CommandResult : OperationResult<string>
     {
