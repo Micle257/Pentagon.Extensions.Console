@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pentagon.Common" Version="1.7.10" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Pentagon.Extensions.Console\Pentagon.Extensions.Console.csproj" />
   </ItemGroup>
 

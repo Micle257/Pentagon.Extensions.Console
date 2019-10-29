@@ -7,6 +7,7 @@
 namespace Pentagon.Extensions.Console
 {
     using System;
+    using System.IO;
     using JetBrains.Annotations;
     using Structures;
     using SC = System.Console;
@@ -14,98 +15,53 @@ namespace Pentagon.Extensions.Console
     /// <summary> Represent a typing cursor in the console buffer. </summary>
     public class Cursor
     {
-        int _x = 1;
+        public Cursor(int x, int y, bool show, int size)
+        {
+            X = x;
+            Y = y;
+            Coord = new BufferPoint(x, y);
 
-        int _y = 1;
+            Show = show;
 
-        BufferPoint _coord = new BufferPoint(1, 1);
-
-        int _size = 25;
+            if (size > 0 && size <= 100)
+                Size = size;
+            else
+                throw new ArgumentOutOfRangeException(nameof(size), message: @"Size of cursor must be in range 0 to 100.");
+        }
 
         [NotNull]
-        public static Cursor Current => new Cursor
-                                        {
-                                                X = SC.CursorLeft + 1,
-                                                Y = SC.CursorTop + 1,
-                                                Show = SC.CursorVisible,
-                                                Size = SC.CursorSize
-                                        };
+        public static Cursor Current => new Cursor(SC.CursorLeft + 1, SC.CursorTop + 1, SC.CursorVisible, SC.CursorSize);
 
-        public int X
-        {
-            get => _x;
-            set
-            {
-                _x = NormalizeXCoord(value);
+        public int X { get; }
 
-                _coord = new BufferPoint(_x, _y);
-            }
-        }
+        public int Y { get; }
 
-        public int Y
-        {
-            get => _y;
-            set
-            {
-                _y = NormalizeYCoord(value);
-                _coord = new BufferPoint(_x, _y);
-            }
-        }
+        public BufferPoint Coord { get; }
 
-        public BufferPoint Coord
-        {
-            get => _coord;
-            set
-            {
-                X = value.X;
-                Y = value.Y;
+        public bool Show { get; }
 
-                _coord = new BufferPoint(_x, _y);
-            }
-        }
-
-        public bool Show { get; set; }
-
-        public int Size
-        {
-            get => _size;
-            set
-            {
-                if (value > 0 && value <= 100)
-                    _size = value;
-                else
-                    throw new ArgumentOutOfRangeException(nameof(value), message: @"Size of cursor must be in range 0 to 100.");
-            }
-        }
+        public int Size { get; }
 
         public static void SetCurrent(int x, int y, bool show, int size)
         {
-            var cursor = new Cursor
-                         {
-                                 X = x,
-                                 Y = y,
-                                 Size = size,
-                                 Show = show
-                         };
+            var cursor = new Cursor(x, y, show, size);
 
             cursor.Apply();
         }
 
-        public static void SetCurrent([NotNull] Action<Cursor> configure)
+        public static void SetCurrent([NotNull] Action<CursorMeta> configure)
         {
             if (configure == null)
                 throw new ArgumentNullException(nameof(configure));
 
-            var cursor = Current;
-
-            configure(cursor);
+            var cursor = Current.Copy(configure);
 
             cursor.Apply();
         }
 
         public static void SetCurrent(BufferPoint coord)
         {
-            SetCurrent(c => c.Coord = coord);
+            Current.Copy(a => a.Coord = coord).Apply();
         }
 
         public static void SetCurrent(Cursor cursor)
@@ -115,14 +71,12 @@ namespace Pentagon.Extensions.Console
 
         public void Apply()
         {
-            NormalizeCoord();
-
-            SC.CursorLeft = _x - 1;
-            SC.CursorTop = _y - 1;
+            SC.CursorLeft = X - 1;
+            SC.CursorTop = Y - 1;
 
             if (OS.Platform == OperatingSystemPlatform.Windows)
             {
-                SC.CursorSize = _size;
+                SC.CursorSize = Size;
                 SC.CursorVisible = Show;
             }
         }
@@ -130,29 +84,35 @@ namespace Pentagon.Extensions.Console
         [NotNull]
         public Cursor Offset(int x, int y, bool canMove)
         {
-            if (canMove)
-            {
-                if (X + x < 1)
-                    X = (X + x - 1).Mod(SC.WindowWidth + 1);
-                else if (X + x > SC.WindowWidth)
-                    X = (X + x).Mod(SC.WindowWidth);
-                else
-                    X = (X + x).Mod(SC.WindowWidth + 1);
+            return Copy(c =>
+                        {
+                            var xx = c.Coord.X;
+                            var yy = c.Coord.Y;
 
-                if (Y + y < 1)
-                    Y = (Y + y - 1).Mod(SC.WindowHeight + 1);
-                else if (Y + y > SC.WindowHeight)
-                    Y = (Y + y).Mod(SC.WindowHeight);
-                else
-                    Y = (Y + y).Mod(SC.WindowHeight + 1);
-            }
-            else
-            {
-                X += x;
-                Y += y;
-            }
+                            if (canMove)
+                            {
+                                if (xx + x < 1)
+                                    xx = (xx + x - 1).Mod(SC.WindowWidth + 1);
+                                else if (xx + x > SC.WindowWidth)
+                                    xx = (xx + x).Mod(SC.WindowWidth);
+                                else
+                                    xx = (xx + x).Mod(SC.WindowWidth + 1);
 
-            return this;
+                                if (yy + y < 1)
+                                    yy = (yy + y - 1).Mod(SC.WindowHeight + 1);
+                                else if (yy + y > SC.WindowHeight)
+                                    yy = (yy + y).Mod(SC.WindowHeight);
+                                else
+                                    yy = (yy + y).Mod(SC.WindowHeight + 1);
+                            }
+                            else
+                            {
+                                xx += x;
+                                yy += y;
+                            }
+
+                            c.Coord = new BufferPoint(xx,yy);
+                        });
         }
 
         [NotNull]
@@ -164,41 +124,42 @@ namespace Pentagon.Extensions.Console
         [NotNull]
         public Cursor NextLine()
         {
-            Y++;
-            X = 1;
-            return this;
+            return Copy(a => a.Coord = new BufferPoint(1, Y + 1));
         }
 
-        void NormalizeCoord()
+        public Cursor Copy(Action<CursorMeta> callback)
         {
-            X = _x;
-            Y = _y;
+            var meta = new CursorMeta
+            {
+                Coord = Coord,
+                Show = Show,
+                Size = Size
+            };
+
+            callback?.Invoke(meta);
+
+            return new Cursor(meta.Coord.X, meta.Coord.Y, meta.Show, meta.Size);
         }
 
-        int NormalizeXCoord(int value)
+        public class CursorMeta
         {
-            if (value < 0 || value > SC.WindowWidth)
-                return value.Mod(SC.WindowWidth) + 1;
+            public BufferPoint Coord { get; set; }
 
-            return value;
-        }
+            public bool Show { get; set; }
 
-        int NormalizeYCoord(int value)
-        {
-            if (value < 0 || value > SC.WindowHeight)
-                return value.Mod(SC.WindowHeight) + 1;
+            public int Size { get; set; }
 
-            return value;
-        }
+            public int X
+            {
+                get => Coord.X;
+                set => Coord = new BufferPoint(value, Coord.Y);
+            }
 
-        public Cursor Configure([NotNull] Action<Cursor> callback)
-        {
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
-
-            callback(this);
-
-            return this;
+            public int Y
+            {
+                get => Coord.Y;
+                set => Coord = new BufferPoint(Coord.X, value);
+            }
         }
     }
 }

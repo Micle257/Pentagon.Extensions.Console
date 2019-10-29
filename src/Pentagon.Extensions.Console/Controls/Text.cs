@@ -13,11 +13,11 @@ namespace Pentagon.ConsolePresentation.Controls
     /// <summary> Represents a printed text on the buffer of the console window. </summary>
     public class Text
     {
-        public Text(object input, CliConsoleColor color, BufferPoint coord = default, bool moveCursor = true)
+        public Text(object input, CliConsoleColor color, BufferPoint? coord = default)
         {
             Data = input?.ToString() ?? "";
             Color = color;
-            Coord = coord;
+            Coord = coord ?? new BufferPoint(Console.CursorLeft +1 ,Console.CursorTop + 1);
         }
 
         public Text(object data, CliConsoleColor color, int x, int y) : this(data, color, new BufferPoint(x, y)) { }

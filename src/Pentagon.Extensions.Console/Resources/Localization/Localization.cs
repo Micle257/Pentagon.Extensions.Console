@@ -8,7 +8,7 @@ namespace Pentagon.Extensions.Console.Resources.Localization
 {
     using System.Globalization;
     using System.Reflection;
-    using Pentagon.Extensions.Localization.EntityFramework;
+    using Pentagon.Extensions.Localization.Json;
 
     public static class Localization
     {

@@ -18,6 +18,8 @@ namespace Pentagon.Utilities.Console.Demo
             var combo = new ComboBoxCliControl<string>("Teststets asd asd asd asd sad asd sad sad sad gfgh fg fg fg fg fg fg fg fg f gfg f gfg fg f gf?", new []{ "LOl", "no", "piss" , "Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd Very asd ", "no" });
 
             var comboFields = combo.Run();
+
+
         }
     }
 }

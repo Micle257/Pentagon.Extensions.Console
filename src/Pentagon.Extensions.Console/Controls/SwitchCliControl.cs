@@ -53,7 +53,7 @@ namespace Pentagon.Extensions.Console.Controls
             for (var i = 0; i < 6; i++)
                 Console.Write(value: "\b \b");
 
-            ConsoleHelper.Write(result.Value ? YesName : NoName, ConsoleColor.DarkCyan);
+            ConsoleWriter.Write(result.Value ? YesName : NoName, ConsoleColor.DarkCyan);
             Console.WriteLine();
             return result.Value;
         }
@@ -63,13 +63,13 @@ namespace Pentagon.Extensions.Console.Controls
             Console.CursorTop = _initialPosition;
             Console.CursorLeft = 0;
 
-            ConsoleHelper.Write(value: "? ", ConsoleColor.DarkGreen);
-            ConsoleHelper.Write(_text, ConsoleColor.White);
+            ConsoleWriter.Write(value: "? ", ConsoleColor.DarkGreen);
+            ConsoleWriter.Write(_text, ConsoleColor.White);
 
             if (_defaultValue)
-                ConsoleHelper.Write($" ({YesShortName.ToUpper()}/{NoShortName}) ", ConsoleColor.Gray);
+                ConsoleWriter.Write($" ({YesShortName.ToUpper()}/{NoShortName}) ", ConsoleColor.Gray);
             else
-                ConsoleHelper.Write($" ({YesShortName}/{NoShortName.ToUpper()}) ", ConsoleColor.Gray);
+                ConsoleWriter.Write($" ({YesShortName}/{NoShortName.ToUpper()}) ", ConsoleColor.Gray);
 
             var readPosition = (Console.CursorTop, Console.CursorLeft);
 
@@ -80,14 +80,14 @@ namespace Pentagon.Extensions.Console.Controls
             if (_hasError)
             {
                 Console.WriteLine();
-                ConsoleHelper.Write(errorHeader, ConsoleColor.Red);
+                ConsoleWriter.Write(errorHeader, ConsoleColor.Red);
                 Console.Write(value: " ");
-                ConsoleHelper.Write(errorContent);
+                ConsoleWriter.Write(errorContent);
             }
             else
             {
                 Console.WriteLine();
-                ConsoleHelper.Write(new string(' ', errorLength));
+                ConsoleWriter.Write(new string(' ', errorLength));
             }
 
             Console.CursorTop = readPosition.CursorTop;

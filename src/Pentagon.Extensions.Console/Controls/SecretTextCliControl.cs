@@ -32,7 +32,7 @@ namespace Pentagon.Extensions.Console.Controls
                 for (var i = 0; i < remoteLength; i++)
                     Console.Write(value: "\b \b");
 
-                ConsoleHelper.Write(new string('*', read.Length), ConsoleColor.DarkCyan);
+                ConsoleWriter.Write(new string('*', read.Length), ConsoleColor.DarkCyan);
             }
 
             Console.WriteLine();
@@ -41,8 +41,8 @@ namespace Pentagon.Extensions.Console.Controls
 
         protected override void Write()
         {
-            ConsoleHelper.Write(value: "? ", ConsoleColor.DarkGreen);
-            ConsoleHelper.Write(_text, ConsoleColor.White);
+            ConsoleWriter.Write(value: "? ", ConsoleColor.DarkGreen);
+            ConsoleWriter.Write(_text, ConsoleColor.White);
             Console.Write(value: " ");
         }
     }

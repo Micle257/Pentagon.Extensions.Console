@@ -19,5 +19,9 @@ namespace Pentagon.Extensions.Console.Resources.Localization
         public const string ErrorHeader = "Controls.ErrorHeader";
 
         public const string SwitchErrorContent = "Controls.Switch.ErrorContent";
+
+        public const string MultiSelectMinError = "Controls.MultiSelect.Error.Min";
+
+        public const string MultiSelectMaxError = "Controls.MultiSelect.Error.Max";
     }
 }
