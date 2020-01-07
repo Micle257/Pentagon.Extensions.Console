@@ -115,7 +115,8 @@ namespace Pentagon.Extensions.Console.Controls
             _errorTracker?.ClearAll();
 
             _labelEndCursor?.Apply();
-            ConsoleWriter.Write(_items.Where(a => a.IsSelected).Select(a => a.Content.ToString()).Aggregate((a, b) => $"{a}, {b}"), ConsoleColor.DarkCyan);
+
+            ConsoleWriter.Write(_items.Where(a => a.IsSelected).ToList().Select(a => a.Content.ToString()).Aggregate((a, b) => $"{a}, {b}"), ConsoleColor.DarkCyan);
             Console.WriteLine();
 
             Cursor.SetCurrent(c => c.Show = cursorShow);
@@ -205,7 +206,7 @@ namespace Pentagon.Extensions.Console.Controls
         void WritePointer([NotNull] Cursor initial)
         {
             for (var i = 0; i < _items.Count; i++)
-                ConsoleWriter.Write(' ', Cli.ColorScheme.Blank, 1, initial.Y + i + _items.Select(a => a.RowSpan - 1).Where((_, ind) => ind < i).Sum());
+                ConsoleWriter.Write(' ', CliContext.ColorScheme.Blank, 1, initial.Y + i + _items.Select(a => a.RowSpan - 1).Where((_, ind) => ind < i).Sum());
 
             ConsoleWriter.Write(PointerCharacter,
                                 PointerColor,

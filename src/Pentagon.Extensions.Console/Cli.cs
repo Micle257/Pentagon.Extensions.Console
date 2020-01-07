@@ -9,12 +9,12 @@ namespace Pentagon.Extensions.Console
     using System;
     using JetBrains.Annotations;
 
-    public class Cli
+    public class CliContext
     {
         [NotNull]
         public static ConsoleColorScheme ColorScheme { get; } = new ConsoleColorScheme();
 
-        public Cli ModifyColorScheme(Action<ConsoleColorScheme> configure)
+        public CliContext ModifyColorScheme(Action<ConsoleColorScheme> configure)
         {
             configure?.Invoke(ColorScheme);
 

@@ -16,39 +16,39 @@ namespace Pentagon.Extensions.Console.Controls
                                            {
                                                    Prefix = '?',
                                                    PrefixColor = new CliConsoleColor(ConsoleColor.DarkGreen),
-                                                   DescriptionColor = Cli.ColorScheme.Text
+                                                   DescriptionColor = CliContext.ColorScheme.Text
                                            };
 
         [NotNull]
         public static CliLabel Success = new CliLabel
                                          {
                                                  Prefix = '+',
-                                                 PrefixColor = Cli.ColorScheme.Success,
-                                                 DescriptionColor = Cli.ColorScheme.Text
+                                                 PrefixColor = CliContext.ColorScheme.Success,
+                                                 DescriptionColor = CliContext.ColorScheme.Text
                                          };
 
         [NotNull]
         public static CliLabel Info = new CliLabel
                                       {
                                               Prefix = 'i',
-                                              PrefixColor = Cli.ColorScheme.Info,
-                                              DescriptionColor = Cli.ColorScheme.Text
+                                              PrefixColor = CliContext.ColorScheme.Info,
+                                              DescriptionColor = CliContext.ColorScheme.Text
                                       };
 
         [NotNull]
         public static CliLabel Error = new CliLabel
                                        {
                                                Prefix = 'x',
-                                               PrefixColor = Cli.ColorScheme.Error,
-                                               DescriptionColor = Cli.ColorScheme.Text
+                                               PrefixColor = CliContext.ColorScheme.Error,
+                                               DescriptionColor = CliContext.ColorScheme.Text
                                        };
 
         [NotNull]
         public static CliLabel Warning = new CliLabel
                                          {
                                                  Prefix = '!',
-                                                 PrefixColor = Cli.ColorScheme.Warning,
-                                                 DescriptionColor = Cli.ColorScheme.Text
+                                                 PrefixColor = CliContext.ColorScheme.Warning,
+                                                 DescriptionColor = CliContext.ColorScheme.Text
                                          };
     }
 }

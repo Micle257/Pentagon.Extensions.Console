@@ -3,7 +3,41 @@
   <member name="P:Pentagon.Extensions.Console.Ascii.Ascii.Table">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
   </member>
-  <member name="P:Pentagon.Extensions.Console.Cli.ColorScheme">
+  <member name="M:Pentagon.Extensions.Console.Cli.CliCommandHandler`1.ExecuteAsync(`0,System.Threading.CancellationToken)">
+    <parameter name="command">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.CliOptionAttribute.Aliases">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ICliCommandHandler`1.ExecuteAsync(`0,System.Threading.CancellationToken)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ParseResultExtensions.GetCommand``1(System.CommandLine.ParseResult)">
+    <parameter name="parseResult">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCli(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCliCommandHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCliCommandRunner(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="P:Pentagon.Extensions.Console.CliContext.ColorScheme">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
   </member>
   <member name="M:Pentagon.Extensions.Console.ConsoleHelper.Read(System.String)">
