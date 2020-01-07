@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Ef.Database.Drop": {
+      "commandName": "Project",
+      "commandLineArgs": "entity database update --verbose --dry-run 1"
+    }
+  }
+}
