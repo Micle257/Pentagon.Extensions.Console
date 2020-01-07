@@ -1,11 +1,15 @@
 // -----------------------------------------------------------------------
-//  <copyright file="CliRootCommand.cs">
+//  <copyright file="CliOptions.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 
 namespace Pentagon.Extensions.Console.Cli
 {
-    [CliRootCommand]
-    public class CliRootCommand { }
+    public class CliOptions
+    {
+        public bool InvokeAllMatchedHandlers { get; set; } = false;
+
+        public bool ExitOnError { get; set; } = true;
+    }
 }

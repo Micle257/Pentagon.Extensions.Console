@@ -1,4 +1,11 @@
-namespace Pentagon.Extensions.Console.Cli {
+// -----------------------------------------------------------------------
+//  <copyright file="ParseResultExtensions.cs">
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
+//  </copyright>
+// -----------------------------------------------------------------------
+
+namespace Pentagon.Extensions.Console.Cli
+{
     using System;
     using System.CommandLine;
     using System.Linq;
@@ -8,7 +15,7 @@ namespace Pentagon.Extensions.Console.Cli {
     {
         public static T GetCommand<T>([NotNull] this ParseResult parseResult)
         {
-            var info = CliCommandContext.CommandInfos.FirstOrDefault(a => a.Describer.Type == typeof(T));
+            var info = CliCommandContext.Instance.CommandInfos.FirstOrDefault(a => a.Describer.Type == typeof(T));
 
             var commandResult = parseResult.FindResultFor(info.Command);
 

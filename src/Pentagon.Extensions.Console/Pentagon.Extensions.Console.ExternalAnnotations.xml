@@ -3,12 +3,36 @@
   <member name="P:Pentagon.Extensions.Console.Ascii.Ascii.Table">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
   </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.CliCommandContext.Instance">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.CliCommandHandler`1.Context">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
   <member name="M:Pentagon.Extensions.Console.Cli.CliCommandHandler`1.ExecuteAsync(`0,System.Threading.CancellationToken)">
     <parameter name="command">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </parameter>
   </member>
   <member name="P:Pentagon.Extensions.Console.Cli.CliOptionAttribute.Aliases">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandContext.CommandDescribers">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <attribute ctor="M:JetBrains.Annotations.ItemNotNullAttribute.#ctor" />
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandContext.CommandHierarchy">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <attribute ctor="M:JetBrains.Annotations.ItemNotNullAttribute.#ctor" />
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandContext.CommandInfos">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <attribute ctor="M:JetBrains.Annotations.ItemNotNullAttribute.#ctor" />
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandContext.RootCommandDescriber">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandContext.RootCommandInfo">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
   </member>
   <member name="M:Pentagon.Extensions.Console.Cli.ICliCommandHandler`1.ExecuteAsync(`0,System.Threading.CancellationToken)">
@@ -19,7 +43,7 @@
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </parameter>
   </member>
-  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCli(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCli(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Pentagon.Extensions.Console.Cli.CliOptions},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     <parameter name="services">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
@@ -32,6 +56,12 @@
     </parameter>
   </member>
   <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCliCommandRunner(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddInvocationCommandHandler``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     <parameter name="services">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />

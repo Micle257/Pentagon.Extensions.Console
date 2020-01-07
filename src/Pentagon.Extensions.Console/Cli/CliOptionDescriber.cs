@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
-//  <copyright file="CliOptionInfo.cs">
-//   Copyright (c) Smartdata s.r.o. All Rights Reserved.
+//  <copyright file="CliOptionDescriber.cs">
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ namespace Pentagon.Extensions.Console.Cli
         public CliOptionDescriber(PropertyInfo propertyInfo, CliOptionAttribute attribute)
         {
             PropertyInfo = propertyInfo;
-            Attribute = attribute;
+            Attribute    = attribute;
         }
 
         public PropertyInfo PropertyInfo { get; }
