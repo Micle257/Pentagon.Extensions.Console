@@ -116,7 +116,7 @@ namespace Pentagon.Extensions.Console
         {
             if (count >= 1)
             {
-                ConsoleWriter.Write(new string(' ',count), Cli.ColorScheme.Blank);
+                ConsoleWriter.Write(new string(' ',count), CliContext.ColorScheme.Blank);
             }
         }
     }

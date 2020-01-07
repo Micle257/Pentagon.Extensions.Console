@@ -57,11 +57,11 @@ namespace Pentagon.Extensions.Console
             Console.WriteLine();
         }
 
-        public static void WriteSuccess(object successValue) => Write(successValue, Cli.ColorScheme.Success);
+        public static void WriteSuccess(object successValue) => Write(successValue, CliContext.ColorScheme.Success);
 
-        public static void WriteError(object errorValue) => Write(errorValue, Cli.ColorScheme.Error);
+        public static void WriteError(object errorValue) => Write(errorValue, CliContext.ColorScheme.Error);
 
-        public static void WriteWarning(object warningValue) => Write(warningValue, Cli.ColorScheme.Warning);
+        public static void WriteWarning(object warningValue) => Write(warningValue, CliContext.ColorScheme.Warning);
 
         public static void Write(object value, CliConsoleColor color)
         {
@@ -121,7 +121,7 @@ namespace Pentagon.Extensions.Console
             var initialCursor = Cursor.Current;
 
             Cursor.SetCurrent(text.Coord);
-            Write(new string(' ', text.Data.Length), Cli.ColorScheme.Blank);
+            Write(new string(' ', text.Data.Length), CliContext.ColorScheme.Blank);
             Cursor.SetCurrent(initialCursor);
         }
     }
