@@ -1,19 +1,17 @@
-namespace Pentagon.Extensions.Console.Cli {
+// -----------------------------------------------------------------------
+//  <copyright file="CliCommandAttribute.cs">
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
+//  </copyright>
+// -----------------------------------------------------------------------
+
+namespace Pentagon.Extensions.Console.Cli
+{
     using System;
 
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-   public  class CliCommandAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    public class CliCommandAttribute : Attribute
     {
-        public string Name { get; set; }
-
-        public string[] AlternedNames { get; set; }
-
-        public string Description { get; set; }
-
-        public CliCommandAttribute()
-        {
-
-        }
+        public CliCommandAttribute() { }
 
         public CliCommandAttribute(string name)
         {
@@ -24,5 +22,11 @@ namespace Pentagon.Extensions.Console.Cli {
         {
             Description = description;
         }
+
+        public string Name { get; set; }
+
+        public string[] AlternedNames { get; set; }
+
+        public string Description { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
 //  <copyright file="CliOptionAttribute.cs">
-//   Copyright (c) Smartdata s.r.o. All Rights Reserved.
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 

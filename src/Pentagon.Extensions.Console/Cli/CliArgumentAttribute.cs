@@ -4,7 +4,8 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Console.Cli {
+namespace Pentagon.Extensions.Console.Cli
+{
     using System;
 
     public class CliArgumentAttribute : Attribute
@@ -16,13 +17,17 @@ namespace Pentagon.Extensions.Console.Cli {
             Name = name;
         }
 
+        public int Order { get; set; }
+
         public string Description { get; set; }
 
         public string Name { get; set; }
 
-        public int MaximumNumberOfValues { get; set; } = 1;
+        public bool IsRequired { get; set; } = true;
 
-        public int MinimalNumberOfValues { get; set; } = 1;
+        public int MinumumNumberOfValuesOverride { get; set; } = -1;
+
+        public int MaximumNumberOfValues { get; set; } = 1;
 
         public bool IsHidden { get; set; }
     }

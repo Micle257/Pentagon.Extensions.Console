@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+//  <copyright file="CliCommandRunner.cs">
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
+//  </copyright>
+// -----------------------------------------------------------------------
+
 namespace Pentagon.Extensions.Console.Cli
 {
     using System;
@@ -6,22 +12,28 @@ namespace Pentagon.Extensions.Console.Cli
     using System.CommandLine.Invocation;
     using System.Threading;
     using System.Threading.Tasks;
+    using JetBrains.Annotations;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
 
+    // TODO log
     public class CliCommandRunner : ICliCommandRunner
     {
         readonly IServiceScopeFactory _scopeFactory;
+        readonly CliOptions _options;
 
-        public CliCommandRunner(IServiceScopeFactory scopeFactory)
+        public CliCommandRunner(IServiceScopeFactory scopeFactory,
+                                IOptions<CliOptions> options)
         {
             _scopeFactory = scopeFactory;
+            _options = options?.Value ?? new CliOptions();
         }
 
         public async Task<int> RunAsync(string[] args, CancellationToken cancellationToken)
         {
-            InitializeHandlers(CliCommandContext.CommandInfos);
+            InitializeHandlers(CliCommandContext.Instance.CommandInfos);
 
-            var root = CliCommandContext.GetRootCommand();
+            var root = CliCommandContext.Instance.RootCommandInfo;
 
             var result = await root.Command.InvokeAsync(args).ConfigureAwait(false);
 
@@ -31,28 +43,27 @@ namespace Pentagon.Extensions.Console.Cli
         /// <inheritdoc />
         public async Task<int> RunAsync(string cli, CancellationToken cancellationToken = default)
         {
-            InitializeHandlers(CliCommandContext.CommandInfos);
+            InitializeHandlers(CliCommandContext.Instance.CommandInfos);
 
-            var root = CliCommandContext.GetRootCommand();
+            var root = CliCommandContext.Instance.RootCommandInfo;
 
             var result = await root.Command.InvokeAsync(cli).ConfigureAwait(false);
 
             return result;
         }
 
-        void InitializeHandlers(IReadOnlyList<CliCommandInfo> commandInfos)
+        public static IEnumerable<object> Parse(string[] args)
         {
-            using var scope = _scopeFactory.CreateScope();
+            var root = CliCommandContext.Instance.RootCommandInfo;
 
-            foreach (var cliCommandInfo in commandInfos)
-            {
-                ((Command)cliCommandInfo.Command).Handler = scope.ServiceProvider.GetService(typeof(ICliCommandHandler<>).MakeGenericType(cliCommandInfo.Describer.Type)) as ICommandHandler;
-            }
+            var parseResult = root.Command.Parse(args);
+
+            return GetAllCommands(parseResult);
         }
 
-        static IEnumerable<object> GetAllCommands(ParseResult parseResult)
+        public static IEnumerable<object> GetAllCommands(ParseResult parseResult)
         {
-            var infos = CliCommandContext.CommandInfos;
+            var infos = CliCommandContext.Instance.CommandInfos;
 
             foreach (var node in infos)
             {
@@ -91,13 +102,14 @@ namespace Pentagon.Extensions.Console.Cli
             }
         }
 
-        public static IEnumerable<object> Parse(string[] args)
+        void InitializeHandlers(IReadOnlyList<CliCommandInfo> commandInfos)
         {
-            var root = CliCommandContext.GetRootCommand();
+            using var scope = _scopeFactory.CreateScope();
 
-            var parseResult = root.Command.Parse(args);
-
-            return GetAllCommands(parseResult);
+            foreach (var cliCommandInfo in commandInfos)
+            {
+                ((Command)cliCommandInfo.Command).Handler = scope.ServiceProvider.GetService<ICommandHandler>();
+            }
         }
     }
 }
