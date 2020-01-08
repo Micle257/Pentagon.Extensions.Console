@@ -9,6 +9,7 @@ namespace Pentagon.Extensions.Console.Cli
     using System;
     using System.Collections.Generic;
     using System.CommandLine;
+    using System.CommandLine.Builder;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
@@ -47,14 +48,17 @@ namespace Pentagon.Extensions.Console.Cli
                                         .Where(a => a.GetCustomAttribute<CliRootCommandAttribute>(false) != null).ToList();
 
             if (rootCommands.Count == 0)
+            {
+                var rootInfo = new CliCommandDescriber(null, new CliRootCommandAttribute(), null,null);
+
+                return rootInfo;
+
                 throw new Exception("No root commands found.");
+            }
 
             if (rootCommands.Count > 1)
             {
-                if (rootCommands.Count == 2 && rootCommands.Contains(typeof(CliRootCommand)))
-                    rootCommands.Remove(typeof(CliRootCommand));
-                else
-                    throw new Exception("More than one root command found.");
+                throw new Exception("More than one root command found.");
             }
 
             var rootCommandType = rootCommands.First();
@@ -97,6 +101,17 @@ namespace Pentagon.Extensions.Console.Cli
         [ItemNotNull]
         static IEnumerable<Type> GetCommandSubCommandTypes([NotNull] CliCommandDescriber info)
         {
+            if (info.Type == null)
+            {
+                foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
+                                           .Where(t => t.GetCustomAttribute<CliCommandAttribute>() != null && t.BaseType == typeof(object)))
+                {
+                    yield return type;
+                }
+
+                yield break;
+            }
+
             var processed = new HashSet<Type>();
 
             foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
@@ -118,17 +133,17 @@ namespace Pentagon.Extensions.Console.Cli
                 processed.Add(subCliCommandAttribute.Type);
             }
 
-            if (info.Type == typeof(CliRootCommand))
-            {
-                foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
-                                              .Where(a => a != info.Type && a.BaseType == typeof(object) && a.GetCustomAttribute<CliCommandAttribute>(false) != null))
-                {
-                    if (!processed.Contains(type))
-                        yield return type;
-
-                    processed.Add(type);
-                }
-            }
+            //if (info.Type == typeof(CliRootCommand))
+            //{
+            //    foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
+            //                                  .Where(a => a != info.Type && a.BaseType == typeof(object) && a.GetCustomAttribute<CliCommandAttribute>(false) != null))
+            //    {
+            //        if (!processed.Contains(type))
+            //            yield return type;
+            //
+            //        processed.Add(type);
+            //    }
+            //}
         }
 
         [Pure]
@@ -227,6 +242,8 @@ namespace Pentagon.Extensions.Console.Cli
                 {
                     var rootCommand = new RootCommand(commandInfo.Attribute.Description);
 
+                    rootCommand.AddValidator(result => result.ValueForOption<bool>("--dry-run") ? "WHY?" : null);
+
                     if (!string.IsNullOrWhiteSpace(commandInfo.Attribute.Name))
                         rootCommand.Name = commandInfo.Attribute.Name;
 
@@ -262,7 +279,9 @@ namespace Pentagon.Extensions.Console.Cli
                     arguments.Add(new CliArgumentInfo(argument, argumentInfo));
                 }
 
-                commands.Add(commandInfo.Type, command);
+                // type is null only if root type is specified implicitly
+                if (commandInfo.Type != null)
+                    commands.Add(commandInfo.Type, command);
 
                 // if command has sub commands...
                 if (node.IsBranchNode())

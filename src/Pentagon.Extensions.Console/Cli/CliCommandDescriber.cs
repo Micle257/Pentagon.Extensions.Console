@@ -16,8 +16,8 @@ namespace Pentagon.Extensions.Console.Cli
         {
             Type      = type;
             Attribute = attribute;
-            Options   = options.ToList().AsReadOnly();
-            Arguments = arguments.ToList().AsReadOnly();
+            Options   = (IReadOnlyCollection<CliOptionDescriber>) options?.ToList()?.AsReadOnly() ?? Array.Empty<CliOptionDescriber>();
+            Arguments = (IReadOnlyCollection<CliArgumentDescriber>) arguments?.ToList()?.AsReadOnly() ?? Array.Empty<CliArgumentDescriber>();
         }
 
         public Type Type { get; }

@@ -9,11 +9,12 @@ namespace Pentagon.Extensions.Console.Cli
     using System.CommandLine.Invocation;
     using System.Threading;
     using System.Threading.Tasks;
+    using FluentValidation;
     using JetBrains.Annotations;
 
     public interface ICliCommandHandler<in TCommand>
     {
         [NotNull]
-        Task<int> ExecuteAsync(TCommand command, CancellationToken cancellationToken = default);
+        Task<int> ExecuteAsync([NotNull] TCommand command, CancellationToken cancellationToken);
     }
 }

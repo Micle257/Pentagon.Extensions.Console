@@ -11,24 +11,25 @@ namespace Pentagon.Extensions.Console.Cli
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using FluentValidation;
+    using FluentValidation.Results;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    // TODO log
     class InvocationCommandHandler : ICommandHandler
     {
-        readonly ILogger<InvocationCommandHandler> _logger;
         readonly IServiceScopeFactory _scopeFactory;
         readonly CliOptions _options;
+        readonly ILogger<InvocationCommandHandler> _logger;
 
-        public InvocationCommandHandler(ILogger<InvocationCommandHandler> logger,
-                                        IServiceScopeFactory scopeFactory,
+        public InvocationCommandHandler(IServiceScopeFactory scopeFactory,
                                         IOptions<CliOptions> options)
         {
-            _logger = logger;
             _scopeFactory = scopeFactory;
             _options = options?.Value ?? new CliOptions();
+
+            _logger = _scopeFactory.CreateScope().ServiceProvider.GetService<ILogger<InvocationCommandHandler>>();
         }
 
         /// <inheritdoc />
@@ -37,7 +38,7 @@ namespace Pentagon.Extensions.Console.Cli
             using var scope = _scopeFactory.CreateScope();
 
             var allCommands = CliCommandRunner.GetAllCommands(context.ParseResult).Reverse().ToList();
-            
+
             int? result = null;
 
             foreach (var command in allCommands)
@@ -48,26 +49,36 @@ namespace Pentagon.Extensions.Console.Cli
                 if (handler == null)
                     continue;
 
-                Console.WriteLine($"Invoking {command.GetType().Name}");
+                _logger?.LogInformation("Invoking command handler: {Handler}", command.GetType().Name);
 
                 var method = handler.GetType().GetMethod(nameof(ICliCommandHandler<object>.ExecuteAsync), new[] { command.GetType(), typeof(CancellationToken) });
 
                 // TODO investigate if cancellation token works with IHosting
                 var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, context.GetCancellationToken() });
 
-                try
+                var validation = Validate(command, scope.ServiceProvider);
+
+                if (!validation.IsValid)
                 {
-                    result = await taskOfInt.ConfigureAwait(false);
-                }
-                catch (OperationCanceledException)
-                {
-                    await OnCancelAsync().ConfigureAwait(false);
-                    result = StatusCodes.Cancel;
-                }
-                catch (Exception e)
-                {
-                    await OnErrorAsync(e).ConfigureAwait(false);
+                    await OnValidationErrorAsync(new ArgumentException(validation.ToString())).ConfigureAwait(false);
                     result = StatusCodes.Error;
+                }
+                else
+                {
+                    try
+                    {
+                        result = await taskOfInt.ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        await OnCancelAsync().ConfigureAwait(false);
+                        result = StatusCodes.Cancel;
+                    }
+                    catch (Exception e)
+                    {
+                        await OnErrorAsync(e).ConfigureAwait(false);
+                        result = StatusCodes.Error;
+                    }
                 }
 
                 if (!_options.InvokeAllMatchedHandlers)
@@ -80,18 +91,45 @@ namespace Pentagon.Extensions.Console.Cli
                     break;
             }
 
-            return result.GetValueOrDefault();
+            context.ResultCode = result.GetValueOrDefault();
+
+            return context.ResultCode;
+        }
+
+        ValidationResult Validate(object command, IServiceProvider di)
+        {
+            var validator = (IValidator)di.GetService(typeof(IValidator<>).MakeGenericType(command.GetType()));
+
+            if (validator == null)
+                return new ValidationResult();
+
+            var validationResult = validator.Validate(command);
+
+            return validationResult;
         }
 
         protected virtual Task OnCancelAsync()
         {
+            ConsoleWriter.WriteError("Command was cancelled");
+
             _logger?.LogDebug("Command was cancelled: {TypeName}.", GetType().Name);
+
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task OnValidationErrorAsync(Exception e)
+        {
+            ConsoleWriter.WriteError($"Command is not valid: {e.Message}");
+
+            _logger?.LogError(e, "Command is not valid: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
 
             return Task.CompletedTask;
         }
 
         protected virtual Task OnErrorAsync(Exception e)
         {
+            ConsoleWriter.WriteError($"Command execution failed: {e.Message}");
+
             _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
 
             return Task.CompletedTask;

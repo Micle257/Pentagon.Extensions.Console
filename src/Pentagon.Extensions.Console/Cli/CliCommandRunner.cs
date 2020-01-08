@@ -16,7 +16,6 @@ namespace Pentagon.Extensions.Console.Cli
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
 
-    // TODO log
     public class CliCommandRunner : ICliCommandRunner
     {
         readonly IServiceScopeFactory _scopeFactory;
@@ -71,6 +70,9 @@ namespace Pentagon.Extensions.Console.Cli
 
                 if (commandResult != null)
                 {
+                    if (node.Describer.Type == null)
+                        continue;
+
                     var command = Activator.CreateInstance(node.Describer.Type);
 
                     foreach (var cliOptionInfo in node.Options)
