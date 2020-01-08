@@ -5,12 +5,12 @@
     using Extensions.Console.Cli;
 
     [CliCommand("hierarchy", AlternedNames = new []{"h", "hier"}, Description = "Show command hieararchy.")]
-    class BuildCliCommand 
+    class BuildCliCommand : Root
     {
-        class Handler : CliCommandHandler<BuildCliCommand>
+        class Handler : ICliCommandHandler<BuildCliCommand>
         {
             /// <inheritdoc />
-            protected override Task<int> ExecuteAsync(BuildCliCommand command, CancellationToken cancellationToken)
+            public Task<int> ExecuteAsync(BuildCliCommand command, CancellationToken cancellationToken)
             {
                 var commandHierarchy = CliCommandContext.Instance.CommandHierarchy;
 

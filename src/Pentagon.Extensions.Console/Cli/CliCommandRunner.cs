@@ -16,7 +16,6 @@ namespace Pentagon.Extensions.Console.Cli
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
 
-    // TODO log
     public class CliCommandRunner : ICliCommandRunner
     {
         readonly IServiceScopeFactory _scopeFactory;

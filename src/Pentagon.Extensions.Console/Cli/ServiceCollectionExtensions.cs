@@ -9,6 +9,7 @@ namespace Pentagon.Extensions.Console.Cli
     using System;
     using System.CommandLine.Invocation;
     using System.Linq;
+    using FluentValidation;
     using Helpers;
     using JetBrains.Annotations;
     using Microsoft.Extensions.DependencyInjection;
@@ -17,10 +18,11 @@ namespace Pentagon.Extensions.Console.Cli
     public static class ServiceCollectionExtensions
     {
         [NotNull]
-        public static IServiceCollection AddCli([NotNull] this IServiceCollection services, Action<CliOptions> configure = null, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddCli([NotNull] this IServiceCollection services, Action<CliOptions> configure = null)
         {
             services.AddCliCommandRunner()
-                    .AddCliCommandHandlers(serviceLifetime)
+                    .AddCliCommandHandlers()
+                    .AddCliCommandValidators()
                     .AddInvocationCommandHandler<InvocationCommandHandler>();
 
             services.Configure(configure ?? (options => {}));
@@ -37,7 +39,7 @@ namespace Pentagon.Extensions.Console.Cli
         }
 
         [NotNull]
-        public static IServiceCollection AddCliCommandHandlers([NotNull] this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddCliCommandHandlers([NotNull] this IServiceCollection services)
         {
             var commands = AppDomain.CurrentDomain
                                     .GetLoadedTypes()
@@ -53,7 +55,35 @@ namespace Pentagon.Extensions.Console.Cli
                 if (interfaces == null)
                     continue;
 
-                services.Add(ServiceDescriptor.Describe(interfaces, command, serviceLifetime));
+                services.Add(ServiceDescriptor.Scoped(interfaces, command));
+            }
+
+            return services;
+        }
+
+        [NotNull]
+        public static IServiceCollection AddCliCommandValidators([NotNull] this IServiceCollection services)
+        {
+            var commandTypes = CliCommandContext.Instance.CommandDescribers.Select(a => a.Type).ToList();
+
+            var types = AppDomain.CurrentDomain
+                                    .GetLoadedTypes()
+                                    .Where(a => a.IsClass && !a.IsAbstract)
+                                    .Distinct();
+
+            foreach (var type in types)
+            {
+                var interfaces = type.GetInterfaces()
+                                        .Where(b => b.GenericTypeArguments.Length == 1)
+                                        .FirstOrDefault(a => a.GetGenericTypeDefinition() == typeof(IValidator<>));
+
+                if (interfaces == null)
+                    continue;
+
+                if (!commandTypes.Contains(interfaces.GenericTypeArguments[0]))
+                    continue;
+
+                services.AddTransient(interfaces, type);
             }
 
             return services;
