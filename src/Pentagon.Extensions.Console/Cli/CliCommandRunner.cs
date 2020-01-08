@@ -71,6 +71,9 @@ namespace Pentagon.Extensions.Console.Cli
 
                 if (commandResult != null)
                 {
+                    if (node.Describer.Type == null)
+                        continue;
+
                     var command = Activator.CreateInstance(node.Describer.Type);
 
                     foreach (var cliOptionInfo in node.Options)
