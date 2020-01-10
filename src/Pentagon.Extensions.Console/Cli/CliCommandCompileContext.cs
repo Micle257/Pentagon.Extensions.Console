@@ -296,6 +296,9 @@ namespace Pentagon.Extensions.Console.Cli
 
             IEnumerable<CliCommandDescriber> FromParent()
             {
+                if (info.Type == null)
+                    yield break;
+
                 var any = CommandDescribers.FirstOrDefault(a => a.Attribute.ParentType == (info.Type));
 
                 if (any != null)
