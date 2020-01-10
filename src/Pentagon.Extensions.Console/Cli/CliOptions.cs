@@ -13,5 +13,7 @@ namespace Pentagon.Extensions.Console.Cli
         public bool ExitOnError { get; set; } = true;
 
         public bool UseAnnotatedCommands { get; set; } = true;
+
+        public bool RegisterCommandsAsOptions { get; set; } = false;
     }
 }
