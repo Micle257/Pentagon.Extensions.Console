@@ -13,11 +13,13 @@ namespace Pentagon.Extensions.Console.Cli
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using System.Threading;
+    using Builders;
     using Collections.Tree;
     using Helpers;
     using JetBrains.Annotations;
 
-    public class CliCommandContext : ICliCommandContext
+    public class CliCommandCompileContext : ICliCommandContext
     {
         IReadOnlyList<CliCommandInfo> _commandInfoCache;
 
@@ -26,22 +28,37 @@ namespace Pentagon.Extensions.Console.Cli
         IReadOnlyList<CliCommandDescriber> _commandDescriberCache;
 
         [NotNull]
-        public static CliCommandContext Instance { get; } = new CliCommandContext();
+        public static CliCommandCompileContext Instance { get; } = new CliCommandCompileContext();
 
         public CliRootCommandInfo RootCommandInfo => (CliRootCommandInfo)CommandInfos.Single(a => a is CliRootCommandInfo);
 
-        public IReadOnlyList<CliCommandInfo> CommandInfos => _commandInfoCache ?? (_commandInfoCache = GetCommandInfos().ToList().AsReadOnly());
+        public IReadOnlyList<CliCommandInfo> CommandInfos => _commandInfoCache ??= GetCommandInfos().ToList().AsReadOnly();
 
-        public HierarchyList<CliCommandDescriber> CommandHierarchy => _commandHierarchy ?? (_commandHierarchy = GetCommandHierarchy());
+        public HierarchyList<CliCommandDescriber> CommandHierarchy => _commandHierarchy ??= GetCommandHierarchy();
 
         public CliCommandDescriber RootCommandDescriber => CommandDescribers.Single(a => a.IsRoot);
 
         public IReadOnlyList<CliCommandDescriber> CommandDescribers =>
-                _commandDescriberCache ?? (_commandDescriberCache = GetCommandDescribers().Prepend(GetRootCommandDescriber()).Distinct().ToList().AsReadOnly());
+                _commandDescriberCache ??= GetAllCommandDescribers().Concat(_additionalDescribers).Distinct().ToList().AsReadOnly();
 
         [Pure]
         [NotNull]
-        static CliCommandDescriber GetRootCommandDescriber()
+        [ItemNotNull]
+        IEnumerable<CliCommandDescriber> GetAllCommandDescribers()
+        {
+            var builder = new CliBuilder();
+
+            yield return GetRootCommandDescriber(builder);
+
+            foreach (var cliCommandDescriber in GetCommandDescribers(builder))
+            {
+                yield return cliCommandDescriber;
+            }
+        }
+
+        [Pure]
+        [NotNull]
+        static CliCommandDescriber GetRootCommandDescriber(ICliBuilder builder)
         {
             var rootCommands = AppDomain.CurrentDomain
                                         .GetLoadedTypes()
@@ -49,7 +66,11 @@ namespace Pentagon.Extensions.Console.Cli
 
             if (rootCommands.Count == 0)
             {
-                var rootInfo = new CliCommandDescriber(null, new CliRootCommandAttribute(), null,null);
+                var b = (CliCommandBuilder)builder.HasCommand(null);
+
+                b.IsRoot();
+
+                var rootInfo = b.Build();
 
                 return rootInfo;
 
@@ -63,12 +84,17 @@ namespace Pentagon.Extensions.Console.Cli
 
             var rootCommandType = rootCommands.First();
 
+            var commandBuilder = (CliCommandBuilder)builder.HasCommand(rootCommandType);
+
             var rootCommandAttribute = rootCommandType.GetCustomAttribute<CliRootCommandAttribute>();
 
-            var options = GetOptions(rootCommandType);
-            var arguments = GetArguments(rootCommandType);
+            commandBuilder.HasAttribute(rootCommandAttribute)
+                          .IsRoot();
 
-            var info = new CliCommandDescriber(rootCommandType, rootCommandAttribute, options, arguments);
+            HasOptions(rootCommandType, commandBuilder);
+            HasArguments(rootCommandType, commandBuilder);
+
+            var info = commandBuilder.Build();
 
             return info;
         }
@@ -76,7 +102,7 @@ namespace Pentagon.Extensions.Console.Cli
         [Pure]
         [NotNull]
         [ItemNotNull]
-        static IEnumerable<CliCommandDescriber> GetCommandDescribers()
+        static IEnumerable<CliCommandDescriber> GetCommandDescribers(ICliBuilder builder)
         {
             var commands = AppDomain.CurrentDomain
                                     .GetLoadedTypes()
@@ -84,66 +110,19 @@ namespace Pentagon.Extensions.Console.Cli
 
             foreach (var type in commands)
             {
+                var commandBuilder = (CliCommandBuilder)builder.HasCommand(type);
+
                 var attribute = type.GetCustomAttribute<CliCommandAttribute>();
 
-                var options = GetOptions(type).ToList();
+                commandBuilder.HasAttribute(attribute);
 
-                var arguments = GetArguments(type).ToList();
+                HasOptions(type, commandBuilder);
+                HasArguments(type, commandBuilder);
 
-                var cliCommandInfo = new CliCommandDescriber(type, attribute, options, arguments);
+                var cliCommandInfo = commandBuilder.Build();
 
                 yield return cliCommandInfo;
             }
-        }
-
-        [Pure]
-        [NotNull]
-        [ItemNotNull]
-        static IEnumerable<Type> GetCommandSubCommandTypes([NotNull] CliCommandDescriber info)
-        {
-            if (info.Type == null)
-            {
-                foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
-                                           .Where(t => t.GetCustomAttribute<CliCommandAttribute>() != null && t.BaseType == typeof(object)))
-                {
-                    yield return type;
-                }
-
-                yield break;
-            }
-
-            var processed = new HashSet<Type>();
-
-            foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
-                                          .Where(t => t.BaseType == info.Type))
-            {
-                if (!processed.Contains(type))
-                    yield return type;
-
-                processed.Add(type);
-            }
-
-            var attributes = info.Type.GetCustomAttributes<SubCliCommandAttribute>();
-
-            foreach (var subCliCommandAttribute in attributes)
-            {
-                if (!processed.Contains(subCliCommandAttribute.Type))
-                    yield return subCliCommandAttribute.Type;
-
-                processed.Add(subCliCommandAttribute.Type);
-            }
-
-            //if (info.Type == typeof(CliRootCommand))
-            //{
-            //    foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
-            //                                  .Where(a => a != info.Type && a.BaseType == typeof(object) && a.GetCustomAttribute<CliCommandAttribute>(false) != null))
-            //    {
-            //        if (!processed.Contains(type))
-            //            yield return type;
-            //
-            //        processed.Add(type);
-            //    }
-            //}
         }
 
         [Pure]
@@ -152,7 +131,7 @@ namespace Pentagon.Extensions.Console.Cli
         {
             var aliases = describer.Attribute.Aliases;
 
-            if (aliases.Count == 0)
+            if (aliases == null || aliases.Count == 0)
                 aliases = new[] { "--" + Regex.Replace(describer.PropertyInfo.Name, "([A-Z])([a-z]+)", a => a.Groups[1].Value.ToLower() + a.Groups[2].Value + "-").TrimEnd('-') };
 
             var name = string.IsNullOrWhiteSpace(describer.Attribute.Name) ? describer.PropertyInfo.Name : describer.Attribute.Name;
@@ -162,25 +141,23 @@ namespace Pentagon.Extensions.Console.Cli
                 Required = describer.Attribute.IsRequired,
                 IsHidden = describer.Attribute.IsHidden,
                 Name = name,
-                Argument = new Argument { ArgumentType = describer.PropertyInfo.PropertyType },
+                Argument = new Argument { ArgumentType = describer.PropertyInfo.DeclaringType },
                 Description = describer.Attribute.Description
             };
 
             return options;
         }
 
-        [Pure]
-        [NotNull]
-        [ItemNotNull]
-        static IEnumerable<CliOptionDescriber> GetOptions([NotNull] Type type)
+        static void HasOptions([NotNull] Type type, [NotNull] CliCommandBuilder commandBuilder)
         {
             var autoProperties = type.GetAutoProperties()
                                      .Select(a => (a, a.GetCustomAttribute<CliOptionAttribute>()))
                                      .Where(a => a.Item2 != null)
                                      .ToList();
 
+
             foreach (var (property, attribute) in autoProperties)
-                yield return new CliOptionDescriber(property, attribute);
+                commandBuilder.HasOption(property.Name, attribute);
         }
 
         [Pure]
@@ -195,7 +172,7 @@ namespace Pentagon.Extensions.Console.Cli
 
             var arg = new Argument
             {
-                ArgumentType = describer.PropertyInfo.PropertyType,
+                ArgumentType = describer.PropertyInfo.DeclaringType,
                 Name = name,
                 Description = describer.Attribute.Description,
                 IsHidden = describer.Attribute.IsHidden,
@@ -205,10 +182,7 @@ namespace Pentagon.Extensions.Console.Cli
             return arg;
         }
 
-        [Pure]
-        [NotNull]
-        [ItemNotNull]
-        static IEnumerable<CliArgumentDescriber> GetArguments([NotNull] Type type)
+        static void HasArguments([NotNull] Type type, [NotNull] CliCommandBuilder commandBuilder)
         {
             var autoProperties = type.GetAutoProperties()
                                      .Select(a => (a, a.GetCustomAttribute<CliArgumentAttribute>()))
@@ -219,7 +193,7 @@ namespace Pentagon.Extensions.Console.Cli
             {
                 if (property.PropertyType == typeof(string) && attribute.MaximumNumberOfValues == 1
                  || typeof(IEnumerable<string>).IsAssignableFrom(property.PropertyType) && attribute.MaximumNumberOfValues >= 1)
-                    yield return new CliArgumentDescriber(property, attribute);
+                    commandBuilder.HasArgument(property.Name, attribute);
                 else
                     throw new InvalidOperationException($"Invalid type: {property.PropertyType} for argument.");
             }
@@ -318,12 +292,122 @@ namespace Pentagon.Extensions.Console.Cli
         [NotNull]
         IEnumerable<CliCommandDescriber> GetCommandSubCommands([NotNull] CliCommandDescriber info)
         {
-            foreach (var commandType in GetCommandSubCommandTypes(info))
-            {
-                var subInfo = CommandDescribers.Single(a => a.Type == commandType);
+            return FromStatic().Concat(FromParent()).Distinct();
 
-                yield return subInfo;
+            IEnumerable<CliCommandDescriber> FromParent()
+            {
+                var any = CommandDescribers.FirstOrDefault(a => a.Attribute.ParentType == (info.Type));
+
+                if (any != null)
+                {
+                    yield return any;
+                }
             }
+
+            IEnumerable<CliCommandDescriber> FromStatic()
+            {
+                foreach (var commandType in GetCommandSubCommandTypes(info))
+                {
+                    var subInfo = CommandDescribers.Single(a => a.Type == commandType);
+
+                    yield return subInfo;
+                }
+            }
+        }
+
+        [Pure]
+        [NotNull]
+        [ItemNotNull]
+        static IEnumerable<Type> GetCommandSubCommandTypes([NotNull] CliCommandDescriber info)
+        {
+            if (info.Type == null)
+            {
+                foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
+                                              .Where(t => t.GetCustomAttribute<CliCommandAttribute>() != null && t.BaseType == typeof(object)))
+                {
+                    yield return type;
+                }
+
+                yield break;
+            }
+
+            var processed = new HashSet<Type>();
+
+            // inheritance
+            foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
+                                          .Where(t => t.BaseType == info.Type))
+            {
+                if (!processed.Contains(type))
+                    yield return type;
+
+                processed.Add(type);
+            }
+
+            var attributes = info.Type.GetCustomAttributes<SubCliCommandAttribute>();
+
+            // sub command attribute
+            foreach (var subCliCommandAttribute in attributes)
+            {
+                if (!processed.Contains(subCliCommandAttribute.Type))
+                    yield return subCliCommandAttribute.Type;
+
+                processed.Add(subCliCommandAttribute.Type);
+            }
+
+            var attribute = info.Attribute;
+
+            // command attribute property
+            if (attribute?.SubTypes != null && attribute.SubTypes.Length > 0)
+            {
+                foreach (var attributeSubType in attribute.SubTypes)
+                {
+                    if (!processed.Contains(attributeSubType))
+                        yield return attributeSubType;
+
+                    processed.Add(attributeSubType);
+                }
+            }
+
+            //if (info.Type == typeof(CliRootCommand))
+            //{
+            //    foreach (var type in AppDomain.CurrentDomain.GetLoadedTypes()
+            //                                  .Where(a => a != info.Type && a.BaseType == typeof(object) && a.GetCustomAttribute<CliCommandAttribute>(false) != null))
+            //    {
+            //        if (!processed.Contains(type))
+            //            yield return type;
+            //
+            //        processed.Add(type);
+            //    }
+            //}
+        }
+
+        [NotNull]
+        List<CliCommandDescriber> _additionalDescribers = new List<CliCommandDescriber>();
+
+        internal void AddDescribers(IEnumerable<CliCommandDescriber> cliCommandDescribers)
+        {
+            // clear info cache
+            _commandInfoCache = null;
+
+            // clear hierarchy cache
+            _commandHierarchy = null;
+
+            // clear describer cache
+            _commandDescriberCache = null;
+
+            _additionalDescribers.AddRange(cliCommandDescribers ?? Array.Empty<CliCommandDescriber>());
+        }
+
+        internal void DisableAnnotatedCommand()
+        {
+            // clear info cache
+            _commandInfoCache = null;
+
+            // clear hierarchy cache
+            _commandHierarchy = null;
+
+            // use describer cache from additional describer => won't use annotated describers
+            _commandDescriberCache = _additionalDescribers;
         }
     }
 }

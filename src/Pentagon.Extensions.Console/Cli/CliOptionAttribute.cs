@@ -12,21 +12,22 @@ namespace Pentagon.Extensions.Console.Cli
 
     public class CliOptionAttribute : Attribute
     {
-        readonly string[] _aliases;
-
         public CliOptionAttribute() { }
 
         public CliOptionAttribute(params string[] aliases)
         {
-            _aliases = aliases;
+            Aliases = aliases;
         }
 
-        [NotNull]
-        public IReadOnlyCollection<string> Aliases => _aliases ?? Array.Empty<string>();
+        [CanBeNull]
+        public ICollection<string> Aliases { get; set; }
 
         public string Description { get; set; }
+
         public string Name { get; set; }
+
         public bool IsHidden { get; set; }
+
         public bool IsRequired { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace Pentagon.Extensions.Console.Cli
     using System.Threading.Tasks;
     using FluentValidation;
     using FluentValidation.Results;
+    using JetBrains.Annotations;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -20,7 +21,10 @@ namespace Pentagon.Extensions.Console.Cli
     class InvocationCommandHandler : ICommandHandler
     {
         readonly IServiceScopeFactory _scopeFactory;
+
+        [NotNull]
         readonly CliOptions _options;
+
         readonly ILogger<InvocationCommandHandler> _logger;
 
         public InvocationCommandHandler(IServiceScopeFactory scopeFactory,
@@ -41,6 +45,10 @@ namespace Pentagon.Extensions.Console.Cli
 
             int? result = null;
 
+            var cancellationToken = context.GetCancellationToken();
+
+            cancellationToken.Register(() => { _logger?.LogDebug("InvocationContext triggered cancellation token."); });
+
             foreach (var command in allCommands)
             {
                 var handler = scope.ServiceProvider.GetService(typeof(ICliCommandHandler<>).MakeGenericType(command.GetType()));
@@ -53,30 +61,46 @@ namespace Pentagon.Extensions.Console.Cli
 
                 var method = handler.GetType().GetMethod(nameof(ICliCommandHandler<object>.ExecuteAsync), new[] { command.GetType(), typeof(CancellationToken) });
 
-                // TODO investigate if cancellation token works with IHosting
-                var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, context.GetCancellationToken() });
+                if (method == null)
+                {
+                    _logger?.LogWarning("Method for executing command {CommandType} was not found.", command.GetType());
+                    continue;
+                }
+
+                var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });
 
                 var validation = Validate(command, scope.ServiceProvider);
 
                 if (!validation.IsValid)
                 {
-                    await OnValidationErrorAsync(new ArgumentException(validation.ToString())).ConfigureAwait(false);
+                    _logger?.LogDebug("CLI command validation failed for {CommandType}, reason: {Reason}", command.GetType(), validation.ToString());
+
+                    ConsoleWriter.WriteError($"Command is not valid: {validation.ToString()}");
+
                     result = StatusCodes.Error;
                 }
                 else
                 {
                     try
                     {
+                        cancellationToken.ThrowIfCancellationRequested();
+
                         result = await taskOfInt.ConfigureAwait(false);
                     }
                     catch (OperationCanceledException)
                     {
-                        await OnCancelAsync().ConfigureAwait(false);
+                        ConsoleWriter.WriteError("Command was cancelled");
+
+                        _logger?.LogInformation("Command was cancelled: {TypeName}.", GetType().Name);
+
                         result = StatusCodes.Cancel;
                     }
                     catch (Exception e)
                     {
-                        await OnErrorAsync(e).ConfigureAwait(false);
+                        ConsoleWriter.WriteError($"Command execution failed: {e.Message}");
+
+                        _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
+
                         result = StatusCodes.Error;
                     }
                 }
@@ -101,38 +125,16 @@ namespace Pentagon.Extensions.Console.Cli
             var validator = (IValidator)di.GetService(typeof(IValidator<>).MakeGenericType(command.GetType()));
 
             if (validator == null)
+            {
+                _logger?.LogTrace("Validator not found for {CommandType}", command.GetType());
                 return new ValidationResult();
+            }
+
+            _logger?.LogTrace("Validator found for {CommandType}", command.GetType());
 
             var validationResult = validator.Validate(command);
 
             return validationResult;
-        }
-
-        protected virtual Task OnCancelAsync()
-        {
-            ConsoleWriter.WriteError("Command was cancelled");
-
-            _logger?.LogDebug("Command was cancelled: {TypeName}.", GetType().Name);
-
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnValidationErrorAsync(Exception e)
-        {
-            ConsoleWriter.WriteError($"Command is not valid: {e.Message}");
-
-            _logger?.LogError(e, "Command is not valid: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
-
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task OnErrorAsync(Exception e)
-        {
-            ConsoleWriter.WriteError($"Command execution failed: {e.Message}");
-
-            _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
-
-            return Task.CompletedTask;
         }
     }
 }

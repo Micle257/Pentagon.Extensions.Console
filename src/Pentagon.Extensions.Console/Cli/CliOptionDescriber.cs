@@ -10,13 +10,13 @@ namespace Pentagon.Extensions.Console.Cli
 
     public class CliOptionDescriber
     {
-        public CliOptionDescriber(PropertyInfo propertyInfo, CliOptionAttribute attribute)
+        public CliOptionDescriber(MemberInfo propertyInfo, CliOptionAttribute attribute)
         {
             PropertyInfo = propertyInfo;
             Attribute    = attribute;
         }
 
-        public PropertyInfo PropertyInfo { get; }
+        public MemberInfo PropertyInfo { get; }
 
         public CliOptionAttribute Attribute { get; }
     }

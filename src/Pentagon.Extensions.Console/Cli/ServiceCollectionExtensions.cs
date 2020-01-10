@@ -9,6 +9,7 @@ namespace Pentagon.Extensions.Console.Cli
     using System;
     using System.CommandLine.Invocation;
     using System.Linq;
+    using Builders;
     using FluentValidation;
     using Helpers;
     using JetBrains.Annotations;
@@ -18,6 +19,22 @@ namespace Pentagon.Extensions.Console.Cli
     public static class ServiceCollectionExtensions
     {
         [NotNull]
+        public static IServiceCollection AddCli([NotNull] this IServiceCollection services,
+                                                        [NotNull] Action<ICliBuilder> builderConfigure
+                                                      , Action<CliOptions> configure = null)
+        {
+            var builder = new CliBuilder();
+
+            builderConfigure(builder);
+
+            var cli = builder.Build();
+
+            CliCommandCompileContext.Instance.AddDescribers(cli);
+
+            return services.AddCli(configure);
+        }
+
+        [NotNull]
         public static IServiceCollection AddCli([NotNull] this IServiceCollection services, Action<CliOptions> configure = null)
         {
             services.AddCliCommandRunner()
@@ -25,7 +42,7 @@ namespace Pentagon.Extensions.Console.Cli
                     .AddCliCommandValidators()
                     .AddInvocationCommandHandler<InvocationCommandHandler>();
 
-            services.Configure(configure ?? (options => {}));
+            services.Configure(configure ?? (options => { }));
 
             return services;
         }
@@ -64,7 +81,7 @@ namespace Pentagon.Extensions.Console.Cli
         [NotNull]
         public static IServiceCollection AddCliCommandValidators([NotNull] this IServiceCollection services)
         {
-            var commandTypes = CliCommandContext.Instance.CommandDescribers.Select(a => a.Type).ToList();
+            var commandTypes = CliCommandCompileContext.Instance.CommandDescribers.Select(a => a.Type).ToList();
 
             var types = AppDomain.CurrentDomain
                                     .GetLoadedTypes()

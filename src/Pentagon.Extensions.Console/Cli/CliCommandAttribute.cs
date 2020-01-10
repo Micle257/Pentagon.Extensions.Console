@@ -28,5 +28,9 @@ namespace Pentagon.Extensions.Console.Cli
         public string[] AlternedNames { get; set; }
 
         public string Description { get; set; }
+
+        public Type[] SubTypes { get; set; }
+
+        public Type ParentType { get; set; }
     }
 }

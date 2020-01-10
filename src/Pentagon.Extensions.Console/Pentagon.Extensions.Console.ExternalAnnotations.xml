@@ -3,19 +3,116 @@
   <member name="P:Pentagon.Extensions.Console.Ascii.Ascii.Table">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
   </member>
-  <member name="P:Pentagon.Extensions.Console.Cli.CliCommandContext.Instance">
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.CliBuilderExtensions.HasCommand``1(Pentagon.Extensions.Console.Cli.Builders.ICliBuilder,System.String)">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
-  </member>
-  <member name="P:Pentagon.Extensions.Console.Cli.CliCommandHandler`1.Context">
-    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
-  </member>
-  <member name="M:Pentagon.Extensions.Console.Cli.CliCommandHandler`1.ExecuteAsync(`0,System.Threading.CancellationToken)">
-    <parameter name="command">
+    <parameter name="name">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </parameter>
   </member>
-  <member name="P:Pentagon.Extensions.Console.Cli.CliOptionAttribute.Aliases">
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.CliCommandBuilderExtensions.HasOption``2(Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.String[])">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="builder">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+    <parameter name="property">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+    <parameter name="aliases">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliBuilder.HasCommand(System.Type)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="type">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliBuilder.HasCommand``1">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.Build">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.HasArgument(System.String,System.Action{Pentagon.Extensions.Console.Cli.CliArgumentAttribute})">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="memberName">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.HasOption(System.String,System.Action{Pentagon.Extensions.Console.Cli.CliOptionAttribute})">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="memberName">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.HasSubCommand(System.Type)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="subType">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.IsRoot">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.IsSubCommandFor(System.Type)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="subType">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.Type">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.WithDescription(System.String)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="description">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder.WithName(System.String)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="name">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder`1.HasArgument``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Action{Pentagon.Extensions.Console.Cli.CliArgumentAttribute})">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="property">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder`1.HasOption``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Action{Pentagon.Extensions.Console.Cli.CliOptionAttribute})">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="property">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder`1.HasSubCommand``1">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder`1.IsRoot">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder`1.IsSubCommandFor``1">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder`1.WithDescription(System.String)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="description">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.Builders.ICliCommandBuilder`1.WithName(System.String)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="name">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.CliCommandCompileContext.Instance">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.CliOptionAttribute.Aliases">
+    <attribute ctor="M:JetBrains.Annotations.CanBeNullAttribute.#ctor" />
   </member>
   <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandContext.CommandDescribers">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
@@ -43,6 +140,15 @@
   </member>
   <member name="M:Pentagon.Extensions.Console.Cli.ParseResultExtensions.GetCommand``1(System.CommandLine.ParseResult)">
     <parameter name="parseResult">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCli(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Pentagon.Extensions.Console.Cli.Builders.ICliBuilder},System.Action{Pentagon.Extensions.Console.Cli.CliOptions})">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+    <parameter name="builderConfigure">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </parameter>
   </member>

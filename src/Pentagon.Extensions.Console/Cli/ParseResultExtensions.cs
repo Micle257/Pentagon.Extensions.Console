@@ -9,13 +9,14 @@ namespace Pentagon.Extensions.Console.Cli
     using System;
     using System.CommandLine;
     using System.Linq;
+    using System.Reflection;
     using JetBrains.Annotations;
 
     public static class ParseResultExtensions
     {
         public static T GetCommand<T>([NotNull] this ParseResult parseResult)
         {
-            var info = CliCommandContext.Instance.CommandInfos.FirstOrDefault(a => a.Describer.Type == typeof(T));
+            var info = CliCommandCompileContext.Instance.CommandInfos.FirstOrDefault(a => a.Describer.Type == typeof(T));
 
             var commandResult = parseResult.FindResultFor(info.Command);
 
@@ -31,7 +32,7 @@ namespace Pentagon.Extensions.Console.Cli
                     {
                         var value = parseResult.ValueForOption(cliOptionInfo.Option.RawAliases[0]);
 
-                        cliOptionInfo.Describer.PropertyInfo.SetValue(command, value);
+                        SetValue(cliOptionInfo.Describer.PropertyInfo, command, value);
                     }
                 }
 
@@ -43,7 +44,7 @@ namespace Pentagon.Extensions.Console.Cli
                     {
                         var values = argumentResult.GetValueOrDefault();
 
-                        cliArgumentInfo.Describer.PropertyInfo.SetValue(command, values);
+                        SetValue(cliArgumentInfo.Describer.PropertyInfo, command, values);
                     }
                 }
 
@@ -51,6 +52,16 @@ namespace Pentagon.Extensions.Console.Cli
             }
 
             return default;
+
+            void SetValue(MemberInfo cliOptionInfo, object command, object value)
+            {
+                if (cliOptionInfo is FieldInfo field)
+                    field.SetValue(command, value);
+                else if (cliOptionInfo is PropertyInfo prop)
+                    prop.SetValue(command, value);
+                else
+                    throw new ArgumentException($"Invalid member: {cliOptionInfo}");
+            }
         }
     }
 }
