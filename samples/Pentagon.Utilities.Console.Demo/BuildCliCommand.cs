@@ -12,7 +12,7 @@
             /// <inheritdoc />
             public Task<int> ExecuteAsync(BuildCliCommand command, CancellationToken cancellationToken)
             {
-                var commandHierarchy = CliCommandContext.Instance.CommandHierarchy;
+                var commandHierarchy = CliCommandCompileContext.Instance.CommandHierarchy;
 
                 Console.WriteLine(commandHierarchy.ToTreeString());
 

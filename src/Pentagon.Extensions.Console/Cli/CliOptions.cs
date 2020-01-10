@@ -11,5 +11,7 @@ namespace Pentagon.Extensions.Console.Cli
         public bool InvokeAllMatchedHandlers { get; set; } = false;
 
         public bool ExitOnError { get; set; } = true;
+
+        public bool UseAnnotatedCommands { get; set; } = true;
     }
 }
