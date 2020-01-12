@@ -103,6 +103,7 @@ namespace Pentagon.Extensions.Console.Cli
                     _logger?.LogDebug("CLI command validation failed for {CommandType}, reason: {Reason}", command.GetType(), validation.ToString());
 
                     ConsoleWriter.WriteError($"Command is not valid: {validation.ToString()}");
+                    Console.WriteLine();
 
                     result = StatusCodes.Error;
                 }
@@ -117,6 +118,7 @@ namespace Pentagon.Extensions.Console.Cli
                     catch (OperationCanceledException)
                     {
                         ConsoleWriter.WriteError("Command was cancelled");
+                        Console.WriteLine();
 
                         _logger?.LogInformation("Command was cancelled: {TypeName}.", GetType().Name);
 
@@ -125,6 +127,7 @@ namespace Pentagon.Extensions.Console.Cli
                     catch (Exception e)
                     {
                         ConsoleWriter.WriteError($"Command execution failed: {e.Message}");
+                        Console.WriteLine();
 
                         _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
 
