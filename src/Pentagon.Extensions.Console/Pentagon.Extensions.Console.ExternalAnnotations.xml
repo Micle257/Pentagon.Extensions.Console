@@ -138,6 +138,9 @@
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </parameter>
   </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandPropertyHandler`1.Command">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
   <member name="M:Pentagon.Extensions.Console.Cli.ParseResultExtensions.GetCommand``1(System.CommandLine.ParseResult)">
     <parameter name="parseResult">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />

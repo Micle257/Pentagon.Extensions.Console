@@ -9,6 +9,7 @@ namespace Pentagon.Extensions.Console.Cli
     using System;
     using System.CommandLine.Invocation;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using FluentValidation;
@@ -65,6 +66,26 @@ namespace Pentagon.Extensions.Console.Cli
                 {
                     _logger?.LogWarning("Method for executing command {CommandType} was not found.", command.GetType());
                     continue;
+                }
+
+                // if handler implements ICliCommandPropertyHandler...
+                if (typeof(ICliCommandPropertyHandler<>).MakeGenericType(command.GetType()).IsAssignableFrom(handler.GetType()))
+                {
+                    var propertyInfo = handler.GetType().GetProperty(nameof(ICliCommandPropertyHandler<object>.Command));
+
+                    if (propertyInfo.CanWrite)
+                    {
+                        propertyInfo.SetValue(handler, command);
+                    }
+                    else
+                    {
+                        var back = handler.GetType().GetField($"<{nameof(ICliCommandPropertyHandler<object>.Command)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                        if (back == null)
+                            throw new InvalidOperationException($"Property '{typeof(ICliCommandPropertyHandler<>).Name}.Command' must have at least private setter.");
+
+                        back.SetValue(handler, command);
+                    }
                 }
 
                 var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });

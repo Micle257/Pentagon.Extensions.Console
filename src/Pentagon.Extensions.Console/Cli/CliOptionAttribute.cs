@@ -29,5 +29,7 @@ namespace Pentagon.Extensions.Console.Cli
         public bool IsHidden { get; set; }
 
         public bool IsRequired { get; set; }
+
+        public int ArgumentMaximumNumberOfValues { get; set; } = 1;
     }
 }

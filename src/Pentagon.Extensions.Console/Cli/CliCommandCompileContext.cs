@@ -141,11 +141,25 @@ namespace Pentagon.Extensions.Console.Cli
                 Required = describer.Attribute.IsRequired,
                 IsHidden = describer.Attribute.IsHidden,
                 Name = name,
-                Argument = new Argument { ArgumentType = describer.PropertyInfo.DeclaringType },
+                Argument = new Argument
+                           {
+                                   ArgumentType = GetPropertyOrFieldType(describer.PropertyInfo)
+                           },
                 Description = describer.Attribute.Description
             };
 
             return options;
+        }
+
+        static Type GetPropertyOrFieldType(MemberInfo info)
+        {
+            if (info is PropertyInfo prop)
+                return prop.PropertyType;
+
+            if (info is FieldInfo field)
+                return field.FieldType;
+
+            throw new Exception();
         }
 
         static void HasOptions([NotNull] Type type, [NotNull] CliCommandBuilder commandBuilder)
@@ -172,7 +186,7 @@ namespace Pentagon.Extensions.Console.Cli
 
             var arg = new Argument
             {
-                ArgumentType = describer.PropertyInfo.DeclaringType,
+                    ArgumentType = GetPropertyOrFieldType(describer.PropertyInfo),
                 Name = name,
                 Description = describer.Attribute.Description,
                 IsHidden = describer.Attribute.IsHidden,
