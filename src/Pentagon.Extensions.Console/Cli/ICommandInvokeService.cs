@@ -1,17 +1,15 @@
 // -----------------------------------------------------------------------
-//  <copyright file="CliOptions.cs">
+//  <copyright file="ICommandInvokeService.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 
 namespace Pentagon.Extensions.Console.Cli
 {
-    public class CliOptions
+    using System.Threading.Tasks;
+
+    public interface ICommandInvokeService
     {
-        public bool InvokeAllMatchedHandlers { get; set; } = false;
-
-        public bool ExitOnError { get; set; } = true;
-
-        public bool UseAnnotatedCommands { get; set; } = true;
+        Task ProcessAsync(object command);
     }
 }

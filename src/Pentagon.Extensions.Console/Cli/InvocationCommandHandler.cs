@@ -7,6 +7,7 @@
 namespace Pentagon.Extensions.Console.Cli
 {
     using System;
+    using System.Collections.Generic;
     using System.CommandLine.Invocation;
     using System.Linq;
     using System.Reflection;
@@ -57,6 +58,11 @@ namespace Pentagon.Extensions.Console.Cli
                 // if handler not in DI, continue
                 if (handler == null)
                     continue;
+
+                foreach (var invokeService in scope.ServiceProvider.GetServices<ICommandInvokeService>())
+                {
+                    await invokeService.ProcessAsync(command).ConfigureAwait(false);
+                }
 
                 _logger?.LogInformation("Invoking command handler: {Handler}", command.GetType().Name);
 
