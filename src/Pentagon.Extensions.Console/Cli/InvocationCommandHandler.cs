@@ -43,7 +43,7 @@ namespace Pentagon.Extensions.Console.Cli
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var allCommands = CliCommandRunner.GetAllCommands(context.ParseResult).Reverse().ToList();
+            var allCommands = CliCommandRunner.GetAllCommands(context.ParseResult).ToList();
 
             int? result = null;
 
@@ -94,8 +94,6 @@ namespace Pentagon.Extensions.Console.Cli
                     }
                 }
 
-                var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });
-
                 var validation = Validate(command, scope.ServiceProvider);
 
                 if (!validation.IsValid)
@@ -112,6 +110,10 @@ namespace Pentagon.Extensions.Console.Cli
                     try
                     {
                         cancellationToken.ThrowIfCancellationRequested();
+
+                        _logger?.LogDebug("Command: {@Command}", command);
+
+                        var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });
 
                         result = await taskOfInt.ConfigureAwait(false);
                     }
