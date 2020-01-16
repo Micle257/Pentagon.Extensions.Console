@@ -138,6 +138,9 @@
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     </parameter>
   </member>
+  <member name="P:Pentagon.Extensions.Console.Cli.ICliCommandPropertyHandler`1.Command">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+  </member>
   <member name="M:Pentagon.Extensions.Console.Cli.ParseResultExtensions.GetCommand``1(System.CommandLine.ParseResult)">
     <parameter name="parseResult">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
@@ -171,6 +174,12 @@
     </parameter>
   </member>
   <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCliCommandValidators(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Console.Cli.ServiceCollectionExtensions.AddCommandInvokeService``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
     <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
     <parameter name="services">
       <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />

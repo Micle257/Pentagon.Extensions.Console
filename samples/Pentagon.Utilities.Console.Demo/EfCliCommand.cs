@@ -1,5 +1,6 @@
 ﻿namespace Pentagon.Utilities.Console.Demo {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Extensions.Console.Cli;
@@ -21,10 +22,10 @@
         [CliOption()]
         public bool NotDryRun { get; set; }
 
-        [CliArgument(MaximumNumberOfValues = 3)]
-        public IEnumerable<string> Force { get; set; }
+        [CliArgument(IsRequired = false)]
+        public string Force { get; set; }
 
-        class Handler : ICliCommandHandler<EfCliCommand>
+        class Handler : ICliCommandHandler<EfCliCommand>, ICliCommandPropertyHandler<EfCliCommand>
         {
             /// <inheritdoc />
             public async Task<int> ExecuteAsync(EfCliCommand command, CancellationToken cancellationToken)
@@ -33,16 +34,9 @@
 
                 return await Task.FromResult(1000).ConfigureAwait(false);
             }
-        }
 
-        class Validator : AbstractValidator<EfCliCommand>
-        {
-            public Validator()
-            {
-                RuleFor(command => command)
-                       .Must(a => a.DryRun != a.NotDryRun)
-                       .WithMessage("Only one option must be specified for dry run.");
-            }
+            /// <inheritdoc />
+            public EfCliCommand Command { get;  }
         }
     }
 }

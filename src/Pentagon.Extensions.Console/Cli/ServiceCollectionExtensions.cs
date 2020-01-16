@@ -48,6 +48,15 @@ namespace Pentagon.Extensions.Console.Cli
         }
 
         [NotNull]
+        public static IServiceCollection AddCommandInvokeService<T>([NotNull] this IServiceCollection services)
+                where T : class, ICommandInvokeService
+        {
+            services.AddTransient<ICommandInvokeService, T>();
+
+            return services;
+        }
+
+        [NotNull]
         public static IServiceCollection AddCliCommandRunner([NotNull] this IServiceCollection services)
         {
             services.AddTransient<ICliCommandRunner, CliCommandRunner>();

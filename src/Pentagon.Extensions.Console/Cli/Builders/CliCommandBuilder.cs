@@ -46,6 +46,12 @@ namespace Pentagon.Extensions.Console.Cli.Builders {
 
             Description = attribute.Description;
 
+            if (attribute.ParentType != null)
+                _parentType = attribute.ParentType;
+
+            if (attribute.SubTypes != null && attribute.SubTypes.Length > 0)
+                _subTypes.AddRange(attribute.SubTypes);
+
             return this;
         }
 

@@ -7,8 +7,10 @@
 namespace Pentagon.Extensions.Console.Cli
 {
     using System;
+    using System.Collections.Generic;
     using System.CommandLine.Invocation;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using FluentValidation;
@@ -41,7 +43,7 @@ namespace Pentagon.Extensions.Console.Cli
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var allCommands = CliCommandRunner.GetAllCommands(context.ParseResult).Reverse().ToList();
+            var allCommands = CliCommandRunner.GetAllCommands(context.ParseResult).ToList();
 
             int? result = null;
 
@@ -57,6 +59,11 @@ namespace Pentagon.Extensions.Console.Cli
                 if (handler == null)
                     continue;
 
+                foreach (var invokeService in scope.ServiceProvider.GetServices<ICommandInvokeService>())
+                {
+                    await invokeService.ProcessAsync(command).ConfigureAwait(false);
+                }
+
                 _logger?.LogInformation("Invoking command handler: {Handler}", command.GetType().Name);
 
                 var method = handler.GetType().GetMethod(nameof(ICliCommandHandler<object>.ExecuteAsync), new[] { command.GetType(), typeof(CancellationToken) });
@@ -67,7 +74,25 @@ namespace Pentagon.Extensions.Console.Cli
                     continue;
                 }
 
-                var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });
+                // if handler implements ICliCommandPropertyHandler...
+                if (typeof(ICliCommandPropertyHandler<>).MakeGenericType(command.GetType()).IsAssignableFrom(handler.GetType()))
+                {
+                    var propertyInfo = handler.GetType().GetProperty(nameof(ICliCommandPropertyHandler<object>.Command));
+
+                    if (propertyInfo.CanWrite)
+                    {
+                        propertyInfo.SetValue(handler, command);
+                    }
+                    else
+                    {
+                        var back = handler.GetType().GetField($"<{nameof(ICliCommandPropertyHandler<object>.Command)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                        if (back == null)
+                            throw new InvalidOperationException($"Property '{typeof(ICliCommandPropertyHandler<>).Name}.Command' must have at least private setter.");
+
+                        back.SetValue(handler, command);
+                    }
+                }
 
                 var validation = Validate(command, scope.ServiceProvider);
 
@@ -76,6 +101,7 @@ namespace Pentagon.Extensions.Console.Cli
                     _logger?.LogDebug("CLI command validation failed for {CommandType}, reason: {Reason}", command.GetType(), validation.ToString());
 
                     ConsoleWriter.WriteError($"Command is not valid: {validation.ToString()}");
+                    Console.WriteLine();
 
                     result = StatusCodes.Error;
                 }
@@ -85,11 +111,16 @@ namespace Pentagon.Extensions.Console.Cli
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
+                        _logger?.LogDebug("Command: {@Command}", command);
+
+                        var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });
+
                         result = await taskOfInt.ConfigureAwait(false);
                     }
                     catch (OperationCanceledException)
                     {
                         ConsoleWriter.WriteError("Command was cancelled");
+                        Console.WriteLine();
 
                         _logger?.LogInformation("Command was cancelled: {TypeName}.", GetType().Name);
 
@@ -98,6 +129,7 @@ namespace Pentagon.Extensions.Console.Cli
                     catch (Exception e)
                     {
                         ConsoleWriter.WriteError($"Command execution failed: {e.Message}");
+                        Console.WriteLine();
 
                         _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
 
