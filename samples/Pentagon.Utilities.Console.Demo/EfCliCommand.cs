@@ -25,10 +25,10 @@
         [CliArgument(IsRequired = false)]
         public string Force { get; set; }
 
-        class Handler : ICliCommandHandler<EfCliCommand>, ICliCommandPropertyHandler<EfCliCommand>
+        class Handler : ICliCommandPropertyHandler<EfCliCommand>, ICliCommandHandler<EfCliCommand>
         {
             /// <inheritdoc />
-            public async Task<int> ExecuteAsync(EfCliCommand command, CancellationToken cancellationToken)
+            public async Task<int> ExecuteAsync( CancellationToken cancellationToken)
             {
                 await Task.Delay(5000, cancellationToken).ConfigureAwait(false);
 
@@ -37,6 +37,12 @@
 
             /// <inheritdoc />
             public EfCliCommand Command { get;  }
+
+            /// <inheritdoc />
+            public Task<int> ExecuteAsync(EfCliCommand command, CancellationToken cancellationToken)
+            {
+                return ExecuteAsync(cancellationToken);
+            }
         }
     }
 }

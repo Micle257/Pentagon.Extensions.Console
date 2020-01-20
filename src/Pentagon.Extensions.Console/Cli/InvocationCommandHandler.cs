@@ -13,6 +13,7 @@ namespace Pentagon.Extensions.Console.Cli
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Transactions;
     using FluentValidation;
     using FluentValidation.Results;
     using JetBrains.Annotations;
@@ -57,7 +58,12 @@ namespace Pentagon.Extensions.Console.Cli
 
                 // if handler not in DI, continue
                 if (handler == null)
-                    continue;
+                {
+                    handler = scope.ServiceProvider.GetService(typeof(ICliCommandPropertyHandler<>).MakeGenericType(command.GetType()));
+
+                    if (handler == null)
+                        continue;
+                }
 
                 foreach (var invokeService in scope.ServiceProvider.GetServices<ICommandInvokeService>())
                 {
@@ -68,10 +74,19 @@ namespace Pentagon.Extensions.Console.Cli
 
                 var method = handler.GetType().GetMethod(nameof(ICliCommandHandler<object>.ExecuteAsync), new[] { command.GetType(), typeof(CancellationToken) });
 
+                var isMethodWithoutCommandParameter = false;
+
                 if (method == null)
                 {
-                    _logger?.LogWarning("Method for executing command {CommandType} was not found.", command.GetType());
-                    continue;
+                    method = handler.GetType().GetMethod(nameof(ICliCommandPropertyHandler<object>.ExecuteAsync), new[] { typeof(CancellationToken) });
+
+                    if (method == null)
+                    {
+                        _logger?.LogWarning("Method for executing command {CommandType} was not found.", command.GetType());
+                        continue;
+                    }
+
+                    isMethodWithoutCommandParameter = true;
                 }
 
                 // if handler implements ICliCommandPropertyHandler...
@@ -113,7 +128,7 @@ namespace Pentagon.Extensions.Console.Cli
 
                         _logger?.LogDebug("Command: {@Command}", command);
 
-                        var taskOfInt = (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });
+                        var taskOfInt = isMethodWithoutCommandParameter ? (Task<int>)method.Invoke(handler, new object[] { cancellationToken }) : (Task<int>)method.Invoke(handler, new[] { command, cancellationToken });
 
                         result = await taskOfInt.ConfigureAwait(false);
                     }
