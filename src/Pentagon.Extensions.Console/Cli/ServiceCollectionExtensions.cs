@@ -76,7 +76,7 @@ namespace Pentagon.Extensions.Console.Cli
             {
                 var interfaces = command.GetInterfaces()
                                         .Where(b => b.GenericTypeArguments.Length == 1)
-                                        .FirstOrDefault(a => a.GetGenericTypeDefinition() == typeof(ICliCommandHandler<>));
+                                        .FirstOrDefault(a => a.GetGenericTypeDefinition() == typeof(ICliCommandHandler<>) || a.GetGenericTypeDefinition() == typeof(ICliCommandPropertyHandler<>));
 
                 if (interfaces == null)
                     continue;
