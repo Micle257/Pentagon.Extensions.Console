@@ -137,7 +137,7 @@ namespace Pentagon.Extensions.Console.Cli
                         ConsoleWriter.WriteError("Command was cancelled");
                         Console.WriteLine();
 
-                        _logger?.LogInformation("Command was cancelled: {TypeName}.", GetType().Name);
+                        _logger?.LogInformation("Command was cancelled: {TypeName}.", command.GetType().Name);
 
                         result = StatusCodes.Cancel;
                     }
@@ -146,7 +146,7 @@ namespace Pentagon.Extensions.Console.Cli
                         ConsoleWriter.WriteError($"Command execution failed: {e.Message}");
                         Console.WriteLine();
 
-                        _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", GetType().Name, e.Message);
+                        _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", command.GetType().Name, e.Message);
 
                         result = StatusCodes.Error;
                     }
