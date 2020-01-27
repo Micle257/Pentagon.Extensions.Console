@@ -8,6 +8,7 @@
 namespace Pentagon.Extensions.Console
 {
     using System;
+    using System.IO;
     using ConsolePresentation.Controls;
     using JetBrains.Annotations;
     using Structures;
@@ -19,7 +20,10 @@ namespace Pentagon.Extensions.Console
             Console.WriteLine();
         }
 
-        public static void WriteSuccess(object successValue) => Write(successValue, CliContext.ColorScheme.Success);
+        public static void WriteSuccess(object successValue)
+        {
+            Write(successValue, CliContext.ColorScheme.Success);
+        }
 
         public static void WriteError(object errorValue) => Write(errorValue, CliContext.ColorScheme.Error);
 
@@ -27,7 +31,30 @@ namespace Pentagon.Extensions.Console
 
         public static void Write(object value, CliConsoleColor color)
         {
-            Write(new Text(value, color));
+            if (!Environment.UserInteractive)
+                return;
+
+            try
+            {
+                var fore = Console.ForegroundColor;
+                var back = Console.BackgroundColor;
+
+                if (color.Foreground.HasValue)
+                    Console.ForegroundColor = color.Foreground.Value;
+                if (color.Background.HasValue)
+                    Console.BackgroundColor = color.Background.Value;
+
+                Console.Write(value?.ToString());
+
+                if (color.Foreground.HasValue)
+                    Console.ForegroundColor = fore;
+                if (color.Background.HasValue)
+                    Console.BackgroundColor = back;
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
 
         public static void Write(object value, ConsoleColor? foreColor = null, ConsoleColor? backColor = null)
@@ -45,32 +72,42 @@ namespace Pentagon.Extensions.Console
             if (text == null)
                 throw new ArgumentNullException(nameof(text));
 
-            var initialCursor = Cursor.Current;
+            if (!Environment.UserInteractive)
+                return;
 
-            var move = text.Coord != initialCursor.Coord;
+            try
+            {
+                var initialCursor = Cursor.Current;
 
-            if (move)
-                Cursor.SetCurrent(text.Coord);
+                var move = text.Coord != initialCursor.Coord;
 
-            var fore = Console.ForegroundColor;
-            var back = Console.BackgroundColor;
+                if (move)
+                    Cursor.SetCurrent(text.Coord);
 
-            if (text.Color.Foreground.HasValue)
-                Console.ForegroundColor = text.Color.Foreground.Value;
-            if (text.Color.Background.HasValue)
-                Console.BackgroundColor = text.Color.Background.Value;
+                var fore = Console.ForegroundColor;
+                var back = Console.BackgroundColor;
 
-            Console.Write(text.Data);
+                if (text.Color.Foreground.HasValue)
+                    Console.ForegroundColor = text.Color.Foreground.Value;
+                if (text.Color.Background.HasValue)
+                    Console.BackgroundColor = text.Color.Background.Value;
 
-            if (text.Color.Foreground.HasValue)
-                Console.ForegroundColor = fore;
-            if (text.Color.Background.HasValue)
-                Console.BackgroundColor = back;
+                Console.Write(text.Data);
 
-            if (move)
-                Cursor.SetCurrent(initialCursor);
+                if (text.Color.Foreground.HasValue)
+                    Console.ForegroundColor = fore;
+                if (text.Color.Background.HasValue)
+                    Console.BackgroundColor = back;
 
-            Wrote?.Invoke(null, text);
+                if (move)
+                    Cursor.SetCurrent(initialCursor);
+
+                Wrote?.Invoke(null, text);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
 
         public static EventHandler<Text> Wrote;
