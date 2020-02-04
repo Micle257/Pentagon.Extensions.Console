@@ -146,6 +146,11 @@ namespace Pentagon.Extensions.Console.Cli
                         ConsoleWriter.WriteError($"Command execution failed: {e.Message}");
                         Console.WriteLine();
 
+                        if (e is TargetInvocationException targetException)
+                        {
+                            e = targetException.InnerException;
+                        }
+
                         _logger?.LogError(e, "Command execution failed: {TypeName}. {ExceptionMessage}", command.GetType().Name, e.Message);
 
                         result = StatusCodes.Error;
