@@ -8,25 +8,27 @@ namespace Pentagon.Extensions.Console.Commands
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using Threading;
 
     public class ShellHelper
     {
         public static string BashLocation { get; set; }
 
-        public static CommandResult RunCommand(string command) => RunCommandAsync(command).Result;
+        public static CommandResult RunCommand(string command, string workingDirectory = null) => RunCommandAsync(command, workingDirectory).AwaitSynchronously();
 
-        public static Task<CommandResult> RunCommandAsync(string command, CancellationToken cancellationToken = default)
+        public static Task<CommandResult> RunCommandAsync(string command, string workingDirectory = null, CancellationToken cancellationToken = default)
         {
             switch (OS.Platform)
             {
                 case OperatingSystemPlatform.Windows:
-                    return BatchAsync(command, cancellationToken);
+                    return BatchAsync(command, workingDirectory, cancellationToken);
 
                 case OperatingSystemPlatform.Linux:
                 case OperatingSystemPlatform.OSX:
-                    return BatchAsync(command, cancellationToken);
+                    return BatchAsync(command, workingDirectory, cancellationToken);
             }
 
             return Task.FromResult(new CommandResult
@@ -35,20 +37,21 @@ namespace Pentagon.Extensions.Console.Commands
                                    });
         }
 
-        public static CommandResult Bash(string command) => BashAsync(command).Result;
+        public static CommandResult Bash(string command, string workingDirectory = null) => BashAsync(command, workingDirectory).AwaitSynchronously();
 
-        public static CommandResult Batch(string command) => BatchAsync(command).Result;
+        public static CommandResult Batch(string command, string workingDirectory = null) => BatchAsync(command, workingDirectory).AwaitSynchronously();
 
-        public static Task<CommandResult> BashAsync(string command, CancellationToken cancellationToken = default)
+        public static Task<CommandResult> BashAsync(string command, string workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var args = command.Replace(oldValue: "\"", newValue: "\\\"");
-            return RunAsync(GetBashFile(), $"-c \"{args}\"", cancellationToken);
+
+            return RunAsync(GetBashFile(), $"-c \"{args}\"",workingDirectory, cancellationToken);
         }
 
-        public static Task<CommandResult> BatchAsync(string command, CancellationToken cancellationToken = default)
+        public static Task<CommandResult> BatchAsync(string command, string workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var args = command.Replace(oldValue: "\"", newValue: "\\\"");
-            return RunAsync(fileName: "cmd.exe", $"/c \"{args}\"", cancellationToken);
+            return RunAsync(fileName: "cmd.exe", $"/c \"{args}\"",workingDirectory, cancellationToken);
         }
 
         static string GetBashFile()
@@ -66,7 +69,7 @@ namespace Pentagon.Extensions.Console.Commands
             throw new NotSupportedException();
         }
 
-        static async Task<CommandResult> RunAsync(string fileName, string arguments, CancellationToken cancellationToken = default)
+        static async Task<CommandResult> RunAsync(string fileName, string arguments, string workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var process = new Process
                           {
@@ -74,16 +77,17 @@ namespace Pentagon.Extensions.Console.Commands
                                               {
                                                       FileName = fileName,
                                                       Arguments = arguments,
+                                                      WorkingDirectory = workingDirectory ?? Directory.GetCurrentDirectory(),
                                                       RedirectStandardOutput = true,
                                                       RedirectStandardError =  true,
                                                       UseShellExecute = false
                                               }
                           };
 
-            await process.StartAndWaitAsync(cancellationToken);
+            await process.StartAndWaitAsync(cancellationToken).ConfigureAwait(false);
 
-            var processResult = process.StandardOutput.ReadToEnd();
-            var errorMsg = process.StandardError.ReadToEnd();
+            var processResult = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
+            var errorMsg = await process.StandardError.ReadToEndAsync().ConfigureAwait(false);
 
             if (process.ExitCode != 0)
             {
