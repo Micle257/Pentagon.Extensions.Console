@@ -10,6 +10,7 @@ namespace Pentagon.Extensions.Console
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using ConsolePresentation.ColorSystem;
     using ConsolePresentation.Controls;
     using JetBrains.Annotations;
     using Structures;
@@ -63,17 +64,12 @@ namespace Pentagon.Extensions.Console
 
         public static void WriteWarning(object warningValue) => Write(warningValue, Cli.ColorScheme.Warning);
 
-        public static void Write(object value, CliConsoleColor color)
+        public static void Write(object value, ConsoleColour color)
         {
             Write(new Text(value, color));
         }
 
-        public static void Write(object value, ConsoleColor? foreColor = null, ConsoleColor? backColor = null)
-        {
-            Write(value, new CliConsoleColor(foreColor, backColor));
-        }
-
-        public static void Write(object data, CliConsoleColor color, int x, int y)
+        public static void Write(object data, ConsoleColour color, int x, int y)
         {
             Write(new Text(data, color, new BufferPoint(x, y)));
         }

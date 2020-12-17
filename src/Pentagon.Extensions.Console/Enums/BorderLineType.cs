@@ -8,7 +8,7 @@ namespace Pentagon.Extensions.Console.Enums
 {
     public enum BorderLineType
     {
-        Unspecified,
+        None,
         Line,
         DoubleLine,
         Box

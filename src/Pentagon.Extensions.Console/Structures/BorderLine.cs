@@ -9,20 +9,30 @@ namespace Pentagon.Extensions.Console.Structures
     using System;
     using Enums;
 
-    public struct BorderLine : IEquatable<BorderLine>
+    public readonly struct BorderLine : IEquatable<BorderLine>
     {
         public BorderLine(BorderLineType type, CliConsoleColor? color = null)
         {
             Type = type;
+            LineThickness = type == BorderLineType.None ? 0 : 1;
             Color = color ?? new CliConsoleColor();
-            HasValue = true;
         }
 
-        public bool HasValue { get; }
+        public BorderLine(BorderLineType type, int lineThickness, CliConsoleColor? color = null)
+        {
+            if (lineThickness < 0)
+                throw new ArgumentOutOfRangeException(nameof(lineThickness), lineThickness, "Border line thickness must be grater than or equal to zero.");
 
-        public CliConsoleColor Color { get; set; }
+            Type          = type;
+            LineThickness = lineThickness;
+            Color         = color ?? new CliConsoleColor();
+        }
 
-        public BorderLineType Type { get; set; }
+        public CliConsoleColor Color { get; }
+
+        public BorderLineType Type { get; }
+
+        public int LineThickness { get; }
 
         #region Operators
 
