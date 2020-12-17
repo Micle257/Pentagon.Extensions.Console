@@ -71,8 +71,8 @@ namespace Pentagon.ConsolePresentation.Controls.Inputs
         [NotNull]
         public string InputText { get; private set; } = "";
 
-        public CliConsoleColor InputColor { get; set; } = Cli.ColorScheme.Text;
-        public CliConsoleColor SelectColor { get; set; } = Cli.ColorScheme.InvertedText;
+        public CliConsoleColor InputColor { get; set; } = CliContext.ColorScheme.Text;
+        public CliConsoleColor SelectColor { get; set; } = CliContext.ColorScheme.InvertedText;
         public char PassChar { get; set; } = '*';
         public bool WriteLineAfter { get; set; }
         public bool AllowMovement { get; set; } = true;

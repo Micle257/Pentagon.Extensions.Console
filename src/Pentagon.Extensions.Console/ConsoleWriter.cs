@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
 //  <copyright file="ConsoleWriter.cs">
-//   Copyright (c) Michal Pokorný. All Rights Reserved.
+//   Copyright (c) Michal Pokornï¿½. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 
@@ -8,48 +8,10 @@
 namespace Pentagon.Extensions.Console
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using ConsolePresentation.ColorSystem;
+    using System.IO;
     using ConsolePresentation.Controls;
     using JetBrains.Annotations;
     using Structures;
-
-    public class ConsoleTextTracker : IDisposable
-    {
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            ConsoleWriter.Wrote -= OnWrote;
-        }
-
-        public void ClearAll()
-        {
-            var init = Cursor.Current;
-
-            foreach (var text in _texts.ToList())
-            {
-                Cursor.SetCurrent(text.Coord);
-
-                ConsoleHelper.WriteSpace(text.Data.Length);
-            }
-
-            init.Apply();
-        }
-
-        public ConsoleTextTracker()
-        {
-            ConsoleWriter.Wrote += OnWrote;
-        }
-
-        [NotNull]
-        readonly List<Text> _texts = new List<Text>();
-
-        void OnWrote(object sender, Text text)
-        {
-            _texts.Add(text);
-        }
-    }
 
     public static class ConsoleWriter
     {
@@ -58,15 +20,41 @@ namespace Pentagon.Extensions.Console
             Console.WriteLine();
         }
 
-        public static void WriteSuccess(object successValue) => Write(successValue, Cli.ColorScheme.Success);
-
-        public static void WriteError(object errorValue) => Write(errorValue, Cli.ColorScheme.Error);
-
-        public static void WriteWarning(object warningValue) => Write(warningValue, Cli.ColorScheme.Warning);
-
-        public static void Write(object value, ConsoleColour color)
+        public static void WriteSuccess(object successValue)
         {
-            Write(new Text(value, color));
+            Write(successValue, CliContext.ColorScheme.Success);
+        }
+
+        public static void WriteError(object errorValue) => Write(errorValue, CliContext.ColorScheme.Error);
+
+        public static void WriteWarning(object warningValue) => Write(warningValue, CliContext.ColorScheme.Warning);
+
+        public static void Write(object value, CliConsoleColor color)
+        {
+            if (!Environment.UserInteractive)
+                return;
+
+            try
+            {
+                var fore = Console.ForegroundColor;
+                var back = Console.BackgroundColor;
+
+                if (color.Foreground.HasValue)
+                    Console.ForegroundColor = color.Foreground.Value;
+                if (color.Background.HasValue)
+                    Console.BackgroundColor = color.Background.Value;
+
+                Console.Write(value?.ToString());
+
+                if (color.Foreground.HasValue)
+                    Console.ForegroundColor = fore;
+                if (color.Background.HasValue)
+                    Console.BackgroundColor = back;
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
 
         public static void Write(object data, ConsoleColour color, int x, int y)
@@ -79,32 +67,42 @@ namespace Pentagon.Extensions.Console
             if (text == null)
                 throw new ArgumentNullException(nameof(text));
 
-            var initialCursor = Cursor.Current;
+            if (!Environment.UserInteractive)
+                return;
 
-            var move = text.Coord != initialCursor.Coord;
+            try
+            {
+                var initialCursor = Cursor.Current;
 
-            if (move)
-                Cursor.SetCurrent(text.Coord);
+                var move = text.Coord != initialCursor.Coord;
 
-            var fore = Console.ForegroundColor;
-            var back = Console.BackgroundColor;
+                if (move)
+                    Cursor.SetCurrent(text.Coord);
 
-            if (text.Color.Foreground.HasValue)
-                Console.ForegroundColor = text.Color.Foreground.Value;
-            if (text.Color.Background.HasValue)
-                Console.BackgroundColor = text.Color.Background.Value;
+                var fore = Console.ForegroundColor;
+                var back = Console.BackgroundColor;
 
-            Console.Write(text.Data);
+                if (text.Color.Foreground.HasValue)
+                    Console.ForegroundColor = text.Color.Foreground.Value;
+                if (text.Color.Background.HasValue)
+                    Console.BackgroundColor = text.Color.Background.Value;
 
-            if (text.Color.Foreground.HasValue)
-                Console.ForegroundColor = fore;
-            if (text.Color.Background.HasValue)
-                Console.BackgroundColor = back;
+                Console.Write(text.Data);
 
-            if (move)
-                Cursor.SetCurrent(initialCursor);
+                if (text.Color.Foreground.HasValue)
+                    Console.ForegroundColor = fore;
+                if (text.Color.Background.HasValue)
+                    Console.BackgroundColor = back;
 
-            Wrote?.Invoke(null, text);
+                if (move)
+                    Cursor.SetCurrent(initialCursor);
+
+                Wrote?.Invoke(null, text);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
 
         public static EventHandler<Text> Wrote;
@@ -117,7 +115,7 @@ namespace Pentagon.Extensions.Console
             var initialCursor = Cursor.Current;
 
             Cursor.SetCurrent(text.Coord);
-            Write(new string(' ', text.Data.Length), Cli.ColorScheme.Blank);
+            Write(new string(' ', text.Data.Length), CliContext.ColorScheme.Blank);
             Cursor.SetCurrent(initialCursor);
         }
     }
